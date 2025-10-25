@@ -29,7 +29,6 @@ jobs:
     - name: Check for syntax errors
       run: |
         node -c app.js
-        node -c dynamo.js
         find . -name "*.js" -not -path "./node_modules/*" -exec node -c {} \; || echo "Syntax check complete"
 
     - name: Run tests
