@@ -4,7 +4,7 @@ services:
   hal-website:
     build: .
     ports:
-      - "${INTERNAL_PORT}:3004"
+      - "${INTERNAL_PORT}:3001"
     environment:
       - PORT=3004
     restart: unless-stopped
