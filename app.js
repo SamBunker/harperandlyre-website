@@ -1,7 +1,6 @@
 const express = require('express');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
-const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
