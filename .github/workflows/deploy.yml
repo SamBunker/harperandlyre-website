@@ -29,6 +29,7 @@ jobs:
     - name: Check for syntax errors
       run: |
         node -c app.js
+        node -c dynamo.js
         find . -name "*.js" -not -path "./node_modules/*" -exec node -c {} \; || echo "Syntax check complete"
 
     - name: Run tests
@@ -42,4 +43,4 @@ jobs:
     steps:
       - name: Trigger Portainer Webhook for Dev (dev-hal.sambunker.com)
         run: |
-          curl -X POST ${{ secrets.PORTAINER_WEBHOOK_URL_DEV }}
+          curl -X POST ${{ secrets.PORTAINER_WEBHOOK_URL }}
