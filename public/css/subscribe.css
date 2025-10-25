@@ -1,0 +1,76 @@
+@font-face {
+    font-family: "PrimaryFont";
+    src: url("/fonts/RifficFree-Bold.ttf");
+  }
+
+  @font-face {
+    font-family: "SecondaryFont";
+    src: url("/fonts/Rony.ttf");
+  }
+
+body {
+    height: 100vh;
+    background-image: url(/img/pocus_house_harper_and_lyre-webp.webp);
+    backdrop-filter: blur(3px) brightness(0.8);
+    background-repeat: none;
+    background-size: cover;
+    color: white;
+}
+
+.container {
+    text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.395);
+    font-family: "PrimaryFont", sans-serif;
+    text-align: center;
+    padding: 1em;
+    top: 45%;
+    position: relative;
+    transform: translateY(-50%);
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+h1 {
+    text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.395);
+    color: white;
+    padding-top: 1em;
+}
+
+.row {
+    padding: 0 0 1em 0;
+}
+
+button {
+    font-family: "PrimaryFont", sans-serif;
+    /* font-weight: 0; */
+    /* width: calc(max-content + 20px); */
+    padding: 0 15px 0 15px;
+    height: 2.5em;
+    background: #2cd3b1;
+    border-radius: 25px;
+    color: white;
+    border: 0px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.395);
+    font-size: 1em;
+    transition: 0.25s ease-in-out;
+}
+
+button:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.695);
+}
+
+input {
+    font-family: "SecondaryFont", sans-serif;
+    color: black;
+}
+
+@media only screen and (max-width: 600px) {
+    img {
+      min-width: 300px;
+    }
+    body {
+        background-position-x: -100px;
+    }
+  }

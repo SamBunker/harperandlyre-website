@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  hal-website:
+    build: .
+    ports:
+      - "${INTERNAL_PORT}:3004"
+    environment:
+      - PORT=3004
+    restart: unless-stopped
+    networks:
+      - d-nginx_default
+    logging:
+      driver: gelf
+      options:
+        syslog-address: "udp://${LOGGING_IP}:1514"
+        tag: "hal-website"
+
+networks:
+  d-nginx_default:
+    external: true

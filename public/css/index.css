@@ -1,0 +1,253 @@
+/* html {
+    overflow-y: hidden;
+    height: 100vh;
+} */
+
+.header-bg {
+    position: relative;
+    height: 100vh;
+    background-image: url(/img/pocus_house_harper_and_lyre-webp.webp);
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+/* Create a blur effect using a pseudo-element */
+.header-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px) brightness(0.8);
+    background: rgba(0, 0, 0, 0.2); /* Ensures visibility on unsupported browsers */
+    z-index: 1;
+}
+
+/* Ensure content is on top of the blurred background */
+.d-flex.position-relative {
+    position: relative;
+    z-index: 2;
+}
+
+.section-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.p-spacer-bg {
+    width: 100%;
+    height: 600px; /* Adjust based on design */
+    transform: translateY(-30%);
+    background-image: url(/img/puzzle-bg-t.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    z-index: 3;
+    top: 0;
+    position: relative;
+}
+
+.p-spacer-bg-l {
+    width: 100%;
+    height: 400px; /* Adjust based on design */
+    transform: translateY(-30%);
+    background-image: url(/img/puzzle-bg-l.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 1;
+    z-index: 3;
+    top: 0;
+    position: relative;
+    margin-bottom: 100px;
+    margin-top: 150px;
+}
+
+.p-spacer-bg-ppl {
+    width: 100%;
+    height: 300px; /* Adjust based on design */
+    transform: translateY(-30%);
+    background-image: url(/img/puzzle-bg-ppl.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    z-index: 3;
+    top: 0;
+    position: relative;
+}
+
+
+.b-h-bg {
+    background-color: darkgreen;
+}
+
+.b-h-bg-ppl {
+    background-color: purple;
+}
+
+.btn {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* X, Y, blur, opacity */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.btn:hover {
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4); /* Bigger shadow on hover */
+}
+
+.grass-1 {
+    position: absolute;
+    left: 10%;
+    top: 40%;
+}
+
+.grass-2 {
+    position: absolute;
+    left: 45%;
+    top: 80%;
+}
+
+.grass-3 {
+    position: absolute;
+    left: 90%;
+    top: 20%;
+}
+
+.grass-4 {
+    position: absolute;
+    left: 10%;
+    top: 80%;
+}
+
+.juniper-1 {
+    position: absolute;
+    left: 15%;
+    top: 15%;
+}
+
+.juniper-2 {
+    position: absolute;
+    left: 80%;
+    top: 70%;
+}
+
+.jenny-1 {
+    position: absolute;
+    left: 16%;
+    top: 90%;
+}
+
+.jenny-2 {
+    position: absolute;
+    left: 85%;
+    top: 70%;
+}
+
+
+/* MOBILE HANDLING FOR RESIZING */
+@media (max-width: 1900px) { 
+    .grass-1 {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) { /* Targets tablets and smaller screens */
+    .row .col-12 {
+        max-width: 90%; /* Makes sure the boxes don't take up full width */
+    }
+
+    .row .col-12 div {
+        width: 250px !important; /* Shrinks the box width */
+        height: 180px !important; /* Shrinks the box height */
+    }
+
+    .row .col-12 div img {
+        width: 150px !important; /* Shrinks the images */
+        height: 150px !important;
+    }
+
+    .row .col-12 div a h4 {
+        font-size: 14px !important; /* Decreases button text size */
+    }
+    .p-spacer-bg {
+        height: 300px;
+    }
+    .p-spacer-bg-l {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) { /* Targets mobile phones */
+    .row .col-12 {
+        max-width: 100%;
+    }
+
+    .row .col-12 div {
+        width: 200px !important; 
+        height: 160px !important;
+    }
+
+    .row .col-12 div img {
+        width: 120px !important;
+        height: 120px !important;
+    }
+
+    .row .col-12 div a h4 {
+        font-size: 12px !important;
+    }
+    .p-spacer-bg {
+        height: 200px;
+    }
+    .p-spacer-bg-l {
+        height: auto;
+    }
+
+    .juniper-2 {
+        display: none;
+    }
+}
+
+
+@keyframes shake {
+    0% { transform: translate(0); }
+    10% { transform: translate(-1px, 1px) rotate(-1deg); }
+    20% { transform: translate(1px, -1px) rotate(1deg); }
+    30% { transform: translate(-1px, 1px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 1px) rotate(-1deg); }
+    60% { transform: translate(1px, -1px) rotate(0deg); }
+    70% { transform: translate(-1px, 1px) rotate(1deg); }
+    80% { transform: translate(1px, -1px) rotate(-1deg); }
+    90% { transform: translate(-1px, 1px) rotate(1deg); }
+    100% { transform: translate(0); }
+  }
+  
+  .shaky-text span {
+    display: inline-block;
+    animation: shake 0.6s infinite;
+  }
+  
+  /* Staggered animation delays */
+  .shaky-text span:nth-child(1) { animation-delay: 0s; }
+  .shaky-text span:nth-child(2) { animation-delay: 0.05s; }
+  .shaky-text span:nth-child(3) { animation-delay: 0.1s; }
+  .shaky-text span:nth-child(4) { animation-delay: 0.15s; }
+  .shaky-text span:nth-child(5) { animation-delay: 0.2s; }
+  .shaky-text span:nth-child(6) { animation-delay: 0.25s; }
+  .shaky-text span:nth-child(7) { animation-delay: 0.3s; }
+  .shaky-text span:nth-child(8) { animation-delay: 0.35s; }
+  .shaky-text span:nth-child(9) { animation-delay: 0.4s; }
+  .shaky-text span:nth-child(8) { animation-delay: 0.25s; }
+  .shaky-text span:nth-child(9) { animation-delay: 0.4s; }
+  .shaky-text span:nth-child(10) { animation-delay: 0.15s; }
+  .shaky-text span:nth-child(11) { animation-delay: 0.2s; }
+  .shaky-text span:nth-child(12) { animation-delay: 0.4s; }
+  .shaky-text span:nth-child(13) { animation-delay: 0.1s; }
+  .shaky-text span:nth-child(14) { animation-delay: 0.21s; }
+
+
+
