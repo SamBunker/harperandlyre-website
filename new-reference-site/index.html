@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harper and Lyre - A Nostalgic 3D Platformer Adventure</title>
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
@@ -12,14 +14,13 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre Logo">
+                <img src="/img/logo.png" alt="Harper and Lyre Logo">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#gameplay" class="nav-link">Gameplay</a></li>
                 <li><a href="#journal" class="nav-link">Journal</a></li>
-                <li><a href="#news" class="nav-link">News</a></li>
                 <li><a href="#villains" class="nav-link">Villains</a></li>
                 <li><a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-link nav-steam">Steam</a></li>
             </ul>
@@ -79,7 +80,7 @@
                 </div>
                 <div class="character-card">
                     <div class="character-gif">
-                        <img src="/img/Harper-picture-frame.png" alt="Friends">
+                        <img src="/img/character3.gif" alt="Friends">
                     </div>
                     <h3>Make Friends</h3>
                     <p>Discover quirky characters along the way!</p>
@@ -95,20 +96,26 @@
                 <div class="intro-text">
                     <h2 class="section-title">Meet Harper, Your Hero!</h2>
                     <p class="intro-description">
-                        Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home.
-                        When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities
+                        Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. 
+                        When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities 
                         and explore vibrant worlds to save his friends and restore peace to the festival.
                     </p>
+                    <div class="ability-tags">
+                        <span class="tag">🏃 Ground Pound</span>
+                        <span class="tag">🌀 Tail Spin</span>
+                        <span class="tag">🦘 Double Jump</span>
+                        <span class="tag">✨ Transformations</span>
+                    </div>
                 </div>
                 <div class="intro-gallery">
                     <div class="gallery-main">
-                        <img src="/img/harper-idle.gif" alt="Harper" class="gallery-image active" data-index="0">
+                        <img src="/img/harper-main.jpg" alt="Harper" class="gallery-image active" data-index="0">
                     </div>
                     <div class="gallery-thumbs">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 1" class="thumb active" data-index="0">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 2" class="thumb" data-index="1">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 3" class="thumb" data-index="2">
-                        <img src="/img/harper-idle.gif" alt="Harper with Friends" class="thumb" data-index="3">
+                        <img src="/img/harper-1.jpg" alt="Harper Action 1" class="thumb active" data-index="0">
+                        <img src="/img/harper-2.jpg" alt="Harper Action 2" class="thumb" data-index="1">
+                        <img src="/img/harper-3.jpg" alt="Harper Action 3" class="thumb" data-index="2">
+                        <img src="/img/harper-4.jpg" alt="Harper with Friends" class="thumb" data-index="3">
                     </div>
                 </div>
             </div>
@@ -120,7 +127,7 @@
         <div class="container">
             <h2 class="section-title">Harper's Toolkit</h2>
             <p class="section-subtitle">Master these abilities to explore every corner of the world!</p>
-
+            
             <div class="toolkit-grid">
                 <div class="toolkit-card">
                     <div class="toolkit-icon">🏃</div>
@@ -130,14 +137,9 @@
                         <video autoplay loop muted playsinline>
                             <source src="/videos/groundpound.mp4" type="video/mp4">
                         </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                        </div>
                     </div>
                 </div>
-
+                
                 <div class="toolkit-card">
                     <div class="toolkit-icon">🌀</div>
                     <h3>Tail Spin</h3>
@@ -146,14 +148,9 @@
                         <video autoplay loop muted playsinline>
                             <source src="/videos/tailspin.mp4" type="video/mp4">
                         </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                        </div>
                     </div>
                 </div>
-
+                
                 <div class="toolkit-card">
                     <div class="toolkit-icon">🦘</div>
                     <h3>Double Jump</h3>
@@ -162,14 +159,9 @@
                         <video autoplay loop muted playsinline>
                             <source src="/videos/doublejump.mp4" type="video/mp4">
                         </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                        </div>
                     </div>
                 </div>
-
+                
                 <div class="toolkit-card">
                     <div class="toolkit-icon">✨</div>
                     <h3>Transformations</h3>
@@ -178,11 +170,6 @@
                         <video autoplay loop muted playsinline>
                             <source src="/videos/transformation.mp4" type="video/mp4">
                         </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -194,7 +181,7 @@
         <div class="container">
             <h2 class="section-title">Harper's Journal</h2>
             <p class="section-subtitle">Explore the worlds Harper has discovered on his journey</p>
-
+            
             <div class="journal-book">
                 <div class="journal-spine"></div>
                 <div class="journal-pages">
@@ -203,8 +190,8 @@
                             <div class="page-left">
                                 <h3 class="journal-entry-title">Bamboo Heights</h3>
                                 <p class="journal-entry-text">
-                                    The lush bamboo forests stretch endlessly toward the sky.
-                                    The gentle rustling of leaves and distant bird calls make this
+                                    The lush bamboo forests stretch endlessly toward the sky. 
+                                    The gentle rustling of leaves and distant bird calls make this 
                                     a peaceful place... until Kreakli's minions showed up!
                                 </p>
                                 <div class="journal-stamp">🎋</div>
@@ -214,13 +201,13 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="journal-page" data-page="1">
                         <div class="page-content">
                             <div class="page-left">
                                 <h3 class="journal-entry-title">The Cherry Blossom Grove</h3>
                                 <p class="journal-entry-text">
-                                    Pink petals dance in the wind, creating a magical atmosphere.
+                                    Pink petals dance in the wind, creating a magical atmosphere. 
                                     This serene location holds many secrets and puzzles to solve.
                                 </p>
                                 <div class="journal-stamp">🌸</div>
@@ -230,13 +217,13 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="journal-page" data-page="2">
                         <div class="page-content">
                             <div class="page-left">
                                 <h3 class="journal-entry-title">Ancient Temple Ruins</h3>
                                 <p class="journal-entry-text">
-                                    These mysterious ruins hold the key to understanding the Dark Oak Tree.
+                                    These mysterious ruins hold the key to understanding the Dark Oak Tree. 
                                     Careful platforming and puzzle-solving are essential here!
                                 </p>
                                 <div class="journal-stamp">🏛️</div>
@@ -246,13 +233,13 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="journal-page" data-page="3">
                         <div class="page-content">
                             <div class="page-left">
                                 <h3 class="journal-entry-title">Pocus's House</h3>
                                 <p class="journal-entry-text">
-                                    The wise Pocus lives here, offering transformation abilities and
+                                    The wise Pocus lives here, offering transformation abilities and 
                                     guidance on Harper's quest. Always worth a visit!
                                 </p>
                                 <div class="journal-stamp">🏠</div>
@@ -263,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="journal-navigation">
                     <button class="journal-btn prev" id="prevPage">← Previous</button>
                     <span class="page-indicator">Page <span id="currentPage">1</span> of <span id="totalPages">4</span></span>
@@ -272,32 +259,6 @@
             </div>
         </div>
     </section>
-
-    <!-- News Section -->
-    <section id="news" class="news-section">
-        <div class="container">
-            <h2 class="section-title">Latest News</h2>
-            <p class="section-subtitle">Stay updated with the latest announcements and updates!</p>
-
-            <div class="news-grid" id="newsGrid">
-                <div class="news-loading">
-                    <p>Loading latest news...</p>
-                </div>
-            </div>
-
-            <div class="news-view-all">
-                <a href="https://store.steampowered.com/news/app/3579710" target="_blank" class="btn btn-secondary">View All News</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- News Detail Modal -->
-    <div id="newsModal" class="news-modal">
-        <div class="news-modal-content">
-            <span class="news-modal-close">&times;</span>
-            <div id="newsModalBody"></div>
-        </div>
-    </div>
 
     <!-- Kreakli's Demise -->
     <section id="villains" class="villain-section">
@@ -314,18 +275,18 @@
                     </div>
                     <div class="villain-description">
                         <p class="villain-text">
-                            Awakened from the gnarled heart of the Dark Oak Tree, <strong>Kreakli</strong> is a malevolent
-                            spirit trapped within the pale moonstone. Once dormant, he now spreads chaos and destruction
-                            throughout the peaceful festival grounds. His shadow threatens to consume everything Harper
+                            Awakened from the gnarled heart of the Dark Oak Tree, <strong>Kreakli</strong> is a malevolent 
+                            spirit trapped within the pale moonstone. Once dormant, he now spreads chaos and destruction 
+                            throughout the peaceful festival grounds. His shadow threatens to consume everything Harper 
                             holds dear.
                         </p>
                         <p class="villain-text">
-                            Only by collecting the scattered musical notes, solving ancient puzzles, and mastering
+                            Only by collecting the scattered musical notes, solving ancient puzzles, and mastering 
                             transformation abilities can Harper hope to stop Kreakli before it's too late...
                         </p>
                     </div>
                 </div>
-
+                
                 <div class="henchmen-section">
                     <h3 class="henchmen-title">Kreakli's Henchmen</h3>
                     <div class="henchmen-grid">
@@ -365,7 +326,7 @@
                 </div>
                 <h2 class="cta-title">Support Harper & Lyre on Kickstarter!</h2>
                 <p class="cta-description">
-                    Help bring this nostalgic 3D platformer to life! Back our Kickstarter campaign and
+                    Help bring this nostalgic 3D platformer to life! Back our Kickstarter campaign and 
                     unlock exclusive rewards, including custom NPCs, mini-games, in-game items, and more!
                 </p>
                 <div class="cta-buttons">
@@ -401,20 +362,20 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="footer-logo">
+                    <img src="/img/logo.png" alt="Harper and Lyre" class="footer-logo">
                     <p>A nostalgic 3D platformer by the Bunker Brothers</p>
                 </div>
-
+                
                 <div class="footer-links">
                     <h4>Quick Links</h4>
-                    <div class="footer-links-container">
-                        <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank">Play Demo</a>
-                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank">Kickstarter</a>
-                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank">Discord</a>
-                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank">Subreddit</a>
-                    </div>
+                    <ul>
+                        <li><a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank">Play Demo</a></li>
+                        <li><a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank">Kickstarter</a></li>
+                        <li><a href="https://discord.com/invite/qVNnvmTKeV" target="_blank">Discord</a></li>
+                        <li><a href="https://www.reddit.com/r/harperandlyre/" target="_blank">Subreddit</a></li>
+                    </ul>
                 </div>
-
+                
                 <div class="footer-social">
                     <h4>Connect With Us</h4>
                     <div class="social-icons">
@@ -448,5 +409,6 @@
         </div>
     </footer>
 
-    <script src="/js/index.js"></script>
+    <script src="/js/main.js"></script>
 </body>
+</html>
