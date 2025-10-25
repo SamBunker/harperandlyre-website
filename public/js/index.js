@@ -279,114 +279,114 @@ const createScrollToTop = () => {
 // Initialize scroll to top button
 createScrollToTop();
 
-// ===== STEAM NEWS FUNCTIONALITY =====
-let newsCache = null;
-let lastFetchTime = 0;
-const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
+// // ===== STEAM NEWS FUNCTIONALITY =====
+// let newsCache = null;
+// let lastFetchTime = 0;
+// const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
 
-async function fetchSteamNews() {
-    const now = Date.now();
+// async function fetchSteamNews() {
+//     const now = Date.now();
 
-    // Use cache if it's less than 15 minutes old
-    if (newsCache && (now - lastFetchTime) < CACHE_DURATION) {
-        return newsCache;
-    }
+//     // Use cache if it's less than 15 minutes old
+//     if (newsCache && (now - lastFetchTime) < CACHE_DURATION) {
+//         return newsCache;
+//     }
 
-    try {
-        const response = await fetch('/api/steam-news?count=6');
-        const data = await response.json();
+//     try {
+//         const response = await fetch('/api/steam-news?count=6');
+//         const data = await response.json();
 
-        newsCache = data;
-        lastFetchTime = now;
+//         newsCache = data;
+//         lastFetchTime = now;
 
-        return data;
-    } catch (error) {
-        console.error('Error fetching Steam news:', error);
-        return null;
-    }
-}
+//         return data;
+//     } catch (error) {
+//         console.error('Error fetching Steam news:', error);
+//         return null;
+//     }
+// }
 
-function stripHTML(html) {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-}
+// function stripHTML(html) {
+//     const tmp = document.createElement('div');
+//     tmp.innerHTML = html;
+//     return tmp.textContent || tmp.innerText || '';
+// }
 
-function formatDate(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-}
+// function formatDate(timestamp) {
+//     const date = new Date(timestamp * 1000);
+//     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+//     return date.toLocaleDateString('en-US', options);
+// }
 
-function createNewsCard(newsItem) {
-    const card = document.createElement('div');
-    card.className = 'news-card';
+// function createNewsCard(newsItem) {
+//     const card = document.createElement('div');
+//     card.className = 'news-card';
 
-    const excerpt = stripHTML(newsItem.contents).substring(0, 150) + '...';
+//     const excerpt = stripHTML(newsItem.contents).substring(0, 150) + '...';
 
-    card.innerHTML = `
-        <img src="${newsItem.image || '/img/harperandlyre-logo.webp'}" alt="${newsItem.title}" class="news-card-image" onerror="this.src='/img/harperandlyre-logo.webp'">
-        <div class="news-card-content">
-            <div class="news-card-date">${formatDate(newsItem.date)}</div>
-            <h3 class="news-card-title">${newsItem.title}</h3>
-            <p class="news-card-excerpt">${excerpt}</p>
-            <div class="news-card-footer">
-                <span class="news-card-author">${newsItem.author || 'Harper & Lyre Team'}</span>
-                <span class="news-card-readmore">Read More →</span>
-            </div>
-        </div>
-    `;
+//     card.innerHTML = `
+//         <img src="${newsItem.image || '/img/harperandlyre-logo.webp'}" alt="${newsItem.title}" class="news-card-image" onerror="this.src='/img/harperandlyre-logo.webp'">
+//         <div class="news-card-content">
+//             <div class="news-card-date">${formatDate(newsItem.date)}</div>
+//             <h3 class="news-card-title">${newsItem.title}</h3>
+//             <p class="news-card-excerpt">${excerpt}</p>
+//             <div class="news-card-footer">
+//                 <span class="news-card-author">${newsItem.author || 'Harper & Lyre Team'}</span>
+//                 <span class="news-card-readmore">Read More →</span>
+//             </div>
+//         </div>
+//     `;
 
-    card.addEventListener('click', () => openNewsModal(newsItem));
+//     card.addEventListener('click', () => openNewsModal(newsItem));
 
-    return card;
-}
+//     return card;
+// }
 
-function openNewsModal(newsItem) {
-    const modal = document.getElementById('newsModal');
-    const modalBody = document.getElementById('newsModalBody');
+// function openNewsModal(newsItem) {
+//     const modal = document.getElementById('newsModal');
+//     const modalBody = document.getElementById('newsModalBody');
 
-    modalBody.innerHTML = `
-        <div class="news-modal-header">
-            <h2 class="news-modal-title">${newsItem.title}</h2>
-            <div class="news-modal-meta">
-                <span class="news-modal-date">${formatDate(newsItem.date)}</span>
-                <span>By ${newsItem.author || 'Harper & Lyre Team'}</span>
-            </div>
-        </div>
-        ${newsItem.image ? `<img src="${newsItem.image}" alt="${newsItem.title}" class="news-modal-image" onerror="this.style.display='none'">` : ''}
-        <div class="news-modal-body">
-            ${newsItem.contents}
-        </div>
-        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #eee;">
-            <a href="${newsItem.url}" target="_blank" class="btn btn-primary">View on Steam</a>
-        </div>
-    `;
+//     modalBody.innerHTML = `
+//         <div class="news-modal-header">
+//             <h2 class="news-modal-title">${newsItem.title}</h2>
+//             <div class="news-modal-meta">
+//                 <span class="news-modal-date">${formatDate(newsItem.date)}</span>
+//                 <span>By ${newsItem.author || 'Harper & Lyre Team'}</span>
+//             </div>
+//         </div>
+//         ${newsItem.image ? `<img src="${newsItem.image}" alt="${newsItem.title}" class="news-modal-image" onerror="this.style.display='none'">` : ''}
+//         <div class="news-modal-body">
+//             ${newsItem.contents}
+//         </div>
+//         <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #eee;">
+//             <a href="${newsItem.url}" target="_blank" class="btn btn-primary">View on Steam</a>
+//         </div>
+//     `;
 
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
+//     modal.style.display = 'block';
+//     document.body.style.overflow = 'hidden';
+// }
 
-function closeNewsModal() {
-    const modal = document.getElementById('newsModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
+// function closeNewsModal() {
+//     const modal = document.getElementById('newsModal');
+//     modal.style.display = 'none';
+//     document.body.style.overflow = 'auto';
+// }
 
-// Modal close handlers
-document.querySelector('.news-modal-close').addEventListener('click', closeNewsModal);
-document.getElementById('newsModal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) {
-        closeNewsModal();
-    }
-});
+// // Modal close handlers
+// document.querySelector('.news-modal-close').addEventListener('click', closeNewsModal);
+// document.getElementById('newsModal').addEventListener('click', (e) => {
+//     if (e.target === e.currentTarget) {
+//         closeNewsModal();
+//     }
+// });
 
-// Escape key to close modal
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeNewsModal();
-    }
-});
+// // Escape key to close modal
+// document.addEventListener('keydown', (e) => {
+//     if (e.key === 'Escape') {
+//         closeNewsModal();
+//     }
+// });
 
 async function displayNews() {
     const newsGrid = document.getElementById('newsGrid');
