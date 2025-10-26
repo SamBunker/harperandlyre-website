@@ -140,22 +140,22 @@ window.addEventListener('scroll', () => {
 });
 
 // ===== TOOLKIT VIDEO AUTOPLAY ON HOVER =====
-const toolkitCards = document.querySelectorAll('.toolkit-card');
+// const toolkitCards = document.querySelectorAll('.toolkit-card');
 
-toolkitCards.forEach(card => {
-    const video = card.querySelector('video');
+// toolkitCards.forEach(card => {
+//     const video = card.querySelector('video');
     
-    if (video) {
-        card.addEventListener('mouseenter', () => {
-            video.play();
-        });
+//     if (video) {
+//         card.addEventListener('mouseenter', () => {
+//             video.play();
+//         });
         
-        card.addEventListener('mouseleave', () => {
-            video.pause();
-            video.currentTime = 0;
-        });
-    }
-});
+//         card.addEventListener('mouseleave', () => {
+//             video.pause();
+//             video.currentTime = 0;
+//         });
+//     }
+// });
 
 // ===== LOADING ANIMATION =====
 window.addEventListener('load', () => {
