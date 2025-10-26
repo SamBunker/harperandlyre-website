@@ -1,3 +1,6 @@
+// Load environment variables from .env file
+require('dotenv').config();
+
 const express = require('express');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout: 'main'});
@@ -15,8 +18,154 @@ app.get('/', (req, res) => {
     res.render('loading', { hideLayout: true });
 });
 
+// Worlds data (server-side only - never exposed to client)
+const worldsData = [
+    {
+        id: 1,
+        name: 'Bamboo Heights',
+        emoji: '🎋',
+        description: 'The lush bamboo forests stretch endlessly toward the sky. The gentle rustling of leaves and distant bird calls make this a peaceful place... until Kreakli\'s minions showed up!',
+        discovered: true,
+        image: '/img/journal-1.jpg'
+    },
+    {
+        id: 2,
+        name: 'Mist-side Castle',
+        emoji: '👻',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 3,
+        name: 'Triptrap Tomb',
+        emoji: '🏜️',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 4,
+        name: 'Firestone Mountain',
+        emoji: '🔥',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 5,
+        name: 'Western Cliffs',
+        emoji: '🏔️',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 6,
+        name: 'Kreakli\'s Bog',
+        emoji: '🐸',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 7,
+        name: 'Muncher\'s Mine',
+        emoji: '⛏️',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 8,
+        name: 'Twin Daisy Farms',
+        emoji: '🌾',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 9,
+        name: 'Trick Eek\'s Park',
+        emoji: '🐿️',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 10,
+        name: 'Bramblebrush Beach',
+        emoji: '🦀',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 11,
+        name: 'Snowshow City',
+        emoji: '⛄',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 12,
+        name: 'Toxack Tower',
+        emoji: '☣️',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 13,
+        name: 'Dinohattan',
+        emoji: '🦴',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 14,
+        name: 'Deep Dank Waters',
+        emoji: '🌊',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 15,
+        name: 'Ripaz City',
+        emoji: '🌃',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 16,
+        name: 'Project Orion',
+        emoji: '👽',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    },
+    {
+        id: 17,
+        name: 'Bumble Breeze Kingdom',
+        emoji: '🏰',
+        description: '???',
+        discovered: false,
+        image: '/img/question-mark.jpg'
+    }
+];
+
 app.get('/home', (req, res) => {
-    res.render('index');
+    // Find first discovered world for default display
+    const firstDiscoveredWorld = worldsData.find(w => w.discovered) || worldsData[0];
+
+    res.render('index', {
+        worlds: worldsData,
+        firstWorld: firstDiscoveredWorld
+    });
 });
 
 // Steam News API endpoint - MUST BE BEFORE catch-all routes

@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harper and Lyre - A Nostalgic 3D Platformer Adventure</title>
-    <link rel="stylesheet" href="/css/index.css?v=20250126">
+    <link rel="stylesheet" href="/css/index.css?v=20250128">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
             <h1 class="hero-title glitch" data-text="DEMO IS LIVE!">DEMO IS LIVE!</h1>
             <p class="hero-subtitle">Jump into Harper and Lyre's nostalgic N64-style adventure!</p>
             <div class="hero-buttons">
-                <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="btn btn-primary btn-pulse">
+                <a href="https://store.steampowered.com/app/3823640/Harper_and_Lyre_Demo/" target="_blank" class="btn btn-primary btn-pulse">
                     <span class="btn-icon">🎮</span>
                     PLAY FREE DEMO
                 </a>
@@ -62,6 +62,7 @@
     <!-- Character Grid Section -->
     <section class="character-grid">
         <div class="container">
+            <h2 class="section-title">All New Dynamic Duo!</h2>
             <div class="grid-three">
                 <div class="character-card">
                     <div class="character-gif">
@@ -115,11 +116,27 @@
         </div>
     </section>
 
-    <!-- Gameplay Toolkit -->
-    <section id="gameplay" class="gameplay-section">
+    <!-- Gameplay Toolkit - TRIPTRAP TOMB THEME -->
+    <section id="gameplay" class="gameplay-section triptrap-tomb-theme">
+        <!-- Desert Sand Particles -->
+        <div class="sand-particles-container" id="sandParticles"></div>
+
+        <!-- Egyptian Pyramids Background -->
+        <div class="pyramids-background">
+            <div class="pyramid pyramid-left"></div>
+            <div class="pyramid pyramid-right"></div>
+            <div class="pyramid pyramid-mid-left"></div>
+            <div class="pyramid pyramid-mid-center"></div>
+            <div class="pyramid pyramid-mid-right"></div>
+        </div>
+
+        <!-- Hieroglyphic Borders -->
+        <div class="hieroglyphic-border hieroglyphic-top"></div>
+        <div class="hieroglyphic-border hieroglyphic-bottom"></div>
+
         <div class="container">
-            <h2 class="section-title">Harper's Toolkit</h2>
-            <p class="section-subtitle">Master these abilities to explore every corner of the world!</p>
+            <h2 class="section-title tomb-title">🏜️ Harper's Toolkit</h2>
+            <p class="section-subtitle tomb-subtitle">Master these ancient abilities to survive the tomb!</p>
 
             <div class="toolkit-grid">
                 <div class="toolkit-card">
@@ -189,137 +206,66 @@
         </div>
     </section>
 
-    <!-- Harper's Journal -->
-    <section id="journal" class="journal-section">
+    <!-- Harper's Journal - DINOHATTAN THEME -->
+    <section id="journal" class="journal-section dinohattan-theme">
+        <!-- Dinosaur Fossils Background -->
+        <div class="dino-fossils">
+            <div class="fossil fossil-skull"></div>
+            <div class="fossil fossil-bone-1"></div>
+            <div class="fossil fossil-bone-2"></div>
+        </div>
+
+        <!-- Tar Pit Bubbles -->
+        <div class="tar-bubbles-container" id="tarBubbles"></div>
+
+        <!-- Dino Footprints -->
+        <div class="dino-footprints">
+            <div class="footprint footprint-1">🦶</div>
+            <div class="footprint footprint-2">🦶</div>
+            <div class="footprint footprint-3">🦶</div>
+        </div>
+
         <div class="container">
-            <h2 class="section-title">Harper's Journal</h2>
-            <p class="section-subtitle">Explore the worlds Harper has discovered on his journey</p>
+            <h2 class="section-title dino-title">🦴 Harper's Journal</h2>
+            <p class="section-subtitle dino-subtitle">Unearth the secrets of prehistoric worlds</p>
 
             <div class="journal-book">
                 <div class="journal-spine"></div>
                 <div class="journal-pages">
-                    <div class="journal-page active" data-page="0">
-                        <div class="page-content">
-                            <div class="page-left">
-                                <h3 class="journal-entry-title">Bamboo Heights</h3>
-                                <p class="journal-entry-text">
-                                    The lush bamboo forests stretch endlessly toward the sky.
-                                    The gentle rustling of leaves and distant bird calls make this
-                                    a peaceful place... until Kreakli's minions showed up!
-                                </p>
-                                <div class="journal-stamp">🎋</div>
-                            </div>
-                            <div class="page-right">
-                                <img src="/img/journal-1.jpg" alt="Bamboo Heights" class="journal-image">
-                            </div>
+                    <!-- Left page: World image and description -->
+                    <div class="journal-page-left">
+                        <div id="worldContent" class="world-content">
+                            <img src="{{firstWorld.image}}" alt="{{firstWorld.name}}" class="world-content-image">
+                            <p class="world-content-text">{{firstWorld.description}}</p>
                         </div>
                     </div>
 
-                    <div class="journal-page" data-page="1">
-                        <div class="page-content">
-                            <div class="page-left">
-                                <h3 class="journal-entry-title">The Cherry Blossom Grove</h3>
-                                <p class="journal-entry-text">
-                                    Pink petals dance in the wind, creating a magical atmosphere.
-                                    This serene location holds many secrets and puzzles to solve.
-                                </p>
-                                <div class="journal-stamp">🌸</div>
-                            </div>
-                            <div class="page-right">
-                                <img src="/img/journal-2.jpg" alt="Cherry Blossom Grove" class="journal-image">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="journal-page" data-page="2">
-                        <div class="page-content">
-                            <div class="page-left">
-                                <h3 class="journal-entry-title">Ancient Temple Ruins</h3>
-                                <p class="journal-entry-text">
-                                    These mysterious ruins hold the key to understanding the Dark Oak Tree.
-                                    Careful platforming and puzzle-solving are essential here!
-                                </p>
-                                <div class="journal-stamp">🏛️</div>
-                            </div>
-                            <div class="page-right">
-                                <img src="/img/journal-3.jpg" alt="Temple Ruins" class="journal-image">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="journal-page" data-page="3">
-                        <div class="page-content">
-                            <div class="page-left">
-                                <h3 class="journal-entry-title">Pocus's House</h3>
-                                <p class="journal-entry-text">
-                                    The wise Pocus lives here, offering transformation abilities and
-                                    guidance on Harper's quest. Always worth a visit!
-                                </p>
-                                <div class="journal-stamp">🏠</div>
-                            </div>
-                            <div class="page-right">
-                                <img src="/img/journal-4.jpg" alt="Pocus's House" class="journal-image">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="journal-navigation">
-                    <button class="journal-btn prev" id="prevPage">← Previous</button>
-                    <span class="page-indicator">Page <span id="currentPage">1</span> of <span id="totalPages">4</span></span>
-                    <button class="journal-btn next" id="nextPage">Next →</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- News Section -->
-    <section id="news" class="news-section">
-        {{!-- <div class="section-divider section-divider-bottom">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M0,0 C150,80 350,80 600,40 C850,0 1050,0 1200,40 L1200,120 L0,120 Z" fill="#FFF8F0"></path>
-            </svg>
-        </div> --}}
-        <div class="container">
-            <h2 class="section-title">Harper's Journal</h2>
-            <p class="section-subtitle">Explore the worlds Harper has discovered on his journey</p>
-
-            <div class="news-journal-book">
-                <div class="news-journal-spine"></div>
-                <div class="news-journal-pages">
-                    <!-- Left page: News content -->
-                    <div class="news-page-left">
-                        <div id="newsContent" class="news-content">
-                            <div class="news-loading">
-                                <p>Loading latest news...</p>
-                            </div>
-                        </div>
-                        <div class="news-page-footer">
-                            <a href="#" id="newsViewOnSteam" target="_blank" class="btn btn-primary" style="display: none;">View on Steam</a>
-                        </div>
-                    </div>
-
-                    <!-- Right page: News titles list -->
-                    <div class="news-page-right">
-                        <h3 class="news-list-title">News Entries</h3>
-                        <div id="newsList" class="news-list">
-                            <div class="news-loading">
-                                <p>Loading...</p>
-                            </div>
+                    <!-- Right page: Worlds list -->
+                    <div class="journal-page-right">
+                        <h3 class="journal-list-title">Discovered Worlds</h3>
+                        <div id="worldsList" class="journal-list">
+                            {{#each worlds}}
+                                {{#if discovered}}
+                                    <div class="journal-list-item world-list-item" data-world-id="{{id}}" data-discovered="true" data-name="{{name}}" data-emoji="{{{emoji}}}" data-description="{{description}}" data-image="{{image}}">
+                                        <div class="world-list-item-name">
+                                            <span class="world-list-item-emoji">{{{emoji}}}</span>
+                                            {{name}}
+                                        </div>
+                                    </div>
+                                {{else}}
+                                    <div class="journal-list-item world-list-item locked" data-world-id="{{id}}" data-discovered="false">
+                                        <div class="world-list-item-name">
+                                            <span class="world-list-item-emoji">❓</span>
+                                            ???
+                                        </div>
+                                    </div>
+                                {{/if}}
+                            {{/each}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Torn Page Transition -->
-        {{!-- <div class="torn-page-transition">
-            <div class="torn-edge-layer torn-layer-1"></div>
-            <div class="torn-edge-layer torn-layer-2"></div>
-            <div class="torn-edge-layer torn-layer-3"></div>
-            <div class="purple-glow-bleed"></div>
-            <canvas id="tornPaperCanvas" class="torn-paper-canvas"></canvas>
-        </div> --}}
     </section>
 
     <!-- Magical Pocus News Section -->
@@ -340,13 +286,13 @@
 
         <div class="container">
             <h2 class="section-title mystical-title">Pocus's Magical Chronicles</h2>
-            <p class="section-subtitle mystical-subtitle">Ancient wisdom from the mystical guardian</p>
+            <p class="section-subtitle mystical-subtitle">Ancient wisdom regarding game updates</p>
 
             <div class="pocus-display">
                 <!-- Left: Pocus sitting -->
                 <div class="pocus-character">
                     <div class="pocus-glow"></div>
-                    <img src="/img/harper-idle.gif" alt="Pocus" class="pocus-gif">
+                    <img src="/img/pocusAnim.gif" alt="Pocus" class="pocus-gif">
                     <div class="pocus-platform"></div>
                 </div>
 
@@ -394,7 +340,7 @@
                 <div class="villain-main">
                     <div class="villain-image-container">
                         <div class="evil-aura"></div>
-                        <img src="/img/kreakli.png" alt="Kreakli" class="villain-image shake">
+                        <img src="/img/pocusAnim.gif" alt="Kreakli" class="villain-image shake">
                     </div>
                     <div class="villain-description">
                         <p class="villain-text">
@@ -441,13 +387,34 @@
     </section>
 
     <!-- Call to Action - Kickstarter -->
-    <section class="cta-section">
+    <section class="cta-section snowshow-theme">
+        <!-- Blizzard Snow Particles -->
+        <div class="snow-particles-container" id="snowParticles"></div>
+
+        <!-- Ice Crystals Background -->
+        <div class="ice-crystals">
+            <div class="ice-crystal crystal-1">❄</div>
+            <div class="ice-crystal crystal-2">❄</div>
+            <div class="ice-crystal crystal-3">❄</div>
+            <div class="ice-crystal crystal-4">❄</div>
+            <div class="ice-crystal crystal-5">❄</div>
+        </div>
+
+        <!-- Frozen Icicles -->
+        <div class="icicles-top">
+            <div class="icicle icicle-1"></div>
+            <div class="icicle icicle-2"></div>
+            <div class="icicle icicle-3"></div>
+            <div class="icicle icicle-4"></div>
+            <div class="icicle icicle-5"></div>
+        </div>
+
         <div class="container">
             <div class="cta-content">
                 <div class="cta-badge">
                     <span>🚀 LIVE NOW</span>
                 </div>
-                <h2 class="cta-title">Support Harper & Lyre on Kickstarter!</h2>
+                <h2 class="cta-title">Support Harper and Lyre on Kickstarter!</h2>
                 <p class="cta-description">
                     Help bring this nostalgic 3D platformer to life! Back our Kickstarter campaign and
                     unlock exclusive rewards, including custom NPCs, mini-games, in-game items, and more!
@@ -532,5 +499,5 @@
         </div>
     </footer>
 
-    <script src="/js/index.js?v=20250125g"></script>
+    <script src="/js/index.js?v=20250127"></script>
 </body>

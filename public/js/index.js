@@ -60,51 +60,6 @@ galleryThumbs.forEach((thumb, index) => {
     });
 });
 
-// ===== JOURNAL PAGINATION =====
-const journalPages = document.querySelectorAll('.journal-page');
-const prevBtn = document.getElementById('prevPage');
-const nextBtn = document.getElementById('nextPage');
-const currentPageSpan = document.getElementById('currentPage');
-const totalPagesSpan = document.getElementById('totalPages');
-
-let currentPage = 0;
-const totalPages = journalPages.length;
-
-// Set total pages
-totalPagesSpan.textContent = totalPages;
-
-function updateJournal() {
-    // Hide all pages
-    journalPages.forEach(page => page.classList.remove('active'));
-
-    // Show current page
-    journalPages[currentPage].classList.add('active');
-
-    // Update page indicator
-    currentPageSpan.textContent = currentPage + 1;
-
-    // Update button states
-    prevBtn.disabled = currentPage === 0;
-    nextBtn.disabled = currentPage === totalPages - 1;
-}
-
-prevBtn.addEventListener('click', () => {
-    if (currentPage > 0) {
-        currentPage--;
-        updateJournal();
-    }
-});
-
-nextBtn.addEventListener('click', () => {
-    if (currentPage < totalPages - 1) {
-        currentPage++;
-        updateJournal();
-    }
-});
-
-// Initialize journal
-updateJournal();
-
 // ===== SCROLL ANIMATIONS =====
 const observerOptions = {
     threshold: 0.1,
@@ -293,6 +248,47 @@ const createScrollToTop = () => {
 // Initialize scroll to top button
 createScrollToTop();
 
+// ===== HARPER'S JOURNAL WORLDS FUNCTIONALITY =====
+// Note: Worlds data is rendered server-side via Handlebars for security
+// This just handles the click interactions on pre-rendered content
+
+document.addEventListener('DOMContentLoaded', () => {
+    const worldListItems = document.querySelectorAll('.world-list-item');
+    const worldContent = document.getElementById('worldContent');
+
+    // Set first discovered world as active
+    const firstDiscovered = document.querySelector('.world-list-item[data-discovered="true"]');
+    if (firstDiscovered) {
+        firstDiscovered.classList.add('active');
+    }
+
+    worldListItems.forEach(item => {
+        // Only add click handlers to discovered worlds
+        const isDiscovered = item.dataset.discovered === 'true';
+
+        if (isDiscovered) {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                worldListItems.forEach(i => i.classList.remove('active'));
+
+                // Add active class to clicked item
+                this.classList.add('active');
+
+                // Get world data from data attributes
+                const worldName = this.dataset.name;
+                const worldDescription = this.dataset.description;
+                const worldImage = this.dataset.image;
+
+                // Update left panel content
+                worldContent.innerHTML = `
+                    <img src="${worldImage}" alt="${worldName}" class="world-content-image">
+                    <p class="world-content-text">${worldDescription}</p>
+                `;
+            });
+        }
+    });
+});
+
 // ===== STEAM NEWS FUNCTIONALITY =====
 let newsCache = null;
 let lastFetchTime = 0;
@@ -331,82 +327,6 @@ function formatDate(timestamp) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
-
-function createNewsListItem(newsItem, index) {
-    const item = document.createElement('div');
-    item.className = 'news-list-item';
-    if (index === 0) item.classList.add('active');
-
-    item.innerHTML = `
-        <div class="news-list-item-date">${formatDate(newsItem.date)}</div>
-        <div class="news-list-item-title">${newsItem.title}</div>
-    `;
-
-    item.addEventListener('click', function() {
-        displayNewsContent(newsItem, this);
-    });
-
-    return item;
-}
-
-function displayNewsContent(newsItem, clickedElement) {
-    const newsContent = document.getElementById('newsContent');
-    const viewOnSteamBtn = document.getElementById('newsViewOnSteam');
-
-    // Update active state
-    document.querySelectorAll('.news-list-item').forEach(item => item.classList.remove('active'));
-    if (clickedElement) {
-        clickedElement.classList.add('active');
-    }
-
-    newsContent.innerHTML = `
-        <h2 class="news-content-title">${newsItem.title}</h2>
-        <div class="news-content-date">${formatDate(newsItem.date)}</div>
-        <div class="news-content-body">
-            ${newsItem.contents}
-        </div>
-    `;
-
-    // Update Steam button
-    viewOnSteamBtn.href = newsItem.url;
-    viewOnSteamBtn.style.display = 'inline-block';
-}
-
-async function displayNews() {
-    const newsList = document.getElementById('newsList');
-    const newsContent = document.getElementById('newsContent');
-
-    const data = await fetchSteamNews();
-
-    if (!data || !data.appnews || !data.appnews.newsitems) {
-        newsList.innerHTML = '<div class="news-loading"><p>Unable to load news.</p></div>';
-        newsContent.innerHTML = '<div class="news-loading"><p>Unable to load news. Please try again later.</p></div>';
-        return;
-    }
-
-    const newsItems = data.appnews.newsitems;
-
-    if (newsItems.length === 0) {
-        newsList.innerHTML = '<div class="news-loading"><p>No news available.</p></div>';
-        newsContent.innerHTML = '<div class="news-loading"><p>No news available at the moment.</p></div>';
-        return;
-    }
-
-    // Clear loading messages
-    newsList.innerHTML = '';
-
-    // Create and append news list items
-    newsItems.forEach((newsItem, index) => {
-        const listItem = createNewsListItem(newsItem, index);
-        newsList.appendChild(listItem);
-    });
-
-    // Display first news item by default
-    displayNewsContent(newsItems[0], newsList.firstChild);
-}
-
-// Load news on page load
-displayNews();
 
 // ===== MAGICAL POCUS NEWS FUNCTIONALITY =====
 function createPocusScrollItem(newsItem, index) {
@@ -470,29 +390,168 @@ document.addEventListener('visibilitychange', () => {
         const now = Date.now();
         // Only refresh if cache is older than 15 minutes
         if ((now - lastFetchTime) >= CACHE_DURATION) {
-            displayNews();
+            displayPocusNews();
         }
     }
 });
 
-// Refresh when user scrolls to news section (one-time check per session)
+// Refresh when user scrolls to Pocus news section (one-time check per session)
 let newsRefreshedOnScroll = false;
-const newsSection = document.getElementById('news');
+const pocusNewsSection = document.getElementById('pocus-news');
 
-if (newsSection) {
+if (pocusNewsSection) {
     const newsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !newsRefreshedOnScroll) {
                 const now = Date.now();
                 if ((now - lastFetchTime) >= CACHE_DURATION) {
-                    displayNews();
+                    displayPocusNews();
                     newsRefreshedOnScroll = true;
                 }
             }
         });
     }, { threshold: 0.1 });
 
-    newsObserver.observe(newsSection);
+    newsObserver.observe(pocusNewsSection);
+}
+
+// ===== BAMBOO HEIGHTS THEME - FALLING LEAVES =====
+function createBambooLeaves() {
+    const container = document.getElementById('bambooLeaves');
+    if (!container) return;
+
+    const numberOfLeaves = 15;
+
+    for (let i = 0; i < numberOfLeaves; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'bamboo-leaf';
+
+        // Random horizontal position
+        leaf.style.left = Math.random() * 100 + '%';
+
+        // Random animation duration (slower = more peaceful)
+        const duration = 10 + Math.random() * 10; // 10-20 seconds
+        leaf.style.animationDuration = duration + 's';
+
+        // Random delay for staggered effect
+        leaf.style.animationDelay = Math.random() * 5 + 's';
+
+        // Slight size variation
+        const scale = 0.8 + Math.random() * 0.4;
+        leaf.style.transform = `scale(${scale})`;
+
+        container.appendChild(leaf);
+    }
+}
+
+// Initialize bamboo leaves on page load
+if (document.getElementById('bambooLeaves')) {
+    createBambooLeaves();
+}
+
+// ===== TRIPTRAP TOMB THEME - SAND PARTICLES =====
+function createSandParticles() {
+    const container = document.getElementById('sandParticles');
+    if (!container) return;
+
+    const numberOfParticles = 30;
+
+    for (let i = 0; i < numberOfParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'sand-particle';
+
+        // Random vertical starting position
+        particle.style.top = Math.random() * 100 + '%';
+
+        // Random animation duration (creates wind effect)
+        const duration = 15 + Math.random() * 15; // 15-30 seconds
+        particle.style.animationDuration = duration + 's';
+
+        // Random delay
+        particle.style.animationDelay = Math.random() * 10 + 's';
+
+        // Slight size variation
+        const size = 2 + Math.random() * 3; // 2-5px
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+
+        container.appendChild(particle);
+    }
+}
+
+// Initialize sand particles on page load
+if (document.getElementById('sandParticles')) {
+    createSandParticles();
+}
+
+// ===== DINOHATTAN THEME - TAR BUBBLES =====
+function createTarBubbles() {
+    const container = document.getElementById('tarBubbles');
+    if (!container) return;
+
+    const numberOfBubbles = 12;
+
+    for (let i = 0; i < numberOfBubbles; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'tar-bubble';
+
+        // Random horizontal position
+        bubble.style.left = Math.random() * 100 + '%';
+
+        // Random animation duration (slow and heavy like tar)
+        const duration = 8 + Math.random() * 8; // 8-16 seconds
+        bubble.style.animationDuration = duration + 's';
+
+        // Random delay for staggered bubbles
+        bubble.style.animationDelay = Math.random() * 8 + 's';
+
+        // Size variation (tar bubbles vary in size)
+        const size = 20 + Math.random() * 30; // 20-50px
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+
+        container.appendChild(bubble);
+    }
+}
+
+// Initialize tar bubbles on page load
+if (document.getElementById('tarBubbles')) {
+    createTarBubbles();
+}
+
+// ===== SNOWSHOW CITY THEME - SNOW PARTICLES =====
+function createSnowParticles() {
+    const container = document.getElementById('snowParticles');
+    if (!container) return;
+
+    const numberOfParticles = 50;
+
+    for (let i = 0; i < numberOfParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'snow-particle';
+
+        // Random horizontal position
+        particle.style.left = Math.random() * 100 + '%';
+
+        // Random animation duration (different fall speeds)
+        const duration = 8 + Math.random() * 8; // 8-16 seconds
+        particle.style.animationDuration = duration + 's';
+
+        // Random delay for staggered snowfall
+        particle.style.animationDelay = Math.random() * 8 + 's';
+
+        // Size variation (snowflakes vary in size)
+        const size = 4 + Math.random() * 8; // 4-12px
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+
+        container.appendChild(particle);
+    }
+}
+
+// Initialize snow particles on page load
+if (document.getElementById('snowParticles')) {
+    createSnowParticles();
 }
 
 console.log('🎵 Harper and Lyre website loaded! 🎮');
