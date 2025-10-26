@@ -1,9 +1,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Harper and Lyre - A Nostalgic 3D Platformer Adventure</title>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,9 +48,9 @@
                 </a>
             </div>
             <div class="hero-features">
-                <div class="feature-pill">✨ First World Included</div>
-                <div class="feature-pill">🧩 Puzzles & Mini-Games</div>
-                <div class="feature-pill">🎵 N64 Nostalgia</div>
+                <div class="feature-pill"><span style="color: var(--secondary-color)">Developer</span> Stormside Studio LLC</div>
+                <div class="feature-pill"><span style="color: var(--secondary-color)">Genre</span> 3D Platformer</div>
+                <div class="feature-pill"><span style="color: var(--secondary-color)">Style</span> N64 Classics</div>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -80,13 +77,13 @@
                     <h3>Meet Lyre</h3>
                     <p>A clever otter with a heart of gold!</p>
                 </div>
-                <div class="character-card">
+                {{!-- <div class="character-card">
                     <div class="character-gif">
                         <img src="/img/Harper-picture-frame.png" alt="Friends">
                     </div>
                     <h3>Make Friends</h3>
                     <p>Discover quirky characters along the way!</p>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
@@ -278,29 +275,113 @@
 
     <!-- News Section -->
     <section id="news" class="news-section">
+        {{!-- <div class="section-divider section-divider-bottom">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 C150,80 350,80 600,40 C850,0 1050,0 1200,40 L1200,120 L0,120 Z" fill="#FFF8F0"></path>
+            </svg>
+        </div> --}}
         <div class="container">
-            <h2 class="section-title">Latest News</h2>
-            <p class="section-subtitle">Stay updated with the latest announcements and updates!</p>
+            <h2 class="section-title">Harper's Journal</h2>
+            <p class="section-subtitle">Explore the worlds Harper has discovered on his journey</p>
 
-            <div class="news-grid" id="newsGrid">
-                <div class="news-loading">
-                    <p>Loading latest news...</p>
+            <div class="news-journal-book">
+                <div class="news-journal-spine"></div>
+                <div class="news-journal-pages">
+                    <!-- Left page: News content -->
+                    <div class="news-page-left">
+                        <div id="newsContent" class="news-content">
+                            <div class="news-loading">
+                                <p>Loading latest news...</p>
+                            </div>
+                        </div>
+                        <div class="news-page-footer">
+                            <a href="#" id="newsViewOnSteam" target="_blank" class="btn btn-primary" style="display: none;">View on Steam</a>
+                        </div>
+                    </div>
+
+                    <!-- Right page: News titles list -->
+                    <div class="news-page-right">
+                        <h3 class="news-list-title">News Entries</h3>
+                        <div id="newsList" class="news-list">
+                            <div class="news-loading">
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="news-view-all">
-                <a href="https://store.steampowered.com/news/app/3579710" target="_blank" class="btn btn-secondary">View All News</a>
-            </div>
         </div>
+
+        <!-- Torn Page Transition -->
+        {{!-- <div class="torn-page-transition">
+            <div class="torn-edge-layer torn-layer-1"></div>
+            <div class="torn-edge-layer torn-layer-2"></div>
+            <div class="torn-edge-layer torn-layer-3"></div>
+            <div class="purple-glow-bleed"></div>
+            <canvas id="tornPaperCanvas" class="torn-paper-canvas"></canvas>
+        </div> --}}
     </section>
 
-    <!-- News Detail Modal -->
-    <div id="newsModal" class="news-modal">
-        <div class="news-modal-content">
-            <span class="news-modal-close">&times;</span>
-            <div id="newsModalBody"></div>
+    <!-- Magical Pocus News Section -->
+    <section id="pocus-news" class="pocus-news-section">
+        <!-- Parallax Platform Layers -->
+        {{!-- <div class="parallax-layers">
+            <div class="parallax-layer parallax-bg" data-speed="0.2"></div>
+            <div class="parallax-layer parallax-mid" data-speed="0.5"></div>
+            <div class="parallax-layer parallax-fg" data-speed="0.8"></div>
+            <img src="/img/harper-idle.gif" alt="Harper walking" class="harper-sprite-transition" id="harperSprite">
+        </div> --}}
+        <div class="mystical-background">
+            <div class="sparkle sparkle-1"></div>
+            <div class="sparkle sparkle-2"></div>
+            <div class="sparkle sparkle-3"></div>
+            <div class="sparkle sparkle-4"></div>
         </div>
-    </div>
+
+        <div class="container">
+            <h2 class="section-title mystical-title">Pocus's Magical Chronicles</h2>
+            <p class="section-subtitle mystical-subtitle">Ancient wisdom from the mystical guardian</p>
+
+            <div class="pocus-display">
+                <!-- Left: Pocus sitting -->
+                <div class="pocus-character">
+                    <div class="pocus-glow"></div>
+                    <img src="/img/harper-idle.gif" alt="Pocus" class="pocus-gif">
+                    <div class="pocus-platform"></div>
+                </div>
+
+                <!-- Right: Magical scroll with news -->
+                <div class="magical-scroll">
+                    <div class="scroll-glow"></div>
+                    <div class="scroll-top"></div>
+                    <div class="scroll-body">
+                        <div id="pocusNewsList" class="scroll-content">
+                            <div class="news-loading">
+                                <p>Channeling magical energies...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-bottom"></div>
+                    <div class="purple-sparkles">
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Musical Note Particle Curtain & Darkness Creep Transition -->
+        {{!-- <div class="musical-corruption-transition">
+            <canvas id="musicalNotesCanvas" class="musical-notes-canvas"></canvas>
+            <div class="darkness-creep-container">
+                <canvas id="darknessCanvas" class="darkness-canvas"></canvas>
+                <div class="corruption-vignette"></div>
+            </div>
+        </div> --}}
+    </section>
 
     <!-- Kreakli's Demise -->
     <section id="villains" class="villain-section">
@@ -451,5 +532,5 @@
         </div>
     </footer>
 
-    <script src="/js/index.js?v=20250125"></script>
+    <script src="/js/index.js?v=20250125g"></script>
 </body>

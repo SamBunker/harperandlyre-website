@@ -332,105 +332,134 @@ function formatDate(timestamp) {
     return date.toLocaleDateString('en-US', options);
 }
 
-function createNewsCard(newsItem) {
-    const card = document.createElement('div');
-    card.className = 'news-card';
+function createNewsListItem(newsItem, index) {
+    const item = document.createElement('div');
+    item.className = 'news-list-item';
+    if (index === 0) item.classList.add('active');
 
-    const excerpt = stripHTML(newsItem.contents).substring(0, 150) + '...';
-
-    card.innerHTML = `
-        <img src="${newsItem.image || '/img/harperandlyre-logo.webp'}" alt="${newsItem.title}" class="news-card-image" onerror="this.src='/img/harperandlyre-logo.webp'">
-        <div class="news-card-content">
-            <div class="news-card-date">${formatDate(newsItem.date)}</div>
-            <h3 class="news-card-title">${newsItem.title}</h3>
-            <p class="news-card-excerpt">${excerpt}</p>
-            <div class="news-card-footer">
-                <span class="news-card-author">${newsItem.author || 'Harper & Lyre Team'}</span>
-                <span class="news-card-readmore">Read More →</span>
-            </div>
-        </div>
+    item.innerHTML = `
+        <div class="news-list-item-date">${formatDate(newsItem.date)}</div>
+        <div class="news-list-item-title">${newsItem.title}</div>
     `;
 
-    card.addEventListener('click', () => openNewsModal(newsItem));
+    item.addEventListener('click', function() {
+        displayNewsContent(newsItem, this);
+    });
 
-    return card;
+    return item;
 }
 
-function openNewsModal(newsItem) {
-    const modal = document.getElementById('newsModal');
-    const modalBody = document.getElementById('newsModalBody');
+function displayNewsContent(newsItem, clickedElement) {
+    const newsContent = document.getElementById('newsContent');
+    const viewOnSteamBtn = document.getElementById('newsViewOnSteam');
 
-    modalBody.innerHTML = `
-        <div class="news-modal-header">
-            <h2 class="news-modal-title">${newsItem.title}</h2>
-            <div class="news-modal-meta">
-                <span class="news-modal-date">${formatDate(newsItem.date)}</span>
-                <span>By ${newsItem.author || 'Harper & Lyre Team'}</span>
-            </div>
-        </div>
-        ${newsItem.image ? `<img src="${newsItem.image}" alt="${newsItem.title}" class="news-modal-image" onerror="this.style.display='none'">` : ''}
-        <div class="news-modal-body">
+    // Update active state
+    document.querySelectorAll('.news-list-item').forEach(item => item.classList.remove('active'));
+    if (clickedElement) {
+        clickedElement.classList.add('active');
+    }
+
+    newsContent.innerHTML = `
+        <h2 class="news-content-title">${newsItem.title}</h2>
+        <div class="news-content-date">${formatDate(newsItem.date)}</div>
+        <div class="news-content-body">
             ${newsItem.contents}
         </div>
-        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #eee;">
-            <a href="${newsItem.url}" target="_blank" class="btn btn-primary">View on Steam</a>
-        </div>
     `;
 
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
+    // Update Steam button
+    viewOnSteamBtn.href = newsItem.url;
+    viewOnSteamBtn.style.display = 'inline-block';
 }
-
-function closeNewsModal() {
-    const modal = document.getElementById('newsModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Modal close handlers
-document.querySelector('.news-modal-close').addEventListener('click', closeNewsModal);
-document.getElementById('newsModal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) {
-        closeNewsModal();
-    }
-});
-
-// Escape key to close modal
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeNewsModal();
-    }
-});
 
 async function displayNews() {
-    const newsGrid = document.getElementById('newsGrid');
+    const newsList = document.getElementById('newsList');
+    const newsContent = document.getElementById('newsContent');
 
     const data = await fetchSteamNews();
 
     if (!data || !data.appnews || !data.appnews.newsitems) {
-        newsGrid.innerHTML = '<div class="news-loading"><p>Unable to load news. Please try again later.</p></div>';
+        newsList.innerHTML = '<div class="news-loading"><p>Unable to load news.</p></div>';
+        newsContent.innerHTML = '<div class="news-loading"><p>Unable to load news. Please try again later.</p></div>';
         return;
     }
 
     const newsItems = data.appnews.newsitems;
 
     if (newsItems.length === 0) {
-        newsGrid.innerHTML = '<div class="news-loading"><p>No news available at the moment.</p></div>';
+        newsList.innerHTML = '<div class="news-loading"><p>No news available.</p></div>';
+        newsContent.innerHTML = '<div class="news-loading"><p>No news available at the moment.</p></div>';
         return;
     }
 
-    // Clear loading message
-    newsGrid.innerHTML = '';
+    // Clear loading messages
+    newsList.innerHTML = '';
 
-    // Create and append news cards
-    newsItems.forEach(newsItem => {
-        const card = createNewsCard(newsItem);
-        newsGrid.appendChild(card);
+    // Create and append news list items
+    newsItems.forEach((newsItem, index) => {
+        const listItem = createNewsListItem(newsItem, index);
+        newsList.appendChild(listItem);
     });
+
+    // Display first news item by default
+    displayNewsContent(newsItems[0], newsList.firstChild);
 }
 
 // Load news on page load
 displayNews();
+
+// ===== MAGICAL POCUS NEWS FUNCTIONALITY =====
+function createPocusScrollItem(newsItem, index) {
+    const item = document.createElement('div');
+    item.className = 'scroll-news-item';
+    if (index === 0) item.classList.add('active');
+
+    item.innerHTML = `
+        <div class="scroll-item-date">${formatDate(newsItem.date)}</div>
+        <div class="scroll-item-title">${newsItem.title}</div>
+    `;
+
+    item.addEventListener('click', function() {
+        // Update active state
+        document.querySelectorAll('.scroll-news-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+
+        // Open the news URL in a new tab
+        window.open(newsItem.url, '_blank');
+    });
+
+    return item;
+}
+
+async function displayPocusNews() {
+    const pocusNewsList = document.getElementById('pocusNewsList');
+
+    const data = await fetchSteamNews();
+
+    if (!data || !data.appnews || !data.appnews.newsitems) {
+        pocusNewsList.innerHTML = '<div class="news-loading"><p>The magical energies are unstable...</p></div>';
+        return;
+    }
+
+    const newsItems = data.appnews.newsitems;
+
+    if (newsItems.length === 0) {
+        pocusNewsList.innerHTML = '<div class="news-loading"><p>No magical chronicles yet...</p></div>';
+        return;
+    }
+
+    // Clear loading message
+    pocusNewsList.innerHTML = '';
+
+    // Create and append scroll items
+    newsItems.forEach((newsItem, index) => {
+        const scrollItem = createPocusScrollItem(newsItem, index);
+        pocusNewsList.appendChild(scrollItem);
+    });
+}
+
+// Load Pocus news on page load
+displayPocusNews();
 
 // Alternative to setInterval: Refresh when user returns to tab or scrolls to news section
 // This avoids Cloudflare rate limiting while keeping content fresh
