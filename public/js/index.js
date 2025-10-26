@@ -145,13 +145,27 @@ toolkitCards.forEach(card => {
     const video = card.querySelector('video');
 
     if (video) {
+        let playPromise = null;
+
         card.addEventListener('mouseenter', () => {
-            video.play();
+            playPromise = video.play();
         });
 
         card.addEventListener('mouseleave', () => {
-            video.pause();
-            video.currentTime = 0;
+            // Wait for play promise to resolve before pausing
+            if (playPromise !== null) {
+                playPromise.then(() => {
+                    video.pause();
+                    video.currentTime = 0;
+                }).catch(error => {
+                    // Play was interrupted, ignore error
+                    console.debug('Video play interrupted:', error);
+                });
+                playPromise = null;
+            } else {
+                video.pause();
+                video.currentTime = 0;
+            }
         });
     }
 });
