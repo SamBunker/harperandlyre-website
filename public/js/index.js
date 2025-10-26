@@ -418,9 +418,38 @@ async function displayNews() {
 // Load news on page load
 displayNews();
 
-// Refresh news every 15 minutes
-// setInterval(() => {
-//     displayNews();
-// }, CACHE_DURATION);
+// Alternative to setInterval: Refresh when user returns to tab or scrolls to news section
+// This avoids Cloudflare rate limiting while keeping content fresh
+
+// Refresh when user returns to the page (tab becomes visible)
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        const now = Date.now();
+        // Only refresh if cache is older than 15 minutes
+        if ((now - lastFetchTime) >= CACHE_DURATION) {
+            displayNews();
+        }
+    }
+});
+
+// Refresh when user scrolls to news section (one-time check per session)
+let newsRefreshedOnScroll = false;
+const newsSection = document.getElementById('news');
+
+if (newsSection) {
+    const newsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !newsRefreshedOnScroll) {
+                const now = Date.now();
+                if ((now - lastFetchTime) >= CACHE_DURATION) {
+                    displayNews();
+                    newsRefreshedOnScroll = true;
+                }
+            }
+        });
+    }, { threshold: 0.1 });
+
+    newsObserver.observe(newsSection);
+}
 
 console.log('🎵 Harper and Lyre website loaded! 🎮');

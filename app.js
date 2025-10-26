@@ -19,12 +19,7 @@ app.get('/home', (req, res) => {
     res.render('index');
 });
 
-// Define route to render the form page
-app.get('/', (req, res) => {
-    res.redirect('/home');
-});
-
-// Steam News API endpoint
+// Steam News API endpoint - MUST BE BEFORE catch-all routes
 app.get('/api/steam-news', (req, res) => {
     const appId = '3579710'; // Harper and Lyre Steam App ID
     const count = req.query.count || 6; // Number of news items to fetch
@@ -52,6 +47,11 @@ app.get('/api/steam-news', (req, res) => {
         console.error('Error fetching Steam news:', error);
         res.status(500).json({ error: 'Failed to fetch Steam news' });
     });
+});
+
+// Define route to render the form page
+app.get('/', (req, res) => {
+    res.redirect('/home');
 });
 
 //custom 500: Server not Responding
