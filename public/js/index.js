@@ -419,8 +419,8 @@ async function displayNews() {
 displayNews();
 
 // Refresh news every 15 minutes
-setInterval(() => {
-    displayNews();
-}, CACHE_DURATION);
+// setInterval(() => {
+//     displayNews();
+// }, CACHE_DURATION);
 
 console.log('🎵 Harper and Lyre website loaded! 🎮');
