@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,15 +20,54 @@
         performanceDebug.log('Script Start', 'Head script executing');
     </script>
 
+    <!-- Critical inline CSS for above-the-fold content -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Fredoka',Arial,sans-serif;line-height:1.6;background:#000;color:#2C1810;overflow-x:hidden}
+        img{max-width:100%;height:auto;display:block}
+        a{text-decoration:none;color:inherit}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .navbar{position:fixed;top:0;width:100%;z-index:1000;background:linear-gradient(135deg,rgba(44,24,16,.95),rgba(44,24,16,.98));padding:1rem 0;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .3s ease}
+        .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+        .nav-logo img{height:50px}
+        .nav-menu{display:flex;list-style:none;gap:2rem;align-items:center}
+        .nav-link{color:#FFF8F0;font-weight:600;padding:.5rem 1rem;border-radius:8px;transition:all .3s ease}
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-top:70px}
+        .hero-background{position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden}
+        .hero-background img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.6)}
+        .hero-content{position:relative;z-index:1;text-align:center;color:#fff;max-width:900px;padding:2rem}
+        .hero-title{font-family:'Riffic','Bangers',Impact,cursive;font-size:clamp(2.5rem,8vw,5rem);margin-bottom:1rem;text-transform:uppercase;letter-spacing:3px;color:#FFD23F;text-shadow:4px 4px 0 #FF6B35,8px 8px 0 rgba(0,0,0,.3)}
+        .hero-subtitle{font-size:clamp(1rem,3vw,1.5rem);margin-bottom:2rem;color:#FFF8F0;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
+        .btn{display:inline-flex;align-items:center;gap:.5rem;padding:1rem 2rem;font-size:1.1rem;font-weight:600;border-radius:12px;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:1px;border:none}
+        .btn-primary{background:linear-gradient(135deg,#FF6B35,#F7931E);color:#fff;box-shadow:0 6px 20px rgba(255,107,53,.4)}
+        .btn-secondary{background:linear-gradient(135deg,#9B59B6,#8e44ad);color:#fff;box-shadow:0 6px 20px rgba(155,89,182,.4)}
+        .hero-buttons{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .demo-badge{display:inline-block;background:linear-gradient(135deg,#4CAF50,#45a049);color:#fff;padding:.75rem 2rem;border-radius:50px;font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;box-shadow:0 8px 16px rgba(0,0,0,.2);text-transform:uppercase;letter-spacing:2px}
+        .hero-features{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+        .feature-pill{backdrop-filter:blur(2px);color:#fff;padding:.5rem 1.5rem;border-radius:25px;font-weight:600}
+        #loading-screen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999}
+    </style>
 
-    <!-- Load CSS synchronously to prevent flash -->
-    <link rel="stylesheet" href="/css/index.css?v=20250128g">
+    <!-- Preload LCP image with high priority -->
+    <link rel="preload" as="image" href="/img/hal-background.webp" fetchpriority="high">
 
-    <!-- Preload fonts -->
+    <!-- Preload main CSS (minified) -->
+    <link rel="preload" as="style" href="/css/index.min.css?v=20250128M">
+
+    <!-- Load CSS asynchronously to prevent render blocking -->
+    <link rel="stylesheet" href="/css/index.min.css?v=20250128M" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/css/index.min.css?v=20250128M"></noscript>
+
+    <!-- Preconnect to most critical external domain -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 
+    <!-- Load Google Fonts asynchronously to prevent render blocking -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap"></noscript>
+
+    <!-- Preload critical local font -->
     <link rel="preload" href="/fonts/riffic_bold.ttf" as="font" type="font/ttf" crossorigin>
 
     <script src="https://www.youtube.com/iframe_api" async defer></script>
@@ -295,7 +336,7 @@
     <!-- Hero Section - Demo Launch -->
     <section id="home" class="hero">
         <div class="hero-background">
-            <!-- Background image of Pocus's House set in CSS -->
+            <img src="/img/hal-background.webp" alt="Harper and Lyre Background" fetchpriority="high" width="1920" height="1080">
         </div>
         <div class="hero-content">
             <div class="demo-badge bounce">
@@ -360,7 +401,10 @@
                 </div>
                 <div class="intro-gallery" id="introGallery">
                     <div class="gallery-main">
-                        <img src="{{firstProfile.mainImage}}" alt="{{firstProfile.name}}" class="gallery-image active" data-index="0">
+                        <video autoplay loop muted playsinline class="gallery-image active" data-index="0">
+                            <source src="{{firstProfile.mainImageWebm}}" type="video/webm">
+                            <source src="{{firstProfile.mainImageMp4}}" type="video/mp4">
+                        </video>
                     </div>
                     <div class="gallery-thumbs">
                         {{#each characterProfiles}}
@@ -373,7 +417,8 @@
                                 data-character="{{this.character}}"
                                 data-title="{{this.title}}"
                                 data-description="{{this.description}}"
-                                data-main-image="{{this.mainImage}}">
+                                data-main-image-webm="{{this.mainImageWebm}}"
+                                data-main-image-mp4="{{this.mainImageMp4}}">
                         {{/each}}
                     </div>
                 </div>
@@ -558,7 +603,10 @@
                 <!-- Left: Pocus sitting -->
                 <div class="pocus-character">
                     <div class="pocus-glow"></div>
-                    <img src="/img/pocusAnim.gif" alt="Pocus" class="pocus-gif">
+                    <video autoplay loop muted playsinline class="pocus-gif">
+                        <source src="/img/pocusAnim.webm" type="video/webm">
+                        <source src="/img/pocusAnim.mp4" type="video/mp4">
+                    </video>
                     <div class="pocus-platform"></div>
                 </div>
 
@@ -606,7 +654,10 @@
                 <div class="villain-main">
                     <div class="villain-image-container">
                         <div class="evil-aura"></div>
-                        <img src="/img/kreakliAnim.gif" alt="Kreakli" class="villain-image">
+                        <video autoplay loop muted playsinline class="villain-image">
+                            <source src="/img/kreakliAnim.webm" type="video/webm">
+                            <source src="/img/kreakliAnim.mp4" type="video/mp4">
+                        </video>
                     </div>
                     <div class="villain-description">
                         <p class="villain-text">
@@ -761,6 +812,7 @@
     </footer>
 
     <script>performanceDebug.log('Body End', 'Before main JS');</script>
-    <script src="/js/index.js?v=20250128d"></script>
-    <script>performanceDebug.log('Main JS Loaded', 'index.js executed');</script>
+    <script src="/js/index.min.js?v=20250128N"></script>
+    <script>performanceDebug.log('Main JS Loaded', 'index.min.js executed');</script>
 </body>
+</html>

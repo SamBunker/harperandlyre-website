@@ -8,7 +8,27 @@ const bodyParser = require('body-parser');
 const https = require('https');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
+// Serve static files with proper cache headers
+app.use(express.static('public', {
+    maxAge: '1y', // Cache for 1 year (immutable assets)
+    etag: true,
+    lastModified: true,
+    setHeaders: (res, path) => {
+        // Cache images, fonts, videos for 1 year
+        if (path.match(/\.(jpg|jpeg|png|gif|webp|svg|woff2?|ttf|eot|mp4|webm)$/i)) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+        // Cache CSS/JS for 1 year (use versioning like ?v=20250128L)
+        else if (path.match(/\.(css|js)$/i)) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+        // Cache HTML files for shorter time
+        else if (path.match(/\.html?$/i)) {
+            res.setHeader('Cache-Control', 'public, max-age=3600'); // 1 hour
+        }
+    }
+}));
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -22,7 +42,8 @@ const characterProfiles = [
         name: 'Harper',
         title: 'Meet Harper, Your Hero!',
         description: 'Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities and explore vibrant worlds to save his friends and restore peace to the festival.',
-        mainImage: '/img/harperAnim.gif',
+        mainImageWebm: '/img/harperAnim.webm',
+        mainImageMp4: '/img/harperAnim.mp4',
         thumbnail: '/img/Harper.webp'
     },
     {
@@ -31,7 +52,8 @@ const characterProfiles = [
         name: 'Lyre',
         title: 'Introducing Lyre, The Blunt Companion!',
         description: 'Lyre is a quick-witted otter with lesser magical abilities and a bad attitude toward everyone but Harper. She helps navigate treacherous waters with aquatic agility, though her abrasive demeanor remains as challenging as the adventure itself.',
-        mainImage: '/img/lyreAnim.gif',
+        mainImageWebm: '/img/lyreAnim.webm',
+        mainImageMp4: '/img/lyreAnim.mp4',
         thumbnail: '/img/Lyre.webp'
     },
     {
@@ -40,7 +62,8 @@ const characterProfiles = [
         name: 'Hugo',
         title: 'Check Out Hugo!',
         description: "Hugo is a cool-riding meerkat biker who's traveled far and wide perfecting his craft. With a relaxed attitude and expert skills from his adventures, he mentors the duo by teaching them powerful new moves.",
-        mainImage: '/img/hugoAnim.gif',
+        mainImageWebm: '/img/hugoAnim.webm',
+        mainImageMp4: '/img/hugoAnim.mp4',
         thumbnail: '/img/Hugo.webp'
     },
     {
@@ -49,7 +72,8 @@ const characterProfiles = [
         name: 'Pocus',
         title: "Here's Pocus, The Mystical Wizard Frog!",
         description: "Pocus is a mystical frog wizard who uses ancient magic to transform Harper and Lyre into new forms, providing them with new abilities to solve tricky puzzles ahead.",
-        mainImage: '/img/pocusAnim.gif',
+        mainImageWebm: '/img/pocusAnim.webm',
+        mainImageMp4: '/img/pocusAnim.mp4',
         thumbnail: '/img/Pocus.webp'
     }
 ];
@@ -202,6 +226,7 @@ app.get('/', (req, res) => {
     const firstProfile = characterProfiles[0];
 
     res.render('index', {
+        layout: false, // Disable main.handlebars layout
         worlds: worldsData,
         firstWorld: firstDiscoveredWorld,
         characterProfiles: characterProfiles,
@@ -227,6 +252,8 @@ app.get('/api/steam-news', (req, res) => {
         steamRes.on('end', () => {
             try {
                 const parsedData = JSON.parse(data);
+                // Cache Steam news for 15 minutes
+                res.setHeader('Cache-Control', 'public, max-age=900, s-maxage=900');
                 res.json(parsedData);
             } catch (error) {
                 console.error('Error parsing Steam API response:', error);

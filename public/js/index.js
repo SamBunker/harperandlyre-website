@@ -32,7 +32,7 @@ window.addEventListener('scroll', () => {
 
 // ===== GALLERY FUNCTIONALITY =====
 const galleryThumbs = document.querySelectorAll('.thumb');
-const galleryMain = document.querySelector('.gallery-main img');
+const galleryMainVideo = document.querySelector('.gallery-main video');
 const introContent = document.getElementById('introContent');
 const characterTitle = document.getElementById('characterTitle');
 const characterDescription = document.getElementById('characterDescription');
@@ -45,7 +45,8 @@ galleryThumbs.forEach((thumb) => {
         const character = thumb.dataset.character;
         const title = thumb.dataset.title;
         const description = thumb.dataset.description;
-        const mainImage = thumb.dataset.mainImage;
+        const mainImageWebm = thumb.dataset.mainImageWebm;
+        const mainImageMp4 = thumb.dataset.mainImageMp4;
 
         const isCharacterSwitch = currentCharacter !== character;
 
@@ -55,21 +56,28 @@ galleryThumbs.forEach((thumb) => {
         // Add active class to clicked thumb
         thumb.classList.add('active');
 
-        // Change main image with fade effect
-        galleryMain.style.opacity = '0';
+        // Change main video with fade effect
+        galleryMainVideo.style.opacity = '0';
 
         setTimeout(() => {
-            // Use the main image from data attribute
-            galleryMain.src = mainImage;
-            galleryMain.alt = thumb.alt;
+            // Update video sources
+            const webmSource = galleryMainVideo.querySelector('source[type="video/webm"]');
+            const mp4Source = galleryMainVideo.querySelector('source[type="video/mp4"]');
 
-            // Add character class to gallery image for specific styling
-            galleryMain.className = 'gallery-image active';
+            webmSource.src = mainImageWebm;
+            mp4Source.src = mainImageMp4;
+
+            // Reload video to apply new sources
+            galleryMainVideo.load();
+            galleryMainVideo.play();
+
+            // Add character class to gallery video for specific styling
+            galleryMainVideo.className = 'gallery-image active';
             if (character === 'lyre') {
-                galleryMain.classList.add('lyre-character');
+                galleryMainVideo.classList.add('lyre-character');
             }
 
-            galleryMain.style.opacity = '1';
+            galleryMainVideo.style.opacity = '1';
 
             // Only update text if switching between characters
             if (isCharacterSwitch) {
@@ -423,8 +431,16 @@ async function displayPocusNews() {
     });
 }
 
-// Load Pocus news on page load
-displayPocusNews();
+// Load Pocus news after page is fully loaded (non-blocking)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Defer Steam API call to not block LCP
+        setTimeout(displayPocusNews, 100);
+    });
+} else {
+    // DOM already loaded
+    setTimeout(displayPocusNews, 100);
+}
 
 // Alternative to setInterval: Refresh when user returns to tab or scrolls to news section
 // This avoids Cloudflare rate limiting while keeping content fresh

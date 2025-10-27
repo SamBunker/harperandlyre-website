@@ -4,7 +4,33 @@
     src: url('/fonts/riffic_bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
-    font-display: optional;
+    font-display: swap;
+    /* Font metric overrides to reduce layout shift */
+    ascent-override: 95%;
+    descent-override: 25%;
+    line-gap-override: 0%;
+}
+
+/* Fallback font for Fredoka with matching metrics */
+@font-face {
+    font-family: 'Fredoka Fallback';
+    src: local('Arial');
+    font-display: swap;
+    ascent-override: 98%;
+    descent-override: 30%;
+    line-gap-override: 0%;
+    size-adjust: 98%;
+}
+
+/* Fallback font for Bangers with matching metrics */
+@font-face {
+    font-family: 'Bangers Fallback';
+    src: local('Impact');
+    font-display: swap;
+    ascent-override: 110%;
+    descent-override: 20%;
+    line-gap-override: 0%;
+    size-adjust: 95%;
 }
 
 /* ===== VARIABLES ===== */
@@ -18,8 +44,8 @@
     --danger-color: #E74C3C;
     --purple-color: #9B59B6;
 
-    --font-heading: 'Riffic', 'Bangers', cursive;
-    --font-body: 'Fredoka', sans-serif;
+    --font-heading: 'Riffic', 'Bangers', 'Bangers Fallback', Impact, cursive;
+    --font-body: 'Fredoka', 'Fredoka Fallback', Arial, sans-serif;
 
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
     --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
@@ -165,12 +191,16 @@ a {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('/img/hal-background.webp');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    filter: brightness(0.6);
     z-index: -1;
+    overflow: hidden;
+}
+
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.6);
 }
 
 .hero-background::after {
@@ -181,6 +211,7 @@ a {
     right: 0;
     bottom: 0;
     background: linear-gradient(180deg, rgba(44, 24, 16, 0.3), rgba(44, 24, 16, 0.7));
+    z-index: 1;
 }
 
 .hero-content {
@@ -580,6 +611,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 400px;
 }
 
 .gallery-image {
@@ -589,10 +621,17 @@ a {
     transition: transform 0.3s ease;
 }
 
-/* Reduce Lyre's image to 60% */
-.gallery-image.lyre-character {
-    width: 60%;
+/* Video elements behave like images */
+video.gallery-image {
+    width: 100%;
     height: 400px;
+    object-fit: contain;
+}
+
+/* Reduce Lyre's video to 60% */
+video.gallery-image.lyre-character {
+    width: 60%;
+    height: 240px;
 }
 
 .gallery-main:hover .gallery-image {
@@ -2089,6 +2128,11 @@ a {
     filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.6));
 }
 
+/* Video element styling for pocus */
+video.pocus-gif {
+    display: block;
+}
+
 .pocus-platform {
     position: absolute;
     bottom: 0;
@@ -2367,6 +2411,13 @@ a {
     min-width: 700px;
     max-width: 800px;
     filter: drop-shadow(0 0 15px rgba(219, 0, 0, 0.22));
+}
+
+/* Video element styling for villain */
+video.villain-image {
+    display: block;
+    width: auto;
+    height: auto;
 }
 
 .shake {
