@@ -210,7 +210,7 @@ document.addEventListener('keydown', (e) => {
             style.remove();
         }, 5000);
 
-        console.log('🎮 N64 nostalgia activated! 🎮');
+        console.log('Howdy from Sam the Web Developer. :) 🎮 N64 nostalgia activated! 🎮')
     }
 });
 
