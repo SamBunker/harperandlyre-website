@@ -14,10 +14,6 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', process.env.PORT || 3004);
 
-app.get('/', (req, res) => {
-    res.render('loading', { hideLayout: true });
-});
-
 // Worlds data (server-side only - never exposed to client)
 const worldsData = [
     {
@@ -158,7 +154,7 @@ const worldsData = [
     }
 ];
 
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     // Find first discovered world for default display
     const firstDiscoveredWorld = worldsData.find(w => w.discovered) || worldsData[0];
 
@@ -198,10 +194,6 @@ app.get('/api/steam-news', (req, res) => {
     });
 });
 
-// Define route to render the form page
-app.get('/', (req, res) => {
-    res.redirect('/home');
-});
 
 //custom 500: Server not Responding
 app.use((err, req, res, next) => {
@@ -210,7 +202,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use((req, res) => {
-    res.status(404).redirect('/home');
+    res.status(404).send('404 - Page Not Found');
 });
 
 

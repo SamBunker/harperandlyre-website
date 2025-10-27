@@ -26,7 +26,7 @@
             src: url('/fonts/riffic_bold.ttf') format('truetype');
             font-weight: bold;
             font-style: normal;
-            font-display: optional;
+            font-display: block;
         }
 
         /* Reset & Base Styles */
@@ -44,7 +44,7 @@
             font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
             color: #2C1810;
-            background-color: #FFF8F0;
+            background-color: #000000;
             overflow-x: hidden;
         }
 
@@ -377,10 +377,114 @@
             }, 100);
         });
     </script>
+    <style>
+        /* Loading screen styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loading-image {
+            max-width: 600px;
+            width: 80%;
+            height: auto;
+            margin-bottom: -2rem;
+        }
+
+        #loading-counter {
+            font-family: 'Riffic', sans-serif;
+            font-size: 4rem;
+            color: #FFD23F;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div id="loading-content">
+            <img id="loading-image" src="/img/note-door-2.webp" alt="Note Door">
+            <h3 id="loading-counter">0</h2>
+        </div>
+    </div>
+
     <script>
         performanceDebug.log('Body Start', 'Body tag opened');
+
+        // Loading counter animation
+        let counter = 0;
+        const counterElement = document.getElementById('loading-counter');
+        const loadingScreen = document.getElementById('loading-screen');
+        let loadingComplete = false;
+        let fontsReady = false;
+        let windowLoaded = false;
+
+        // Animate counter from 0 to 100
+        const counterInterval = setInterval(() => {
+            counter += Math.floor(Math.random() * 5) + 1; // Random increment 1-5
+            if (counter >= 100) {
+                counter = 100;
+                clearInterval(counterInterval);
+                loadingComplete = true;
+                checkAndHideLoader();
+            }
+            counterElement.textContent = counter;
+        }, 30); // Update every 30ms for smooth animation
+
+        // Check if fonts are loaded
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function() {
+                fontsReady = true;
+                performanceDebug.log('Fonts Ready', 'All fonts loaded');
+                checkAndHideLoader();
+            });
+        } else {
+            fontsReady = true;
+        }
+
+        // Check if window is fully loaded
+        window.addEventListener('load', function() {
+            windowLoaded = true;
+            performanceDebug.log('Window Load', 'All resources loaded');
+            checkAndHideLoader();
+        });
+
+        // Hide loader when everything is ready
+        function checkAndHideLoader() {
+            if (loadingComplete && fontsReady && windowLoaded) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    document.body.classList.add('fonts-loaded');
+                    performanceDebug.log('Loading Complete', 'Website revealed');
+                }, 300); // Small delay after hitting 100
+            }
+        }
+
         // Immediately try to capture styles before external CSS loads
         if (typeof captureInitialStyles === 'function') {
             setTimeout(captureInitialStyles, 0);
@@ -735,21 +839,21 @@
                             <div class="henchman-image">
                                 <img src="/img/henchman-1.png" alt="Henchman 1">
                             </div>
-                            <h4>Shadow Stalkers</h4>
+                            <h4>Follower #1</h4>
                             <p>Dark creatures that patrol the corrupted areas</p>
                         </div>
                         <div class="henchman-card">
                             <div class="henchman-image">
                                 <img src="/img/henchman-2.png" alt="Henchman 2">
                             </div>
-                            <h4>Corrupted Guards</h4>
+                            <h4>Follower #2</h4>
                             <p>Once peaceful beings, now under Kreakli's control</p>
                         </div>
                         <div class="henchman-card">
                             <div class="henchman-image">
                                 <img src="/img/henchman-3.png" alt="Henchman 3">
                             </div>
-                            <h4>Dark Oak Minions</h4>
+                            <h4>Follower #3</h4>
                             <p>Spawned from the evil tree's twisted branches</p>
                         </div>
                     </div>
