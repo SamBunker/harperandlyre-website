@@ -37,68 +37,80 @@ const introContent = document.getElementById('introContent');
 const characterTitle = document.getElementById('characterTitle');
 const characterDescription = document.getElementById('characterDescription');
 
-// Array of images for the gallery
-const galleryImages = [
-    '/img/harper-idle.gif',
-    '/img/harper-idle.gif',
-    '/img/harper-idle.gif',
-    '/img/harper-idle.gif'
-];
+let currentCharacter = null; // Track current character
 
-// Character data
-const characterData = {
-    harper: {
-        title: "Meet Harper, Your Hero!",
-        description: "Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities and explore vibrant worlds to save his friends and restore peace to the festival."
-    },
-    lyre: {
-        title: "Meet Lyre, The Clever Otter!",
-        description: "Lyre is a clever otter with a heart of gold and a knack for solving puzzles. With her quick wit and playful spirit, she's always ready to help Harper on his adventure. Together, they make the perfect team to overcome any challenge!"
-    }
-};
-
-galleryThumbs.forEach((thumb, index) => {
+galleryThumbs.forEach((thumb) => {
     thumb.addEventListener('click', () => {
+        // Get profile data from data attributes
+        const character = thumb.dataset.character;
+        const title = thumb.dataset.title;
+        const description = thumb.dataset.description;
+        const mainImage = thumb.dataset.mainImage;
+
+        const isCharacterSwitch = currentCharacter !== character;
+
         // Remove active class from all thumbs
         galleryThumbs.forEach(t => t.classList.remove('active'));
 
         // Add active class to clicked thumb
         thumb.classList.add('active');
 
-        // Get character type
-        const character = thumb.dataset.character;
-        const introText = document.getElementById('introText');
-
-        // Fade out text first
-        introText.classList.add('fading');
-
         // Change main image with fade effect
         galleryMain.style.opacity = '0';
 
         setTimeout(() => {
-            galleryMain.src = galleryImages[index];
-            galleryMain.style.opacity = '1';
+            // Use the main image from data attribute
+            galleryMain.src = mainImage;
+            galleryMain.alt = thumb.alt;
 
-            // Update text content and start layout animation
+            // Add character class to gallery image for specific styling
+            galleryMain.className = 'gallery-image active';
             if (character === 'lyre') {
-                // Switch to Lyre mode - add class for animation
-                introContent.classList.add('lyre-mode');
-                characterTitle.textContent = characterData.lyre.title;
-                characterDescription.textContent = characterData.lyre.description;
-            } else {
-                // Switch back to Harper mode
-                introContent.classList.remove('lyre-mode');
-                characterTitle.textContent = characterData.harper.title;
-                characterDescription.textContent = characterData.harper.description;
+                galleryMain.classList.add('lyre-character');
             }
 
-            // Fade text back in after layout shift
-            setTimeout(() => {
-                introText.classList.remove('fading');
-            }, 300);
+            galleryMain.style.opacity = '1';
+
+            // Only update text if switching between characters
+            if (isCharacterSwitch) {
+                const introText = document.getElementById('introText');
+
+                // Fade out text first
+                introText.classList.add('fading');
+
+                // Remove all character mode classes
+                introContent.classList.remove('lyre-mode', 'hugo-mode', 'pocus-mode');
+
+                // Add appropriate character mode class
+                if (character === 'lyre') {
+                    introContent.classList.add('lyre-mode');
+                } else if (character === 'hugo') {
+                    introContent.classList.add('hugo-mode');
+                } else if (character === 'pocus') {
+                    introContent.classList.add('pocus-mode');
+                }
+                // Harper is default, no class needed
+
+                // Update text content
+                characterTitle.textContent = title;
+                characterDescription.textContent = description;
+
+                // Fade text back in after layout shift
+                setTimeout(() => {
+                    introText.classList.remove('fading');
+                }, 300);
+
+                // Update current character
+                currentCharacter = character;
+            }
         }, 300);
     });
 });
+
+// Initialize current character on page load
+if (galleryThumbs.length > 0) {
+    currentCharacter = galleryThumbs[0].dataset.character;
+}
 
 // ===== SCROLL ANIMATIONS =====
 const observerOptions = {

@@ -14,6 +14,46 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', process.env.PORT || 3004);
 
+// Character profiles data (server-side only)
+const characterProfiles = [
+    {
+        id: 'harper-1',
+        character: 'harper',
+        name: 'Harper',
+        title: 'Meet Harper, Your Hero!',
+        description: 'Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities and explore vibrant worlds to save his friends and restore peace to the festival.',
+        mainImage: '/img/harperAnim.gif',
+        thumbnail: '/img/Harper.webp'
+    },
+    {
+        id: 'lyre-1',
+        character: 'lyre',
+        name: 'Lyre',
+        title: 'Introducing Lyre, The Blunt Companion!',
+        description: 'Lyre is a quick-witted otter with lesser magical abilities and a bad attitude toward everyone but Harper. She helps navigate treacherous waters with aquatic agility, though her abrasive demeanor remains as challenging as the adventure itself.',
+        mainImage: '/img/lyreAnim.gif',
+        thumbnail: '/img/Lyre.webp'
+    },
+    {
+        id: 'hugo-1',
+        character: 'hugo',
+        name: 'Hugo',
+        title: 'Check Out Hugo!',
+        description: "Hugo is a cool-riding meerkat biker who's traveled far and wide perfecting his craft. With a relaxed attitude and expert skills from his adventures, he mentors the duo by teaching them powerful new moves.",
+        mainImage: '/img/hugoAnim.gif',
+        thumbnail: '/img/Hugo.webp'
+    },
+    {
+        id: 'pocus-1',
+        character: 'pocus',
+        name: 'Pocus',
+        title: "Here's Pocus, The Mystical Wizard Frog!",
+        description: "Pocus is a mystical frog wizard who uses ancient magic to transform Harper and Lyre into new forms, providing them with new abilities to solve tricky puzzles ahead.",
+        mainImage: '/img/pocusAnim.gif',
+        thumbnail: '/img/Pocus.webp'
+    }
+];
+
 // Worlds data (server-side only - never exposed to client)
 const worldsData = [
     {
@@ -158,9 +198,14 @@ app.get('/', (req, res) => {
     // Find first discovered world for default display
     const firstDiscoveredWorld = worldsData.find(w => w.discovered) || worldsData[0];
 
+    // Get first character profile for default display
+    const firstProfile = characterProfiles[0];
+
     res.render('index', {
         worlds: worldsData,
-        firstWorld: firstDiscoveredWorld
+        firstWorld: firstDiscoveredWorld,
+        characterProfiles: characterProfiles,
+        firstProfile: firstProfile
     });
 });
 

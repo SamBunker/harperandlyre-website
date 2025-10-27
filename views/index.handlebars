@@ -18,230 +18,14 @@
         performanceDebug.log('Script Start', 'Head script executing');
     </script>
 
-    <!-- Inline Critical CSS - Renders immediately, zero flash -->
-    <style>
-        /* Font faces */
-        @font-face {
-            font-family: 'Riffic';
-            src: url('/fonts/riffic_bold.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
-            font-display: block;
-        }
-
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #2C1810;
-            background-color: #000000;
-            overflow-x: hidden;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Navbar - Always visible */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: linear-gradient(135deg, rgba(44, 24, 16, 0.95), rgba(44, 24, 16, 0.98));
-            padding: 1rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo img {
-            height: 50px;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: #FFF8F0;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        /* Hero Section - Above the fold */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            margin-top: 70px;
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('/img/hal-background.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            filter: brightness(0.6);
-            z-index: -1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 2rem;
-        }
-
-        .section-title {
-            font-family: 'Riffic', 'Bangers', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            color: white;
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #9B59B6, #8e44ad);
-            color: white;
-            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .demo-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .hero-features {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .feature-pill {
-            backdrop-filter: blur(2px);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .scroll-arrow {
-            font-size: 2rem;
-            margin-top: 0.5rem;
-        }
-
-        .btn-icon {
-            font-size: 1.3rem;
-        }
-
-        .badge-text {
-            display: inline-block;
-        }
-    </style>
-    <script>performanceDebug.log('Inline CSS Applied');</script>
 
     <!-- Load CSS synchronously to prevent flash -->
-    <link rel="stylesheet" href="/css/index.css?v=20250128f">
+    <link rel="stylesheet" href="/css/index.css?v=20250128g">
 
     <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=optional" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="preload" href="/fonts/riffic_bold.ttf" as="font" type="font/ttf" crossorigin>
 
@@ -499,7 +283,7 @@
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#gameplay" class="nav-link">Gameplay</a></li>
+                <li><a href="#gallery" class="nav-link">Memories</a></li>
                 <li><a href="#journal" class="nav-link">Journal</a></li>
                 <li><a href="#pocus-news" class="nav-link">News</a></li>
                 <li><a href="#villains" class="nav-link">Villains</a></li>
@@ -558,7 +342,7 @@
                         <img src="/img/Lyre-picture-frame.webp" alt="Lyre" loading="lazy" width="400" height="400">
                     </div>
                     <h3>Lyre</h3>
-                    <p>A clever otter with a heart of gold!</p>
+                    <p>A quick-witted otter ready for adventure!</p>
                 </div>
             </div>
         </div>
@@ -569,22 +353,28 @@
         <div class="container">
             <div class="intro-content" id="introContent">
                 <div class="intro-text" id="introText">
-                    <h2 class="section-title" id="characterTitle">Meet Harper, Your Hero!</h2>
+                    <h2 class="section-title" id="characterTitle">{{firstProfile.title}}</h2>
                     <p class="intro-description" id="characterDescription">
-                        Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home.
-                        When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities
-                        and explore vibrant worlds to save his friends and restore peace to the festival.
+                        {{firstProfile.description}}
                     </p>
                 </div>
                 <div class="intro-gallery" id="introGallery">
                     <div class="gallery-main">
-                        <img src="/img/harper-idle.gif" alt="Harper" class="gallery-image active" data-index="0">
+                        <img src="{{firstProfile.mainImage}}" alt="{{firstProfile.name}}" class="gallery-image active" data-index="0">
                     </div>
                     <div class="gallery-thumbs">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 1" class="thumb active" data-index="0" data-character="harper">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 2" class="thumb" data-index="1" data-character="harper">
-                        <img src="/img/harper-idle.gif" alt="Lyre Action 1" class="thumb" data-index="2" data-character="lyre">
-                        <img src="/img/harper-idle.gif" alt="Lyre Action 2" class="thumb" data-index="3" data-character="lyre">
+                        {{#each characterProfiles}}
+                            <img
+                                src="{{this.thumbnail}}"
+                                alt="{{this.name}}"
+                                class="thumb {{#if @first}}active{{/if}}"
+                                data-index="{{@index}}"
+                                data-profile-id="{{this.id}}"
+                                data-character="{{this.character}}"
+                                data-title="{{this.title}}"
+                                data-description="{{this.description}}"
+                                data-main-image="{{this.mainImage}}">
+                        {{/each}}
                     </div>
                 </div>
             </div>
@@ -816,46 +606,41 @@
                 <div class="villain-main">
                     <div class="villain-image-container">
                         <div class="evil-aura"></div>
-                        <img src="/img/pocusAnim.gif" alt="Kreakli" class="villain-image shake">
+                        <img src="/img/kreakliAnim.gif" alt="Kreakli" class="villain-image">
                     </div>
                     <div class="villain-description">
                         <p class="villain-text">
-                            Awakened from the gnarled heart of the Dark Oak Tree, <strong>Kreakli</strong> is a malevolent
-                            spirit trapped within the pale moonstone. Once dormant, he now spreads chaos and destruction
-                            throughout the peaceful festival grounds. His shadow threatens to consume everything Harper
-                            holds dear.
+                            Awakened from the Dark Oak Tree, Kreakli is a malevolent spirit once trapped within the pale moonstone. Now free, he spreads chaos and destruction across the festival grounds, threatening everything Harper holds dear. Only by collecting scattered tokens, solving puzzles, and mastering transformations can Harper stop him.
                         </p>
-                        <p class="villain-text">
-                            Only by collecting the scattered musical notes, solving ancient puzzles, and mastering
-                            transformation abilities can Harper hope to stop Kreakli before it's too late...
-                        </p>
+
                     </div>
                 </div>
 
-                <div class="henchmen-section">
-                    <h3 class="henchmen-title">Kreakli's Henchmen</h3>
-                    <div class="henchmen-grid">
-                        <div class="henchman-card">
-                            <div class="henchman-image">
-                                <img src="/img/henchman-1.png" alt="Henchman 1">
+                <div class="kreakli-accomplishments-section">
+                    <h3 class="kreakli-accomplishments-title">Kreakli's Corruption</h3>
+                    <div class="kreakli-accomplishments-grid">
+                        <div class="kreakli-accomplishment-card">
+                            <div class="kreakli-accomplishment-image">
+                                <img src="/img/paleMoonStone.webp" alt="Pale Moonstone">
                             </div>
-                            <h4>Follower #1</h4>
-                            <p>Dark creatures that patrol the corrupted areas</p>
+                            <h4>The Stolen Pale Moonstone</h4>
+                            <p>The Pale Moonstone imprisoned Kreakli for generations. When it shattered during the festival, he broke free and unleashed chaos</p>
                         </div>
-                        <div class="henchman-card">
-                            <div class="henchman-image">
-                                <img src="/img/henchman-2.png" alt="Henchman 2">
+                        <div class="kreakli-accomplishment-card">
+                            <div class="kreakli-accomplishment-image">
+                                <img src="/img/Twisted_Token.webp" alt="Twisted Tokens">
                             </div>
-                            <h4>Follower #2</h4>
-                            <p>Once peaceful beings, now under Kreakli's control</p>
+                            <h4>Lost Twisted Tokens</h4>
+                            <p>Find <strong>18</strong> Twisted Tokens scattered across the corrupted worlds. Restoring each one seems to weaken Kreakli's hold... but something feels off about these strange artifacts</p>
                         </div>
-                        <div class="henchman-card">
-                            <div class="henchman-image">
-                                <img src="/img/henchman-3.png" alt="Henchman 3">
+                        <div class="kreakli-accomplishment-card">
+                            <div class="kreakli-accomplishment-image">
+                                <img src="/img/purpleFlazoozle.webp" alt="Purple Flazoozle">
                             </div>
-                            <h4>Follower #3</h4>
-                            <p>Spawned from the evil tree's twisted branches</p>
+                            <h4>Scattered Flazoozles</h4>
+                            <p>In his rampage, Kreakli scattered <strong>144</strong> innocent Flazoozles across the corrupted lands. These helpless creatures need Harper's help to find their way home and restore peace to the world</p>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -976,6 +761,6 @@
     </footer>
 
     <script>performanceDebug.log('Body End', 'Before main JS');</script>
-    <script src="/js/index.js?v=20250128a"></script>
+    <script src="/js/index.js?v=20250128d"></script>
     <script>performanceDebug.log('Main JS Loaded', 'index.js executed');</script>
 </body>

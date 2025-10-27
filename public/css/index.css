@@ -458,22 +458,44 @@ a {
     transition: all 0.6s ease;
 }
 
-.intro-content.lyre-mode {
+.intro-content.lyre-mode,
+.intro-content.hugo-mode,
+.intro-content.pocus-mode {
     grid-template-columns: 1fr 1fr;
     direction: rtl;
 }
 
-.intro-content.lyre-mode > * {
+.intro-content.lyre-mode > *,
+.intro-content.hugo-mode > *,
+.intro-content.pocus-mode > * {
     direction: ltr;
 }
 
+/* Lyre mode - blue title */
 .intro-content.lyre-mode .section-title {
     color: #4A90E2;
-    text-shadow: 2px 2px 0 #2E5C8A;
 }
 
 .intro-content.lyre-mode .intro-description {
-    color: #2C5F8D;
+    color: #000000;
+}
+
+/* Hugo mode - brown title */
+.intro-content.hugo-mode .section-title {
+    color: #8B4513;
+}
+
+.intro-content.hugo-mode .intro-description {
+    color: #000000;
+}
+
+/* Pocus mode - purple title */
+.intro-content.pocus-mode .section-title {
+    color: #9B59B6;
+}
+
+.intro-content.pocus-mode .intro-description {
+    color: #000000;
 }
 
 .intro-text {
@@ -485,7 +507,9 @@ a {
     opacity: 0;
 }
 
-.intro-content.lyre-mode .intro-text {
+.intro-content.lyre-mode .intro-text,
+.intro-content.hugo-mode .intro-text,
+.intro-content.pocus-mode .intro-text {
     transform: translateX(20px);
 }
 
@@ -494,7 +518,9 @@ a {
     transform: translateX(0);
 }
 
-.intro-content.lyre-mode .intro-gallery {
+.intro-content.lyre-mode .intro-gallery,
+.intro-content.hugo-mode .intro-gallery,
+.intro-content.pocus-mode .intro-gallery {
     transform: translateX(-20px);
 }
 
@@ -503,7 +529,13 @@ a {
     font-size: clamp(2.5rem, 5vw, 4rem);
     color: var(--primary-color);
     margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 0 var(--accent-color);
+    text-shadow: 2px 2px 0 black;
+}
+
+/* Harper's orange text styling (default) */
+.harper-intro .section-title {
+    color: #FF6B35;
+    text-shadow: 2px 2px 0 var(--dark-color);
 }
 
 .intro-description {
@@ -511,6 +543,10 @@ a {
     line-height: 1.8;
     margin-bottom: 2rem;
     color: var(--dark-color);
+}
+
+.harper-intro .intro-description {
+    color: #000000;
 }
 
 .ability-tags {
@@ -553,6 +589,12 @@ a {
     transition: transform 0.3s ease;
 }
 
+/* Reduce Lyre's image to 60% */
+.gallery-image.lyre-character {
+    width: 60%;
+    height: 400px;
+}
+
 .gallery-main:hover .gallery-image {
     transform: scale(1.05);
 }
@@ -581,6 +623,16 @@ a {
 .thumb[data-character="lyre"]:hover,
 .thumb[data-character="lyre"].active {
     border-color: #4A90E2;
+}
+
+.thumb[data-character="hugo"]:hover,
+.thumb[data-character="hugo"].active {
+    border-color: #8B4513;
+}
+
+.thumb[data-character="pocus"]:hover,
+.thumb[data-character="pocus"].active {
+    border-color: #9B59B6;
 }
 
 /* ===== GALLERY SECTION ===== */
@@ -2291,8 +2343,8 @@ a {
 
 .evil-aura {
     position: absolute;
-    width: 400px;
-    height: 400px;
+    width: 250px;
+    height: 250px;
     background: radial-gradient(circle, rgba(139, 0, 0, 0.3), transparent 70%);
     border-radius: 50%;
     animation: pulseAura 3s ease-in-out infinite;
@@ -2312,8 +2364,9 @@ a {
 .villain-image {
     position: relative;
     z-index: 2;
-    max-width: 400px;
-    filter: drop-shadow(0 0 30px rgba(139, 0, 0, 0.8));
+    min-width: 700px;
+    max-width: 800px;
+    filter: drop-shadow(0 0 15px rgba(219, 0, 0, 0.22));
 }
 
 .shake {
@@ -2354,11 +2407,11 @@ a {
     font-size: 1.4rem;
 }
 
-.henchmen-section {
+.kreakli-accomplishments-section {
     margin-top: 12rem;
 }
 
-.henchmen-title {
+.kreakli-accomplishments-title {
     font-family: var(--font-heading);
     font-size: 3rem;
     color: #8B0000;
@@ -2367,13 +2420,13 @@ a {
     text-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
 }
 
-.henchmen-grid {
+.kreakli-accomplishments-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
 }
 
-.henchman-card {
+.kreakli-accomplishment-card {
     background: rgba(20, 10, 10, 0.8);
     /* border: 3px solid #8B0000; */
     border-radius: 15px;
@@ -2381,36 +2434,44 @@ a {
     text-align: center;
     transition: all 0.3s ease;
     box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.henchman-card:hover {
+.kreakli-accomplishment-card:hover {
     transform: translateY(-10px) scale(1.05);
     box-shadow: 0 0 40px rgba(139, 0, 0, 0.6);
 }
 
-.henchman-image {
+.kreakli-accomplishment-image {
     width: 200px;
     height: 200px;
-    margin: 0 auto 1.5rem;
+    min-height: 200px;
+    margin: 0 auto 2rem;
     border-radius: 50%;
-    overflow: hidden;;
-    margin-bottom: 2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.henchman-image img {
+.kreakli-accomplishment-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
-.henchman-card h4 {
+.kreakli-accomplishment-card h4 {
     font-family: var(--font-heading);
     font-size: 1.8rem;
     color: #FF4444;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    min-height: 2.5rem;
 }
 
-.henchman-card p {
+.kreakli-accomplishment-card p {
     color: var(--light-color);
     font-size: 1rem;
     line-height: 1.6;
@@ -2662,7 +2723,7 @@ a {
     }
 
     .toolkit-grid,
-    .henchmen-grid {
+    .kreakli-accomplishments-grid {
         grid-template-columns: 1fr;
     }
 
