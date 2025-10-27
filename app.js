@@ -26,7 +26,7 @@ const worldsData = [
         emoji: '🎋',
         description: 'The lush bamboo forests stretch endlessly toward the sky. The gentle rustling of leaves and distant bird calls make this a peaceful place... until Kreakli\'s minions showed up!',
         discovered: true,
-        image: '/img/journal-1.jpg'
+        image: '/img/journal-1.webp'
     },
     {
         id: 2,

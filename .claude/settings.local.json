@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(sed:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(cat:*)",
+      "Read(//d/Development Projects/Quotes-Bot-Website/**)",
+      "Bash(dir:*)",
+      "Read(//d/Development Projects/afterdark-quotes-website/**)"
     ],
     "deny": [],
     "ask": []

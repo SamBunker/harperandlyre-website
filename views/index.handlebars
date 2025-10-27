@@ -2,24 +2,402 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harper and Lyre - A Nostalgic 3D Platformer Adventure</title>
-    <link rel="stylesheet" href="/css/index.css?v=20250128">
+
+    <!-- Performance Debugging -->
+    <script>
+        window.performanceDebug = {
+            startTime: performance.now(),
+            events: [],
+            log: function(event, details) {
+                const timestamp = performance.now() - this.startTime;
+                const entry = { time: timestamp.toFixed(2) + 'ms', event, details };
+                this.events.push(entry);
+                console.log(`🔍 [${entry.time}] ${event}`, details || '');
+            }
+        };
+        performanceDebug.log('Script Start', 'Head script executing');
+    </script>
+
+    <!-- Inline Critical CSS - Renders immediately, zero flash -->
+    <style>
+        /* Font faces */
+        @font-face {
+            font-family: 'Riffic';
+            src: url('/fonts/riffic_bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: optional;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #2C1810;
+            background-color: #FFF8F0;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar - Always visible */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(44, 24, 16, 0.95), rgba(44, 24, 16, 0.98));
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 50px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #FFF8F0;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section - Above the fold */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 70px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('/img/hal-background.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.6);
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Riffic', 'Bangers', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #9B59B6, #8e44ad);
+            color: white;
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .feature-pill {
+            backdrop-filter: blur(2px);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .scroll-arrow {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-icon {
+            font-size: 1.3rem;
+        }
+
+        .badge-text {
+            display: inline-block;
+        }
+    </style>
+    <script>performanceDebug.log('Inline CSS Applied');</script>
+
+    <!-- Load CSS synchronously to prevent flash -->
+    <link rel="stylesheet" href="/css/index.css?v=20250128e">
+
+    <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=optional" rel="stylesheet">
+
+    <link rel="preload" href="/fonts/riffic_bold.ttf" as="font" type="font/ttf" crossorigin>
+
+    <script src="https://www.youtube.com/iframe_api" async defer></script>
+
+    <script>
+        // Capture styles immediately as DOM elements appear
+        let beforeStyles = {};
+        let stylesCaptured = false;
+
+        function captureInitialStyles() {
+            if (stylesCaptured) return;
+
+            const testElements = ['.hero-title', '.demo-badge', '.btn-primary', '.navbar', '.hero-background'];
+            let foundCount = 0;
+
+            testElements.forEach(selector => {
+                const el = document.querySelector(selector);
+                if (el) {
+                    foundCount++;
+                    const computed = window.getComputedStyle(el);
+                    beforeStyles[selector] = {
+                        background: computed.background,
+                        color: computed.color,
+                        fontSize: computed.fontSize,
+                        padding: computed.padding,
+                        margin: computed.margin,
+                        display: computed.display,
+                        position: computed.position
+                    };
+                }
+            });
+
+            if (foundCount >= 2) {
+                stylesCaptured = true;
+                performanceDebug.log('BEFORE Styles Captured (inline CSS only)', beforeStyles);
+            }
+        }
+
+        // Try to capture as soon as possible
+        if (document.body) {
+            captureInitialStyles();
+        }
+
+        // Fallback: capture on DOMContentLoaded if not already captured
+        document.addEventListener('DOMContentLoaded', captureInitialStyles);
+
+        // Detect when external CSS loads and compare
+        let cssLoadedBefore = false;
+        const externalCssLink = document.querySelector('link[href*="index.css"]');
+
+        if (externalCssLink) {
+            const observer = new MutationObserver(function() {
+                if (!cssLoadedBefore && externalCssLink.sheet) {
+                    cssLoadedBefore = true;
+
+                    // Compare styles after external CSS loads
+                    setTimeout(() => {
+                        const afterStyles = {};
+                        Object.keys(beforeStyles).forEach(selector => {
+                            const el = document.querySelector(selector);
+                            if (el) {
+                                const computed = window.getComputedStyle(el);
+                                afterStyles[selector] = {
+                                    background: computed.background,
+                                    color: computed.color,
+                                    fontSize: computed.fontSize,
+                                    padding: computed.padding,
+                                    margin: computed.margin
+                                };
+                            }
+                        });
+
+                        performanceDebug.log('AFTER Styles', afterStyles);
+
+                        // Find differences
+                        Object.keys(beforeStyles).forEach(selector => {
+                            const before = beforeStyles[selector];
+                            const after = afterStyles[selector];
+                            const changes = {};
+
+                            Object.keys(before).forEach(prop => {
+                                if (before[prop] !== after[prop]) {
+                                    changes[prop] = { before: before[prop], after: after[prop] };
+                                }
+                            });
+
+                            if (Object.keys(changes).length > 0) {
+                                console.log(`🔄 ${selector} CHANGED:`, changes);
+                            }
+                        });
+                    }, 10);
+                }
+            });
+            observer.observe(document.head, { childList: true, subtree: true });
+        }
+
+        // Track various page load events
+        document.addEventListener('DOMContentLoaded', function() {
+            performanceDebug.log('DOMContentLoaded', 'DOM fully parsed');
+        });
+
+        window.addEventListener('load', function() {
+            performanceDebug.log('Window Load', 'All resources loaded');
+
+            // Check font loading status
+            if (document.fonts) {
+                document.fonts.ready.then(function() {
+                    performanceDebug.log('Fonts Ready', 'All fonts loaded');
+                    const loadedFonts = [];
+                    document.fonts.forEach(font => {
+                        if (font.status === 'loaded') {
+                            loadedFonts.push(font.family);
+                        }
+                    });
+                    performanceDebug.log('Loaded Fonts', loadedFonts.join(', '));
+                });
+            }
+
+            // Print summary
+            setTimeout(function() {
+                console.log('\n📊 PERFORMANCE SUMMARY:');
+                console.table(performanceDebug.events);
+
+                // Check for layout shifts
+                const navOffset = document.querySelector('.navbar')?.offsetTop;
+                performanceDebug.log('Navbar Position', `Top: ${navOffset}px`);
+
+                // Final computed styles
+                console.log('\n🎨 FINAL STYLES:');
+                console.log('Body BG:', window.getComputedStyle(document.body).backgroundColor);
+                console.log('Body Font:', window.getComputedStyle(document.body).fontFamily);
+            }, 100);
+        });
+    </script>
 </head>
 <body>
+    <script>
+        performanceDebug.log('Body Start', 'Body tag opened');
+        // Immediately try to capture styles before external CSS loads
+        if (typeof captureInitialStyles === 'function') {
+            setTimeout(captureInitialStyles, 0);
+        }
+    </script>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre Logo">
+                <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre Logo" width="100" height="50">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#gameplay" class="nav-link">Gameplay</a></li>
                 <li><a href="#journal" class="nav-link">Journal</a></li>
-                <li><a href="#news" class="nav-link">News</a></li>
+                <li><a href="#pocus-news" class="nav-link">News</a></li>
                 <li><a href="#villains" class="nav-link">Villains</a></li>
                 <li><a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-link nav-steam">Steam</a></li>
             </ul>
@@ -66,25 +444,18 @@
             <div class="grid-three">
                 <div class="character-card">
                     <div class="character-gif">
-                        <img src="/img/Harper-picture-frame.png" alt="Harper">
+                        <img src="/img/Harper-picture-frame.webp" alt="Harper" loading="lazy" width="400" height="400">
                     </div>
-                    <h3>Meet Harper</h3>
+                    <h3>Harper</h3>
                     <p>A spirited red panda ready for adventure!</p>
                 </div>
                 <div class="character-card">
                     <div class="character-gif">
-                        <img src="/img/Lyre-picture-frame.png" alt="Lyre">
+                        <img src="/img/Lyre-picture-frame.webp" alt="Lyre" loading="lazy" width="400" height="400">
                     </div>
-                    <h3>Meet Lyre</h3>
+                    <h3>Lyre</h3>
                     <p>A clever otter with a heart of gold!</p>
                 </div>
-                {{!-- <div class="character-card">
-                    <div class="character-gif">
-                        <img src="/img/Harper-picture-frame.png" alt="Friends">
-                    </div>
-                    <h3>Make Friends</h3>
-                    <p>Discover quirky characters along the way!</p>
-                </div> --}}
             </div>
         </div>
     </section>
@@ -92,113 +463,114 @@
     <!-- Harper Introduction -->
     <section id="about" class="harper-intro">
         <div class="container">
-            <div class="intro-content">
-                <div class="intro-text">
-                    <h2 class="section-title">Meet Harper, Your Hero!</h2>
-                    <p class="intro-description">
+            <div class="intro-content" id="introContent">
+                <div class="intro-text" id="introText">
+                    <h2 class="section-title" id="characterTitle">Meet Harper, Your Hero!</h2>
+                    <p class="intro-description" id="characterDescription">
                         Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home.
                         When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities
                         and explore vibrant worlds to save his friends and restore peace to the festival.
                     </p>
                 </div>
-                <div class="intro-gallery">
+                <div class="intro-gallery" id="introGallery">
                     <div class="gallery-main">
                         <img src="/img/harper-idle.gif" alt="Harper" class="gallery-image active" data-index="0">
                     </div>
                     <div class="gallery-thumbs">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 1" class="thumb active" data-index="0">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 2" class="thumb" data-index="1">
-                        <img src="/img/harper-idle.gif" alt="Harper Action 3" class="thumb" data-index="2">
-                        <img src="/img/harper-idle.gif" alt="Harper with Friends" class="thumb" data-index="3">
+                        <img src="/img/harper-idle.gif" alt="Harper Action 1" class="thumb active" data-index="0" data-character="harper">
+                        <img src="/img/harper-idle.gif" alt="Harper Action 2" class="thumb" data-index="1" data-character="harper">
+                        <img src="/img/harper-idle.gif" alt="Lyre Action 1" class="thumb" data-index="2" data-character="lyre">
+                        <img src="/img/harper-idle.gif" alt="Lyre Action 2" class="thumb" data-index="3" data-character="lyre">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Gameplay Toolkit - TRIPTRAP TOMB THEME -->
-    <section id="gameplay" class="gameplay-section triptrap-tomb-theme">
-        <!-- Desert Sand Particles -->
-        <div class="sand-particles-container" id="sandParticles"></div>
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Memories</h2>
+            <div class="gallery-slider">
+                <div class="gallery-main-image">
+                    <img src="/img/gallery-bg-1.webp" alt="Memory 1" class="gallery-slide active" data-index="0" loading="lazy" width="1500" height="800">
+                    <img src="/img/gallery-bg-2.webp" alt="Memory 2" class="gallery-slide" data-index="1" loading="lazy" width="1500" height="800">
+                    <img src="/img/gallery-bg-3.webp" alt="Memory 3" class="gallery-slide" data-index="2" loading="lazy" width="1500" height="800">
+                    <img src="/img/gallery-bg-4.webp" alt="Memory 4" class="gallery-slide" data-index="3" loading="lazy" width="1500" height="800">
+                    <img src="/img/gallery-bg-5.webp" alt="Memory 5" class="gallery-slide" data-index="4" loading="lazy" width="1500" height="800">
+                </div>
+                <div class="gallery-nav">
+                    <span class="gallery-dot active" data-index="0"></span>
+                    <span class="gallery-dot" data-index="1"></span>
+                    <span class="gallery-dot" data-index="2"></span>
+                    <span class="gallery-dot" data-index="3"></span>
+                    <span class="gallery-dot" data-index="4"></span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Egyptian Pyramids Background -->
-        <div class="pyramids-background">
-            <div class="pyramid pyramid-left"></div>
-            <div class="pyramid pyramid-right"></div>
-            <div class="pyramid pyramid-mid-left"></div>
-            <div class="pyramid pyramid-mid-center"></div>
-            <div class="pyramid pyramid-mid-right"></div>
+    <!-- Music Section -->
+    <section id="music" class="music-section">
+        <!-- Twisted Token Background -->
+        <div class="twisted-tokens-bg">
+            <img src="/img/Twisted_Token_GIF.gif" alt="Twisted Token" class="token-bg token-1">
+            <img src="/img/Twisted_Token_GIF.gif" alt="Twisted Token" class="token-bg token-2">
+            <img src="/img/Twisted_Token_GIF.gif" alt="Twisted Token" class="token-bg token-3">
         </div>
 
-        <!-- Hieroglyphic Borders -->
-        <div class="hieroglyphic-border hieroglyphic-top"></div>
-        <div class="hieroglyphic-border hieroglyphic-bottom"></div>
-
         <div class="container">
-            <h2 class="section-title tomb-title">🏜️ Harper's Toolkit</h2>
-            <p class="section-subtitle tomb-subtitle">Master these ancient abilities to survive the tomb!</p>
+            <h2 class="section-title music-title">🎵 Soundtrack</h2>
+            <p class="section-subtitle music-subtitle">Experience the nostalgic melodies of Harper and Lyre</p>
 
-            <div class="toolkit-grid">
-                <div class="toolkit-card">
-                    <div class="toolkit-icon">🏃</div>
-                    <h3>Ground Pound</h3>
-                    <p>Smash through obstacles and activate switches with Harper's signature ground pound!</p>
-                    <div class="toolkit-preview">
-                        <video autoplay loop muted playsinline>
-                            <source src="/videos/groundpound.mp4" type="video/mp4">
-                        </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
+            <div class="music-grid">
+                <!-- Track 1 -->
+                <div class="music-card">
+                    <div class="floppy-disk">
+                        <img src="/img/FM_Floppy.webp" alt="Floppy Disk">
+                    </div>
+                    <h3 class="track-title">Firestone Mountain</h3>
+                    <div class="music-player" data-track="1">
+                        <div id="ytplayer1" class="youtube-player"></div>
+                        <div class="player-controls">
+                            <button class="play-btn" data-player="ytplayer1">▶</button>
+                            <button class="pause-btn" data-player="ytplayer1">⏸</button>
+                            <input type="range" class="volume-slider" data-player="ytplayer1" min="0" max="100" value="50">
+                            <span class="volume-icon">🔊</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="toolkit-card">
-                    <div class="toolkit-icon">🌀</div>
-                    <h3>Tail Spin</h3>
-                    <p>Glide through the air and reach distant platforms with a swift tail spin!</p>
-                    <div class="toolkit-preview">
-                        <video autoplay loop muted playsinline>
-                            <source src="/videos/tailspin.mp4" type="video/mp4">
-                        </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
+                <!-- Track 2 -->
+                <div class="music-card">
+                    <div class="floppy-disk">
+                        <img src="/img/TDF_Floppy.webp" alt="Floppy Disk">
+                    </div>
+                    <h3 class="track-title">Twin Daisy Farm</h3>
+                    <div class="music-player" data-track="2">
+                        <div id="ytplayer2" class="youtube-player"></div>
+                        <div class="player-controls">
+                            <button class="play-btn" data-player="ytplayer2">▶</button>
+                            <button class="pause-btn" data-player="ytplayer2">⏸</button>
+                            <input type="range" class="volume-slider" data-player="ytplayer2" min="0" max="100" value="50">
+                            <span class="volume-icon">🔊</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="toolkit-card">
-                    <div class="toolkit-icon">🦘</div>
-                    <h3>Double Jump</h3>
-                    <p>Reach new heights with Harper's acrobatic double jump ability!</p>
-                    <div class="toolkit-preview">
-                        <video autoplay loop muted playsinline>
-                            <source src="/videos/doublejump.mp4" type="video/mp4">
-                        </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                        </div>
+                <!-- Track 3 -->
+                <div class="music-card">
+                    <div class="floppy-disk">
+                        <img src="/img/MSC_Floppy.webp" alt="Floppy Disk">
                     </div>
-                </div>
-
-                <div class="toolkit-card">
-                    <div class="toolkit-icon">✨</div>
-                    <h3>Transformations</h3>
-                    <p>Use Pocus tokens to unlock special transformation abilities!</p>
-                    <div class="toolkit-preview">
-                        <video autoplay loop muted playsinline>
-                            <source src="/videos/transformation.mp4" type="video/mp4">
-                        </video>
-                        <div class="toolkit-buttons">
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
-                            <span class="button-plus">+</span>
-                            <img src="/img/X_GIF.gif" alt="Button" class="button-input">
+                    <h3 class="track-title">Mist-side Castle</h3>
+                    <div class="music-player" data-track="3">
+                        <div id="ytplayer3" class="youtube-player"></div>
+                        <div class="player-controls">
+                            <button class="play-btn" data-player="ytplayer3">▶</button>
+                            <button class="pause-btn" data-player="ytplayer3">⏸</button>
+                            <input type="range" class="volume-slider" data-player="ytplayer3" min="0" max="100" value="50">
+                            <span class="volume-icon">🔊</span>
                         </div>
                     </div>
                 </div>
@@ -452,14 +824,14 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="footer-logo">
+                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="footer-logo" width="240" height="120" loading="lazy">
                     <p>A nostalgic 3D platformer by the Bunker Brothers</p>
                 </div>
 
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <div class="footer-links-container">
-                        <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank">Play Demo</a>
+                        <a href="https://store.steampowered.com/app/3823640/Harper_and_Lyre_Demo/" target="_blank">Play Demo</a>
                         <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank">Kickstarter</a>
                         <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank">Discord</a>
                         <a href="https://www.reddit.com/r/harperandlyre/" target="_blank">Subreddit</a>
@@ -499,5 +871,7 @@
         </div>
     </footer>
 
-    <script src="/js/index.js?v=20250127"></script>
+    <script>performanceDebug.log('Body End', 'Before main JS');</script>
+    <script src="/js/index.js?v=20250127q"></script>
+    <script>performanceDebug.log('Main JS Loaded', 'index.js executed');</script>
 </body>

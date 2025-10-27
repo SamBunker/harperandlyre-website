@@ -33,6 +33,9 @@ window.addEventListener('scroll', () => {
 // ===== GALLERY FUNCTIONALITY =====
 const galleryThumbs = document.querySelectorAll('.thumb');
 const galleryMain = document.querySelector('.gallery-main img');
+const introContent = document.getElementById('introContent');
+const characterTitle = document.getElementById('characterTitle');
+const characterDescription = document.getElementById('characterDescription');
 
 // Array of images for the gallery
 const galleryImages = [
@@ -42,6 +45,18 @@ const galleryImages = [
     '/img/harper-idle.gif'
 ];
 
+// Character data
+const characterData = {
+    harper: {
+        title: "Meet Harper, Your Hero!",
+        description: "Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities and explore vibrant worlds to save his friends and restore peace to the festival."
+    },
+    lyre: {
+        title: "Meet Lyre, The Clever Otter!",
+        description: "Lyre is a clever otter with a heart of gold and a knack for solving puzzles. With her quick wit and playful spirit, she's always ready to help Harper on his adventure. Together, they make the perfect team to overcome any challenge!"
+    }
+};
+
 galleryThumbs.forEach((thumb, index) => {
     thumb.addEventListener('click', () => {
         // Remove active class from all thumbs
@@ -50,12 +65,37 @@ galleryThumbs.forEach((thumb, index) => {
         // Add active class to clicked thumb
         thumb.classList.add('active');
 
+        // Get character type
+        const character = thumb.dataset.character;
+        const introText = document.getElementById('introText');
+
+        // Fade out text first
+        introText.classList.add('fading');
+
         // Change main image with fade effect
         galleryMain.style.opacity = '0';
 
         setTimeout(() => {
             galleryMain.src = galleryImages[index];
             galleryMain.style.opacity = '1';
+
+            // Update text content and start layout animation
+            if (character === 'lyre') {
+                // Switch to Lyre mode - add class for animation
+                introContent.classList.add('lyre-mode');
+                characterTitle.textContent = characterData.lyre.title;
+                characterDescription.textContent = characterData.lyre.description;
+            } else {
+                // Switch back to Harper mode
+                introContent.classList.remove('lyre-mode');
+                characterTitle.textContent = characterData.harper.title;
+                characterDescription.textContent = characterData.harper.description;
+            }
+
+            // Fade text back in after layout shift
+            setTimeout(() => {
+                introText.classList.remove('fading');
+            }, 300);
         }, 300);
     });
 });
@@ -337,6 +377,9 @@ function createPocusScrollItem(newsItem, index) {
     item.innerHTML = `
         <div class="scroll-item-date">${formatDate(newsItem.date)}</div>
         <div class="scroll-item-title">${newsItem.title}</div>
+        <svg viewBox="0 0 24 24" width="32" height="32" class="steam-icon">
+        <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+        </svg>
     `;
 
     item.addEventListener('click', function() {
@@ -552,6 +595,175 @@ function createSnowParticles() {
 // Initialize snow particles on page load
 if (document.getElementById('snowParticles')) {
     createSnowParticles();
+}
+
+// ===== GALLERY NAVIGATION =====
+document.addEventListener('DOMContentLoaded', () => {
+    const galleryDots = document.querySelectorAll('.gallery-dot');
+    const gallerySlides = document.querySelectorAll('.gallery-slide');
+    let currentSlide = 0;
+    let autoSlideInterval;
+
+    function showSlide(index) {
+        // Remove active class from all
+        gallerySlides.forEach(slide => slide.classList.remove('active'));
+        galleryDots.forEach(dot => dot.classList.remove('active'));
+
+        // Add active class to current
+        gallerySlides[index].classList.add('active');
+        galleryDots[index].classList.add('active');
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % gallerySlides.length;
+        showSlide(next);
+    }
+
+    // Click handlers for dots
+    galleryDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index);
+            showSlide(index);
+            // Reset auto-slide timer
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        });
+    });
+
+    // Auto-slide every 5 seconds
+    if (gallerySlides.length > 0) {
+        autoSlideInterval = setInterval(nextSlide, 5000);
+    }
+});
+
+// ===== YOUTUBE MUSIC PLAYERS =====
+let players = {};
+let playersReady = {};
+let ytApiLoaded = false;
+
+// Check if YouTube API is loaded
+function checkYouTubeAPI() {
+    return typeof YT !== 'undefined' && typeof YT.Player !== 'undefined';
+}
+
+// Initialize YouTube players
+function initYouTubePlayers() {
+    if (!checkYouTubeAPI()) {
+        console.warn('YouTube API not ready, retrying in 500ms...');
+        setTimeout(initYouTubePlayers, 500);
+        return;
+    }
+
+    const videoIds = {
+        ytplayer1: 'PWT8Bv2TouY', // Track 1
+        ytplayer2: 'cecbsgCJeF4', // Track 2
+        ytplayer3: 'U_51KX2r2Jo'  // Track 3
+    };
+
+    Object.keys(videoIds).forEach(playerId => {
+        const element = document.getElementById(playerId);
+        if (!element) {
+            console.error(`Player element ${playerId} not found`);
+            return;
+        }
+
+        try {
+            players[playerId] = new YT.Player(playerId, {
+                height: '0',
+                width: '0',
+                videoId: videoIds[playerId],
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'enablejsapi': 1,
+                    'origin': window.location.origin
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onError': onPlayerError
+                }
+            });
+        } catch (error) {
+            // Silently handle player creation errors (usually from ad blockers)
+            if (!error.message.includes('blocked')) {
+                console.error(`Error creating player ${playerId}:`, error);
+            }
+        }
+    });
+}
+
+// YouTube IFrame API Ready callback
+window.onYouTubeIframeAPIReady = function() {
+    ytApiLoaded = true;
+    console.log('✅ YouTube API loaded');
+    initYouTubePlayers();
+};
+
+// Fallback: Check if API is already loaded (for page refreshes)
+if (checkYouTubeAPI()) {
+    ytApiLoaded = true;
+    initYouTubePlayers();
+}
+
+function onPlayerReady(event) {
+    const playerId = event.target.getIframe().id;
+    playersReady[playerId] = true;
+    console.log(`✅ Player ${playerId} ready`);
+
+    // Set initial volume
+    event.target.setVolume(50);
+
+    // Play button
+    document.querySelectorAll(`.play-btn[data-player="${playerId}"]`).forEach(btn => {
+        btn.addEventListener('click', () => {
+            try {
+                if (players[playerId] && playersReady[playerId]) {
+                    players[playerId].playVideo();
+                } else {
+                    console.warn(`Player ${playerId} not ready`);
+                }
+            } catch (error) {
+                console.error(`Error playing ${playerId}:`, error);
+            }
+        });
+    });
+
+    // Pause button
+    document.querySelectorAll(`.pause-btn[data-player="${playerId}"]`).forEach(btn => {
+        btn.addEventListener('click', () => {
+            try {
+                if (players[playerId] && playersReady[playerId]) {
+                    players[playerId].pauseVideo();
+                } else {
+                    console.warn(`Player ${playerId} not ready`);
+                }
+            } catch (error) {
+                console.error(`Error pausing ${playerId}:`, error);
+            }
+        });
+    });
+
+    // Volume slider
+    document.querySelectorAll(`.volume-slider[data-player="${playerId}"]`).forEach(slider => {
+        slider.addEventListener('input', (e) => {
+            try {
+                if (players[playerId] && playersReady[playerId]) {
+                    players[playerId].setVolume(e.target.value);
+                }
+            } catch (error) {
+                console.error(`Error setting volume ${playerId}:`, error);
+            }
+        });
+    });
+}
+
+function onPlayerError(event) {
+    const playerId = event.target.getIframe().id;
+    console.error(`YouTube player error for ${playerId}:`, event.data);
+    playersReady[playerId] = false;
 }
 
 console.log('🎵 Harper and Lyre website loaded! 🎮');

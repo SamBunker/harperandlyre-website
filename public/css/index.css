@@ -4,6 +4,7 @@
     src: url('/fonts/riffic_bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+    font-display: optional;
 }
 
 /* ===== VARIABLES ===== */
@@ -454,6 +455,47 @@ a {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    transition: all 0.6s ease;
+}
+
+.intro-content.lyre-mode {
+    grid-template-columns: 1fr 1fr;
+    direction: rtl;
+}
+
+.intro-content.lyre-mode > * {
+    direction: ltr;
+}
+
+.intro-content.lyre-mode .section-title {
+    color: #4A90E2;
+    text-shadow: 2px 2px 0 #2E5C8A;
+}
+
+.intro-content.lyre-mode .intro-description {
+    color: #2C5F8D;
+}
+
+.intro-text {
+    transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform: translateX(0);
+}
+
+.intro-text.fading {
+    opacity: 0;
+}
+
+.intro-content.lyre-mode .intro-text {
+    transform: translateX(20px);
+}
+
+.intro-gallery {
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform: translateX(0);
+}
+
+.intro-content.lyre-mode .intro-gallery {
+    transform: translateX(-20px);
 }
 
 .section-title {
@@ -536,10 +578,288 @@ a {
     transform: scale(1.1);
 }
 
+.thumb[data-character="lyre"]:hover,
+.thumb[data-character="lyre"].active {
+    border-color: #4A90E2;
+}
+
+/* ===== GALLERY SECTION ===== */
+.gallery-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #2C1810, #1a0f0a);
+}
+
+.gallery-slider {
+    max-width: 1400px;
+    margin: 3rem auto;
+    position: relative;
+}
+
+.gallery-main-image {
+    position: relative;
+    width: 100%;
+    height: 800px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    border: 5px solid var(--accent-color);
+}
+
+.gallery-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    will-change: opacity;
+}
+
+.gallery-slide.active {
+    opacity: 1;
+}
+
+.gallery-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.gallery-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.gallery-dot:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(1.2);
+}
+
+.gallery-dot.active {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.3);
+}
+
+.gallery-section .section-title {
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 3px 3px 0 var(--dark-color), 4px 4px 10px rgba(0, 0, 0, 0.8);
+}
+
 /* ===== HARPER INTRO ===== */
 .harper-intro {
     padding: 6rem 0;
     background: white;
+}
+
+/* ===== MUSIC SECTION ===== */
+.music-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #2C1810, #1a0f0a);
+    position: relative;
+    overflow: hidden;
+}
+
+.twisted-tokens-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.15;
+}
+
+.token-bg {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    animation: tokenFloat 8s ease-in-out infinite;
+}
+
+.token-1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.token-2 {
+    top: 60%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.token-3 {
+    bottom: 10%;
+    left: 50%;
+    animation-delay: 4s;
+}
+
+@keyframes tokenFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg);
+    }
+}
+
+.music-title {
+    color: var(--accent-color);
+    text-align: center;
+    text-shadow: 3px 3px 0 #000000, 4px 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.music-subtitle {
+    text-align: center;
+    color: var(--light-color);
+    margin-bottom: 3rem;
+}
+
+.music-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.music-card {
+    background: linear-gradient(135deg, #3a2517, #2a1810);
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid var(--accent-color);
+}
+
+.music-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 32px rgba(255, 210, 63, 0.3);
+}
+
+.floppy-disk {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.floppy-disk img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.track-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.youtube-player {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    left: -9999px;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    min-width: 320px;
+}
+
+.play-btn,
+.pause-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+.play-btn:hover,
+.pause-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(255, 107, 53, 0.6);
+}
+
+.play-btn:active,
+.pause-btn:active {
+    transform: scale(0.95);
+}
+
+.volume-slider {
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255, 210, 63, 0.5);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(255, 210, 63, 0.5);
+}
+
+.volume-icon {
+    font-size: 1.5rem;
 }
 
 /* ===== TRIPTRAP TOMB THEME ===== */
@@ -905,7 +1225,6 @@ a {
 .section-subtitle {
     text-align: center;
     font-size: 1.3rem;
-    color: var(--dark-color);
     margin-bottom: 3rem;
     max-width: 700px;
     margin-left: auto;
@@ -965,24 +1284,27 @@ a {
 
 .toolkit-buttons {
     position: absolute;
-    top: 50%;
+    bottom: 10px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.5rem;
     z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
 }
 
 .button-input {
-    width: 78.125px;
-    height: 78.125px;
+    width: 35px;
+    height: 35px;
     object-fit: contain;
 }
 
 .button-plus {
-    font-size: 3.125rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -1471,6 +1793,7 @@ a {
 }
 
 .journal-list-item {
+    max-width: 95%;
     padding: 1rem;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
@@ -2052,7 +2375,7 @@ a {
 
 .henchman-card {
     background: rgba(20, 10, 10, 0.8);
-    border: 3px solid #8B0000;
+    /* border: 3px solid #8B0000; */
     border-radius: 15px;
     padding: 2rem;
     text-align: center;
@@ -2063,17 +2386,15 @@ a {
 .henchman-card:hover {
     transform: translateY(-10px) scale(1.05);
     box-shadow: 0 0 40px rgba(139, 0, 0, 0.6);
-    border-color: #FF0000;
 }
 
 .henchman-image {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto 1.5rem;
     border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #8B0000;
-    box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+    overflow: hidden;;
+    margin-bottom: 2rem;
 }
 
 .henchman-image img {
@@ -2275,6 +2596,10 @@ a {
     display: flex;
     gap: 1rem;
     justify-content: center;
+}
+
+.steam-icon {
+    margin-top: 0.75rem;
 }
 
 .social-icon {
