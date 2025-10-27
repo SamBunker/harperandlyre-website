@@ -123,16 +123,6 @@ document.querySelectorAll('.character-card, .toolkit-card, .henchman-card').forE
     observer.observe(el);
 });
 
-// ===== PARALLAX EFFECT FOR HERO =====
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroBackground = document.querySelector('.hero-background');
-
-    if (heroBackground && scrolled < window.innerHeight) {
-        heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
-
 // ===== TOOLKIT VIDEO AUTOPLAY ON HOVER =====
 const toolkitCards = document.querySelectorAll('.toolkit-card');
 
