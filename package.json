@@ -2,7 +2,9 @@
   "scripts": {
     "minify-css": "cleancss -o public/css/index.min.css public/css/index.css",
     "minify-js": "terser public/js/index.js -o public/js/index.min.js -c -m",
-    "build": "npm run minify-css && npm run minify-js"
+    "build": "npm run minify-css && npm run minify-js",
+    "start": "npm run build && node app.js",
+    "dev": "node app.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",

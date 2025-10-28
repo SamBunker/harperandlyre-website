@@ -6,7 +6,8 @@
       "Bash(cat:*)",
       "Read(//d/Development Projects/Quotes-Bot-Website/**)",
       "Bash(dir:*)",
-      "Read(//d/Development Projects/afterdark-quotes-website/**)"
+      "Read(//d/Development Projects/afterdark-quotes-website/**)",
+      "Bash(npm run minify-css:*)"
     ],
     "deny": [],
     "ask": []

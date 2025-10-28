@@ -61,7 +61,7 @@ const characterProfiles = [
         character: 'hugo',
         name: 'Hugo',
         title: 'Check Out Hugo!',
-        description: "Hugo is a cool-riding meerkat biker who's traveled far and wide perfecting his craft. With a relaxed attitude and expert skills from his adventures, he mentors the duo by teaching them powerful new moves.",
+        description: "Hugo is smooth-riding meerkat biker who's traveled far and wide perfecting his craft. With a relaxed attitude and expert skills from his adventures, he mentors the duo by teaching them powerful new moves.",
         mainImageWebm: '/img/hugoAnim.webm',
         mainImageMp4: '/img/hugoAnim.mp4',
         thumbnail: '/img/Hugo.webp'
