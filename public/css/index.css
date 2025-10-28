@@ -3291,8 +3291,24 @@ video.villain-image {
     }
 
     .feature-pill {
-        font-size: 0.875rem;
-        padding: 0.4rem 1.2rem;
+        font-size: 0.8rem;
+        padding: 0.35rem 1rem;
+        line-height: 1.3;
+    }
+
+    .hero-features {
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .scroll-indicator {
+        bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .scroll-arrow {
+        font-size: 1.5rem;
+        margin-top: 0.25rem;
     }
 
     /* Gallery - Smaller Screens */
