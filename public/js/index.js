@@ -214,17 +214,80 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ===== MOBILE MENU TOGGLE (IF NEEDED) =====
-// This is a placeholder for future mobile menu implementation
+// ===== MOBILE MENU TOGGLE =====
 const createMobileMenu = () => {
-    // Mobile menu functionality can be added here
-    console.log('Mobile menu ready for implementation');
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const body = document.body;
+
+    if (!mobileMenuToggle || !navMenu) {
+        console.warn('Mobile menu elements not found');
+        return;
+    }
+
+    // Toggle menu open/close
+    const toggleMenu = () => {
+        const isActive = navMenu.classList.toggle('active');
+        mobileMenuToggle.classList.toggle('active');
+        mobileMenuToggle.setAttribute('aria-expanded', isActive);
+
+        // Prevent body scroll when menu is open
+        if (isActive) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = '';
+        }
+    };
+
+    // Close menu
+    const closeMenu = () => {
+        navMenu.classList.remove('active');
+        mobileMenuToggle.classList.remove('active');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        body.style.overflow = '';
+    };
+
+    // Toggle menu on button click
+    mobileMenuToggle.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking on a nav link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            closeMenu();
+        });
+    });
+
+    // Close menu when clicking outside (on backdrop)
+    navMenu.addEventListener('click', (e) => {
+        if (e.target === navMenu) {
+            closeMenu();
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+
+    // Handle window resize - close menu if resized to desktop
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        }, 150);
+    });
+
+    console.log('Mobile menu initialized successfully');
 };
 
-// Initialize mobile menu if screen is small
-if (window.innerWidth <= 768) {
-    createMobileMenu();
-}
+// Initialize mobile menu
+createMobileMenu();
 
 // ===== PERFORMANCE: LAZY LOAD IMAGES =====
 if ('IntersectionObserver' in window) {
