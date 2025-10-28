@@ -3352,4 +3352,20 @@ video.villain-image {
     .glitch {
         animation: none !important;
     }
+
+    /* Reduce particle animations for better performance on mobile */
+    .sand-particle,
+    .tar-bubble,
+    .snow-particle,
+    .bamboo-leaf {
+        animation-duration: 20s !important; /* Slower = less frequent repaints */
+        will-change: auto !important; /* Remove will-change on mobile */
+    }
+
+    /* Reduce particle opacity to make them less prominent */
+    .sand-particles-container,
+    .tar-bubbles-container,
+    .snow-particles-container {
+        opacity: 0.3 !important;
+    }
 }
