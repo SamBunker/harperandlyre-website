@@ -1,1 +1,422 @@
-<h1>404 Status - Page not Found</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Harper and Lyre</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="Oops! The page you're looking for doesn't exist. Let Hugo guide you back home to Harper and Lyre!">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" as="style" href="/css/index.min.css?v=20250128N">
+    <link rel="preload" href="/fonts/riffic_bold.ttf" as="font" type="font/ttf" crossorigin>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/index.min.css?v=20250128N">
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap">
+
+    <!-- 404-Specific Styles -->
+    <style>
+        /* Full height layout */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF8F0 0%, #f5e6d3 100%);
+        }
+
+        /* Main content area that grows */
+        .error-404-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            margin-top: 70px; /* Account for fixed navbar */
+        }
+
+        /* Content container - no card styling */
+        .error-404-content {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hugo video styling */
+        .hugo-lost {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin: 0 auto 2rem;
+            border-radius: 16px;
+        }
+
+        .hugo-lost video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+        }
+
+        /* Typography */
+        .error-404-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 rgba(255, 107, 53, 0.3);
+        }
+
+        .error-404-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .error-404-message {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--dark-color);
+            margin-bottom: 2.5rem;
+            opacity: 0.75;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* Home button */
+        .error-404-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .error-404-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+        }
+
+        .error-404-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Compact footer styling for 404 page */
+        .footer {
+            padding: 2rem 0 1rem !important;
+        }
+
+        .footer .container {
+            margin: 0 auto !important;
+        }
+
+        .footer-content {
+            gap: 2rem !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        .footer-bottom {
+            padding-top: 1rem !important;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 0.25rem !important;
+        }
+
+        .footer-bottom p:last-child {
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .error-404-main {
+                padding: 1.5rem 1rem;
+                margin-top: 60px;
+            }
+
+            .error-404-content {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+
+            .hugo-lost {
+                max-width: 220px;
+                margin-bottom: 1.5rem;
+            }
+
+            .error-404-title {
+                margin-bottom: 0.75rem;
+            }
+
+            .error-404-message {
+                margin-bottom: 2rem;
+            }
+
+            .error-404-btn {
+                padding: 0.875rem 2rem;
+                font-size: 1rem;
+            }
+
+            /* Even more compact footer on mobile */
+            .footer {
+                padding: 1.5rem 0 0.75rem !important;
+            }
+
+            .footer-content {
+                gap: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-404-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .hugo-lost {
+                max-width: 180px;
+            }
+
+            .footer {
+                padding: 1rem 0 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="/">
+                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre Logo" width="100" height="50">
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <ul class="nav-menu">
+                <li><a href="/#home" class="nav-link">Home</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
+                <li><a href="/#gallery" class="nav-link">Memories</a></li>
+                <li><a href="/#journal" class="nav-link">Journal</a></li>
+                <li><a href="/#pocus-news" class="nav-link">News</a></li>
+                <li><a href="/#villains" class="nav-link">Villains</a></li>
+                <li class="nav-steam-item">
+                    <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-steam-btn btn-primary">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                        </svg>
+                        Get on Steam
+                    </a>
+                </li>
+
+                <!-- Mobile Social Media Links -->
+                <li class="nav-social-links">
+                    <div class="nav-social-title">Connect With Us</div>
+                    <div class="nav-social-icons">
+                        <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-social-icon steam" title="Steam">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                            </svg>
+                        </a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank" class="nav-social-icon discord" title="Discord">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M22,24L16.75,19L17.38,21H4.5A2.5,2.5 0 0,1 2,18.5V3.5A2.5,2.5 0 0,1 4.5,1H19.5A2.5,2.5 0 0,1 22,3.5V24M12,6.8C9.32,6.8 7.44,7.95 7.44,7.95C8.47,7.03 10.27,6.5 10.27,6.5L10.1,6.33C8.41,6.36 6.88,7.53 6.88,7.53C5.16,11.12 5.27,14.22 5.27,14.22C6.67,16.03 8.75,15.9 8.75,15.9L9.46,15C8.21,14.73 7.42,13.62 7.42,13.62C7.42,13.62 9.3,14.9 12,14.9C14.7,14.9 16.58,13.62 16.58,13.62C16.58,13.62 15.79,14.73 14.54,15L15.25,15.9C15.25,15.9 17.33,16.03 18.73,14.22C18.73,14.22 18.84,11.12 17.12,7.53C17.12,7.53 15.59,6.36 13.9,6.33L13.73,6.5C13.73,6.5 15.53,7.03 16.56,7.95C16.56,7.95 14.68,6.8 12,6.8M9.93,10.59C10.58,10.59 11.11,11.16 11.1,11.86C11.1,12.55 10.58,13.13 9.93,13.13C9.29,13.13 8.77,12.55 8.77,11.86C8.77,11.16 9.28,10.59 9.93,10.59M14.1,10.59C14.75,10.59 15.27,11.16 15.27,11.86C15.27,12.55 14.75,13.13 14.1,13.13C13.46,13.13 12.94,12.55 12.94,11.86C12.94,11.16 13.45,10.59 14.1,10.59Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank" class="nav-social-icon kickstarter" title="Kickstarter">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M7.27,3C4.82,3 3,4.82 3,7.27V16.72C3,19.17 4.82,21 7.27,21H16.72C19.17,21 21,19.17 21,16.72V7.27C21,4.82 19.17,3 16.72,3H7.27M11.04,8H12.96L15.19,11.57L17.5,8.16H19.5L15.95,12.91L19.5,18H17.5L14.42,13.27L11.96,16.68H10.04L13.58,11.93L11.04,8Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank" class="nav-social-icon reddit" title="Reddit">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M14.5 15.41C14.58 15.5 14.58 15.69 14.5 15.8C13.77 16.5 12.41 16.56 12 16.56C11.59 16.56 10.23 16.5 9.5 15.8C9.42 15.69 9.42 15.5 9.5 15.41C9.61 15.33 9.77 15.33 9.88 15.41C10.38 15.91 11.33 16.03 12 16.03C12.67 16.03 13.62 15.91 14.12 15.41C14.23 15.33 14.39 15.33 14.5 15.41M10.75 13.04C10.75 12.47 10.28 12 9.71 12C9.14 12 8.67 12.47 8.67 13.04C8.67 13.61 9.14 14.08 9.71 14.08C10.28 14.08 10.75 13.61 10.75 13.04M14.29 12C13.72 12 13.25 12.47 13.25 13.04C13.25 13.61 13.72 14.08 14.29 14.08C14.86 14.08 15.33 13.61 15.33 13.04C15.33 12.47 14.86 12 14.29 12M22 12C22 17.5 17.5 22 12 22S2 17.5 2 12C2 6.5 6.5 2 12 2S22 6.5 22 12M18.67 12C18.67 11.19 18 10.54 17.22 10.54C16.82 10.54 16.46 10.7 16.2 10.95C15.2 10.23 13.83 9.77 12.3 9.71L12.97 6.58L15.14 7.05C15.16 7.6 15.62 8.04 16.18 8.04C16.75 8.04 17.22 7.57 17.22 7C17.22 6.43 16.75 5.96 16.18 5.96C15.77 5.96 15.41 6.2 15.25 6.55L12.82 6.03C12.75 6 12.68 6.03 12.63 6.07C12.57 6.11 12.54 6.17 12.56 6.24L11.87 9.71C10.3 9.75 8.9 10.21 7.87 10.95C7.61 10.69 7.25 10.54 6.83 10.54C6.05 10.54 5.37 11.19 5.37 12C5.37 12.59 5.74 13.09 6.26 13.28C6.23 13.45 6.22 13.62 6.22 13.8C6.22 16.24 8.75 18.22 11.94 18.22C15.13 18.22 17.66 16.24 17.66 13.8C17.66 13.62 17.64 13.45 17.62 13.28C18.14 13.09 18.67 12.59 18.67 12Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main 404 Content -->
+    <main class="error-404-main">
+        <div class="error-404-content">
+            <!-- Hugo Video -->
+            <div class="hugo-lost">
+                <video autoplay loop muted playsinline>
+                    <source src="/img/hugoAnim.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Error Text -->
+            <h1 class="error-404-title">404</h1>
+            <h2 class="error-404-subtitle">Page Not Found!</h2>
+            <p class="error-404-message">
+                Not sure where you're going, but you're lost!<br>
+                Even Hugo's map doesn't show this place.
+            </p>
+
+            <!-- Home Button -->
+            <a href="/" class="error-404-btn">
+                <span>🏠</span>
+                Take Me Home
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="footer-logo" width="240" height="120" loading="lazy">
+                    <p>A nostalgic 3D platformer by the Bunker Brothers</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <div class="footer-links-container">
+                        <a href="https://store.steampowered.com/app/3823640/Harper_and_Lyre_Demo/" target="_blank">Play Demo</a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank">Kickstarter</a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank">Discord</a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank">Subreddit</a>
+                    </div>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+                        <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="social-icon steam" title="Steam">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                            </svg>
+                        </a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank" class="social-icon discord" title="Discord">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M22,24L16.75,19L17.38,21H4.5A2.5,2.5 0 0,1 2,18.5V3.5A2.5,2.5 0 0,1 4.5,1H19.5A2.5,2.5 0 0,1 22,3.5V24M12,6.8C9.32,6.8 7.44,7.95 7.44,7.95C8.47,7.03 10.27,6.5 10.27,6.5L10.1,6.33C8.41,6.36 6.88,7.53 6.88,7.53C5.16,11.12 5.27,14.22 5.27,14.22C6.67,16.03 8.75,15.9 8.75,15.9L9.46,15C8.21,14.73 7.42,13.62 7.42,13.62C7.42,13.62 9.3,14.9 12,14.9C14.7,14.9 16.58,13.62 16.58,13.62C16.58,13.62 15.79,14.73 14.54,15L15.25,15.9C15.25,15.9 17.33,16.03 18.73,14.22C18.73,14.22 18.84,11.12 17.12,7.53C17.12,7.53 15.59,6.36 13.9,6.33L13.73,6.5C13.73,6.5 15.53,7.03 16.56,7.95C16.56,7.95 14.68,6.8 12,6.8M9.93,10.59C10.58,10.59 11.11,11.16 11.1,11.86C11.1,12.55 10.58,13.13 9.93,13.13C9.29,13.13 8.77,12.55 8.77,11.86C8.77,11.16 9.28,10.59 9.93,10.59M14.1,10.59C14.75,10.59 15.27,11.16 15.27,11.86C15.27,12.55 14.75,13.13 14.1,13.13C13.46,13.13 12.94,12.55 12.94,11.86C12.94,11.16 13.45,10.59 14.1,10.59Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank" class="social-icon kickstarter" title="Kickstarter">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M7.27,3C4.82,3 3,4.82 3,7.27V16.72C3,19.17 4.82,21 7.27,21H16.72C19.17,21 21,19.17 21,16.72V7.27C21,4.82 19.17,3 16.72,3H7.27M11.04,8H12.96L15.19,11.57L17.5,8.16H19.5L15.95,12.91L19.5,18H17.5L14.42,13.27L11.96,16.68H10.04L13.58,11.93L11.04,8Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank" class="social-icon reddit" title="Reddit">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M14.5 15.41C14.58 15.5 14.58 15.69 14.5 15.8C13.77 16.5 12.41 16.56 12 16.56C11.59 16.56 10.23 16.5 9.5 15.8C9.42 15.69 9.42 15.5 9.5 15.41C9.61 15.33 9.77 15.33 9.88 15.41C10.38 15.91 11.33 16.03 12 16.03C12.67 16.03 13.62 15.91 14.12 15.41C14.23 15.33 14.39 15.33 14.5 15.41M10.75 13.04C10.75 12.47 10.28 12 9.71 12C9.14 12 8.67 12.47 8.67 13.04C8.67 13.61 9.14 14.08 9.71 14.08C10.28 14.08 10.75 13.61 10.75 13.04M14.29 12C13.72 12 13.25 12.47 13.25 13.04C13.25 13.61 13.72 14.08 14.29 14.08C14.86 14.08 15.33 13.61 15.33 13.04C15.33 12.47 14.86 12 14.29 12M22 12C22 17.5 17.5 22 12 22S2 17.5 2 12C2 6.5 6.5 2 12 2S22 6.5 22 12M18.67 12C18.67 11.19 18 10.54 17.22 10.54C16.82 10.54 16.46 10.7 16.2 10.95C15.2 10.23 13.83 9.77 12.3 9.71L12.97 6.58L15.14 7.05C15.16 7.6 15.62 8.04 16.18 8.04C16.75 8.04 17.22 7.57 17.22 7C17.22 6.43 16.75 5.96 16.18 5.96C15.77 5.96 15.41 6.2 15.25 6.55L12.82 6.03C12.75 6 12.68 6.03 12.63 6.07C12.57 6.11 12.54 6.17 12.56 6.24L11.87 9.71C10.3 9.75 8.9 10.21 7.87 10.95C7.61 10.69 7.25 10.54 6.83 10.54C6.05 10.54 5.37 11.19 5.37 12C5.37 12.59 5.74 13.09 6.26 13.28C6.23 13.45 6.22 13.62 6.22 13.8C6.22 16.24 8.75 18.22 11.94 18.22C15.13 18.22 17.66 16.24 17.66 13.8C17.66 13.62 17.64 13.45 17.62 13.28C18.14 13.09 18.67 12.59 18.67 12Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Harper and Lyre - Developed by the Bunker Brothers (Dave, George & Sam)</p>
+                <p>Built with ❤️ and nostalgia for the golden age of gaming</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        (function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const body = document.body;
+
+            if (!mobileMenuToggle || !navMenu) return;
+
+            // Toggle menu
+            const toggleMenu = () => {
+                const isActive = navMenu.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenuToggle.setAttribute('aria-expanded', isActive);
+                body.style.overflow = isActive ? 'hidden' : '';
+            };
+
+            // Close menu
+            const closeMenu = () => {
+                navMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                body.style.overflow = '';
+            };
+
+            // Event listeners
+            mobileMenuToggle.addEventListener('click', toggleMenu);
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+
+            // Close menu on resize to desktop
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+                        closeMenu();
+                    }
+                }, 150);
+            });
+        })();
+    </script>
+</body>
+</html>

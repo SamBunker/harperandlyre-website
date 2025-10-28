@@ -2663,6 +2663,10 @@ video.villain-image {
     padding: 4rem 0 2rem;
 }
 
+.footer .container {
+    margin: 0 auto;
+}
+
 .footer-content {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
