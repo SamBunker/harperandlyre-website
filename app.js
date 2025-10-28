@@ -218,6 +218,20 @@ const worldsData = [
     }
 ];
 
+// Loading screen tips (server-side only)
+const loadingTips = [
+    "Collect 144 Flazoozles scattered across the worlds!",
+    "Find 18 Twisted Tokens to weaken Kreakli's power!",
+    "Master transformations with Pocus's ancient magic!",
+    "Explore 17 unique worlds filled with secrets!",
+    "Learn new moves from Hugo, the smooth-riding meerkat!",
+    "Team up with Lyre to solve aquatic puzzles!",
+    "Experience nostalgic N64-style 3D platforming!",
+    "Discover hidden areas in every level!",
+    "The Pale Moonstone once imprisoned Kreakli...",
+    "Twin Daisy Farms holds mysterious secrets!"
+];
+
 app.get('/', (req, res) => {
     // Find first discovered world for default display
     const firstDiscoveredWorld = worldsData.find(w => w.discovered) || worldsData[0];
@@ -226,11 +240,13 @@ app.get('/', (req, res) => {
     const firstProfile = characterProfiles[0];
 
     res.render('index', {
-        layout: false, // Disable main.handlebars layout
+        isHomePage: true,
+        includeMainJS: true,
         worlds: worldsData,
         firstWorld: firstDiscoveredWorld,
         characterProfiles: characterProfiles,
-        firstProfile: firstProfile
+        firstProfile: firstProfile,
+        loadingTipsJSON: JSON.stringify(loadingTips)
     });
 });
 
@@ -274,7 +290,9 @@ app.use((err, req, res, next) => {
 });
 
 app.use((req, res) => {
-    res.status(404).render('404');
+    res.status(404).render('404', {
+        pageTitle: '404 - Page Not Found | Harper and Lyre'
+    });
 });
 
 
