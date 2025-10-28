@@ -15,8 +15,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ===== NAVBAR BACKGROUND ON SCROLL =====
 const navbar = document.querySelector('.navbar');
 let lastScroll = 0;
+let ticking = false;
 
-window.addEventListener('scroll', () => {
+function updateNavbar() {
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > 100) {
@@ -28,7 +29,15 @@ window.addEventListener('scroll', () => {
     }
 
     lastScroll = currentScroll;
-});
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(updateNavbar);
+        ticking = true;
+    }
+}, { passive: true });
 
 // ===== GALLERY FUNCTIONALITY =====
 const galleryThumbs = document.querySelectorAll('.thumb');
@@ -184,35 +193,37 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// ===== EASTER EGG: KONAMI CODE =====
-let konamiCode = [];
-const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+// ===== EASTER EGG: KONAMI CODE ===== (Deferred for performance)
+setTimeout(() => {
+    let konamiCode = [];
+    const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
-document.addEventListener('keydown', (e) => {
-    konamiCode.push(e.key);
-    konamiCode.splice(-konamiSequence.length - 1, konamiCode.length - konamiSequence.length);
+    document.addEventListener('keydown', (e) => {
+        konamiCode.push(e.key);
+        konamiCode.splice(-konamiSequence.length - 1, konamiCode.length - konamiSequence.length);
 
-    if (konamiCode.join('') === konamiSequence.join('')) {
-        // Easter egg activated!
-        document.body.style.animation = 'rainbow 2s linear infinite';
+        if (konamiCode.join('') === konamiSequence.join('')) {
+            // Easter egg activated!
+            document.body.style.animation = 'rainbow 2s linear infinite';
 
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes rainbow {
-                0% { filter: hue-rotate(0deg); }
-                100% { filter: hue-rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes rainbow {
+                    0% { filter: hue-rotate(0deg); }
+                    100% { filter: hue-rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
 
-        setTimeout(() => {
-            document.body.style.animation = '';
-            style.remove();
-        }, 5000);
+            setTimeout(() => {
+                document.body.style.animation = '';
+                style.remove();
+            }, 5000);
 
-        console.log('Howdy from Sam the Web Developer. :) 🎮 N64 nostalgia activated! 🎮')
-    }
-});
+            console.log('Howdy from Sam the Web Developer. :) 🎮 N64 nostalgia activated! 🎮')
+        }
+    });
+}, 3000);
 
 // ===== MOBILE MENU TOGGLE =====
 const createMobileMenu = () => {
@@ -307,7 +318,7 @@ if ('IntersectionObserver' in window) {
     });
 }
 
-// ===== SCROLL TO TOP BUTTON (OPTIONAL) =====
+// ===== SCROLL TO TOP BUTTON (OPTIONAL) ===== (Deferred for performance)
 const createScrollToTop = () => {
     const scrollBtn = document.createElement('button');
     scrollBtn.innerHTML = '↑';
@@ -332,15 +343,22 @@ const createScrollToTop = () => {
 
     document.body.appendChild(scrollBtn);
 
+    let scrollBtnTicking = false;
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 500) {
-            scrollBtn.style.opacity = '1';
-            scrollBtn.style.pointerEvents = 'all';
-        } else {
-            scrollBtn.style.opacity = '0';
-            scrollBtn.style.pointerEvents = 'none';
+        if (!scrollBtnTicking) {
+            window.requestAnimationFrame(() => {
+                if (window.pageYOffset > 500) {
+                    scrollBtn.style.opacity = '1';
+                    scrollBtn.style.pointerEvents = 'all';
+                } else {
+                    scrollBtn.style.opacity = '0';
+                    scrollBtn.style.pointerEvents = 'none';
+                }
+                scrollBtnTicking = false;
+            });
+            scrollBtnTicking = true;
         }
-    });
+    }, { passive: true });
 
     scrollBtn.addEventListener('click', () => {
         window.scrollTo({
@@ -358,8 +376,8 @@ const createScrollToTop = () => {
     });
 };
 
-// Initialize scroll to top button
-createScrollToTop();
+// Initialize scroll to top button (deferred for performance)
+setTimeout(createScrollToTop, 2000);
 
 // ===== HARPER'S JOURNAL WORLDS FUNCTIONALITY =====
 // Note: Worlds data is rendered server-side via Handlebars for security
@@ -544,7 +562,9 @@ function createBambooLeaves() {
     const container = document.getElementById('bambooLeaves');
     if (!container) return;
 
-    const numberOfLeaves = 15;
+    // Reduce particles on mobile for performance
+    const isMobile = window.innerWidth <= 768;
+    const numberOfLeaves = isMobile ? 5 : 15;
 
     for (let i = 0; i < numberOfLeaves; i++) {
         const leaf = document.createElement('div');
@@ -568,9 +588,9 @@ function createBambooLeaves() {
     }
 }
 
-// Initialize bamboo leaves on page load
+// Initialize bamboo leaves on page load (deferred for performance)
 if (document.getElementById('bambooLeaves')) {
-    createBambooLeaves();
+    setTimeout(createBambooLeaves, 1500);
 }
 
 // ===== TRIPTRAP TOMB THEME - SAND PARTICLES =====
@@ -578,7 +598,9 @@ function createSandParticles() {
     const container = document.getElementById('sandParticles');
     if (!container) return;
 
-    const numberOfParticles = 30;
+    // Reduce particles on mobile for performance
+    const isMobile = window.innerWidth <= 768;
+    const numberOfParticles = isMobile ? 10 : 30;
 
     for (let i = 0; i < numberOfParticles; i++) {
         const particle = document.createElement('div');
@@ -603,9 +625,9 @@ function createSandParticles() {
     }
 }
 
-// Initialize sand particles on page load
+// Initialize sand particles on page load (deferred for performance)
 if (document.getElementById('sandParticles')) {
-    createSandParticles();
+    setTimeout(createSandParticles, 1500);
 }
 
 // ===== DINOHATTAN THEME - TAR BUBBLES =====
@@ -613,7 +635,9 @@ function createTarBubbles() {
     const container = document.getElementById('tarBubbles');
     if (!container) return;
 
-    const numberOfBubbles = 12;
+    // Reduce particles on mobile for performance
+    const isMobile = window.innerWidth <= 768;
+    const numberOfBubbles = isMobile ? 5 : 12;
 
     for (let i = 0; i < numberOfBubbles; i++) {
         const bubble = document.createElement('div');
@@ -638,9 +662,9 @@ function createTarBubbles() {
     }
 }
 
-// Initialize tar bubbles on page load
+// Initialize tar bubbles on page load (deferred for performance)
 if (document.getElementById('tarBubbles')) {
-    createTarBubbles();
+    setTimeout(createTarBubbles, 1500);
 }
 
 // ===== SNOWSHOW CITY THEME - SNOW PARTICLES =====
@@ -648,7 +672,9 @@ function createSnowParticles() {
     const container = document.getElementById('snowParticles');
     if (!container) return;
 
-    const numberOfParticles = 50;
+    // Reduce particles on mobile for performance
+    const isMobile = window.innerWidth <= 768;
+    const numberOfParticles = isMobile ? 15 : 50;
 
     for (let i = 0; i < numberOfParticles; i++) {
         const particle = document.createElement('div');
@@ -673,9 +699,9 @@ function createSnowParticles() {
     }
 }
 
-// Initialize snow particles on page load
+// Initialize snow particles on page load (deferred for performance)
 if (document.getElementById('snowParticles')) {
-    createSnowParticles();
+    setTimeout(createSnowParticles, 1500);
 }
 
 // ===== GALLERY NAVIGATION =====
