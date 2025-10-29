@@ -26,5 +26,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: ${{ secrets.FTP_PORT }}
         protocol: ftp
-        server-dir: ./home/harperan/public_html/
+        server-dir: ./public_html/
         timeout: 190000
