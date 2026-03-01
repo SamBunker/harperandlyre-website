@@ -36,7 +36,7 @@
         .hero-background{position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden}
         .hero-background img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.6)}
         .hero-content{position:relative;z-index:1;text-align:center;color:#fff;max-width:900px;padding:2rem}
-        .hero-title{font-family:'Riffic','Bangers',Impact,cursive;font-size:clamp(2.5rem,8vw,5rem);margin-bottom:1rem;text-transform:uppercase;letter-spacing:3px;color:#FFD23F;text-shadow:4px 4px 0 #FF6B35,8px 8px 0 rgba(0,0,0,.3)}
+        .hero-title{font-family:'Riffic','Bangers',Impact,cursive;font-size:clamp(2rem,5vw,3.5rem);margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px;white-space:nowrap;color:#FFD23F;text-shadow:3px 3px 0 #9B59B6,6px 6px 12px rgba(0,0,0,.5)}
         .hero-subtitle{font-size:clamp(1rem,3vw,1.5rem);margin-bottom:2rem;color:#FFF8F0;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
         .btn{display:inline-flex;align-items:center;gap:.5rem;padding:1rem 2rem;font-size:1.1rem;font-weight:600;border-radius:12px;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:1px;border:none}
         .btn-primary{background:linear-gradient(135deg,#FF6B35,#F7931E);color:#fff;box-shadow:0 6px 20px rgba(255,107,53,.4)}
@@ -46,6 +46,28 @@
         .hero-features{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
         .feature-pill{backdrop-filter:blur(2px);color:#fff;padding:.5rem 1.5rem;border-radius:25px;font-weight:600}
         #loading-screen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999}
+        .gameplay-modal{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center}
+        .gameplay-modal.is-open{display:flex}
+        .gameplay-modal-overlay{position:absolute;inset:0;background:rgba(10,5,20,.92);backdrop-filter:blur(6px);cursor:pointer}
+        .gameplay-modal-content{position:relative;z-index:1;width:min(90vw,960px);background:linear-gradient(135deg,#1a0a2e,#2c1850);border:2px solid #FFD23F;border-radius:12px;box-shadow:0 0 40px rgba(155,89,182,.5);overflow:hidden}
+        .gameplay-modal-header{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;background:rgba(155,89,182,.15);border-bottom:1px solid rgba(155,89,182,.3)}
+        .gameplay-modal-title{font-family:'Riffic','Bangers',Impact,cursive;font-size:1.1rem;color:#FFD23F;letter-spacing:1px}
+        .gameplay-modal-close{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;padding:.25rem .5rem;border-radius:4px;line-height:1}
+        .gameplay-modal-video{position:relative;width:100%;aspect-ratio:16/9}
+        .gameplay-modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+        .btn-fun{background:linear-gradient(135deg,#FFD23F,#9B59B6);color:#fff;border:none;cursor:pointer;font-family:'Riffic','Bangers',Impact,cursive;font-size:1.1rem;letter-spacing:2px}
+        #hero-intro-overlay{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.72);pointer-events:none}
+        .hero-intro-phrase{font-family:'Riffic','Bangers',Impact,cursive;font-size:clamp(2.8rem,9vw,7rem);color:#FFD23F;text-transform:uppercase;text-align:center;letter-spacing:4px;line-height:1.1;padding:0 1.5rem;text-shadow:4px 4px 0 #9B59B6,-2px -2px 0 #2C1810,8px 8px 20px rgba(0,0,0,.8);opacity:0}
+        .hero-intro-phrase.slam-in{animation:heroSlamIn .4s cubic-bezier(.22,.61,.36,1) forwards}
+        .hero-intro-phrase.slam-in.hero-intro-phrase--tilt-left{animation:heroSlamInTiltLeft .4s cubic-bezier(.22,.61,.36,1) forwards}
+        .hero-intro-phrase.slam-in.hero-intro-phrase--tilt-right{animation:heroSlamInTiltRight .4s cubic-bezier(.22,.61,.36,1) forwards}
+        .hero-intro-phrase.fade-out{animation:heroFadeOut .3s ease-in forwards}
+        .hero-intro-skip-hint{position:absolute;bottom:2.5rem;font-size:.9rem;color:rgba(255,248,240,.55);letter-spacing:2px;text-transform:uppercase;font-family:'Fredoka',Arial,sans-serif}
+        @keyframes heroSlamIn{0%{transform:scale(1.2);opacity:0}100%{transform:scale(1);opacity:1}}
+        @keyframes heroSlamInTiltLeft{0%{transform:scale(1.2) rotate(-3deg);opacity:0}100%{transform:scale(1) rotate(-1.5deg);opacity:1}}
+        @keyframes heroSlamInTiltRight{0%{transform:scale(1.2) rotate(3deg);opacity:0}100%{transform:scale(1) rotate(1.5deg);opacity:1}}
+        @keyframes heroFadeOut{0%{opacity:1}100%{opacity:0}}
+        @media(prefers-reduced-motion:reduce){.hero-intro-phrase.slam-in,.hero-intro-phrase.slam-in.hero-intro-phrase--tilt-left,.hero-intro-phrase.slam-in.hero-intro-phrase--tilt-right,.hero-intro-phrase.fade-out{animation:none}}
     </style>
 
     <!-- Preload LCP image with high priority (only for home page) -->
@@ -54,11 +76,11 @@
     {{/if}}
 
     <!-- Preload main CSS (minified) -->
-    <link rel="preload" as="style" href="/css/index.min.css?v=20250128N">
+    <link rel="preload" as="style" href="/css/index.min.css?v=20260228A">
 
     <!-- Load CSS asynchronously to prevent render blocking -->
-    <link rel="stylesheet" href="/css/index.min.css?v=20250128N" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/css/index.min.css?v=20250128N"></noscript>
+    <link rel="stylesheet" href="/css/index.min.css?v=20260228A" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/css/index.min.css?v=20260228A"></noscript>
 
     <!-- Preconnect to most critical external domain -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -196,7 +218,7 @@
 
     <script>performanceDebug.log('Body End', 'Before main JS');</script>
     {{#if includeMainJS}}
-    <script src="/js/index.min.js?v=20250128N"></script>
+    <script src="/js/index.min.js?v=20260228A"></script>
     <script>performanceDebug.log('Main JS Loaded', 'index.min.js executed');</script>
     {{/if}}
     {{{bodyExtra}}}

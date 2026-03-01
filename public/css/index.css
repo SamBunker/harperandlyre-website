@@ -180,6 +180,116 @@ a {
     display: none;
 }
 
+/* ===== GAMEPLAY VIDEO MODAL ===== */
+.gameplay-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+
+.gameplay-modal.is-open {
+    display: flex;
+}
+
+.gameplay-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 5, 20, 0.92);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.gameplay-modal-content {
+    position: relative;
+    z-index: 1;
+    width: min(90vw, 960px);
+    background: linear-gradient(135deg, #1a0a2e, #2c1850);
+    border: 2px solid var(--secondary-color);
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(155, 89, 182, 0.5), 0 0 80px rgba(155, 89, 182, 0.2);
+    overflow: hidden;
+    animation: modalPop 0.25s ease-out;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.gameplay-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    background: rgba(155, 89, 182, 0.15);
+    border-bottom: 1px solid rgba(155, 89, 182, 0.3);
+}
+
+.gameplay-modal-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    letter-spacing: 1px;
+}
+
+.gameplay-modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+    line-height: 1;
+}
+
+.gameplay-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+}
+
+.gameplay-modal-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.gameplay-modal-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Jump Into Fun button */
+.btn-fun {
+    background: linear-gradient(135deg, var(--secondary-color), var(--purple-color));
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+.btn-fun:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 215, 63, 0.4);
+    filter: brightness(1.1);
+}
+
 /* ===== HERO SECTION ===== */
 .hero {
     min-height: 100vh;
@@ -258,15 +368,15 @@ a {
 
 .hero-title {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 10vw, 7rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    white-space: nowrap;
     color: white;
     /* text-shadow: 4px 4px 0 var(--primary-color),
                  8px 8px 0 var(--secondary-color),
                  12px 12px 20px rgba(0, 0, 0, 0.5); */
 
-    text-shadow: 0.75rem 0.75rem 0 var(--purple-color),
-        0.5rem 0.5rem 0 var(--purple-color),
-        0.75rem 0.75rem 1.25rem rgba(0, 0, 0, 0.5);
+    text-shadow: 3px 3px 0 var(--purple-color),
+        6px 6px 12px rgba(0, 0, 0, 0.5);
     margin-bottom: 1rem;
     line-height: 1.1;
     letter-spacing: 3px;
@@ -274,24 +384,80 @@ a {
 
 .glitch {
     position: relative;
-    animation: glitch 3s infinite;
+    animation: glitch 5s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    pointer-events: none;
+}
+
+.glitch::before {
+    color: var(--secondary-color);
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+    animation: glitch-before 5s infinite;
+    opacity: 0;
+}
+
+.glitch::after {
+    color: var(--purple-color);
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    animation: glitch-after 5s infinite;
+    opacity: 0;
 }
 
 @keyframes glitch {
-    0%, 90%, 100% {
+    0%, 100% {
         transform: translate(0);
     }
+}
+
+@keyframes glitch-before {
+    0%, 88%, 100% {
+        opacity: 0;
+        transform: translate(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translate(-4px, 0);
+    }
     92% {
-        transform: translate(-2px, 2px);
+        opacity: 1;
+        transform: translate(4px, 0);
     }
     94% {
-        transform: translate(2px, -2px);
+        opacity: 0;
+        transform: translate(0);
     }
-    96% {
-        transform: translate(-2px, -2px);
+}
+
+@keyframes glitch-after {
+    0%, 88%, 100% {
+        opacity: 0;
+        transform: translate(0);
     }
-    98% {
-        transform: translate(2px, 2px);
+    91% {
+        opacity: 1;
+        transform: translate(4px, 0);
+    }
+    93% {
+        opacity: 1;
+        transform: translate(-4px, 0);
+    }
+    95% {
+        opacity: 0;
+        transform: translate(0);
     }
 }
 
@@ -416,6 +582,90 @@ a {
     }
     60% {
         transform: translateY(5px);
+    }
+}
+
+/* ===== HERO INTRO OVERLAY ===== */
+#hero-intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.72);
+    pointer-events: none;
+}
+
+.hero-intro-phrase {
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 9vw, 7rem);
+    color: var(--accent-color);
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    padding: 0 1.5rem;
+    text-shadow:
+        4px 4px 0 var(--purple-color),
+        -2px -2px 0 var(--dark-color),
+        8px 8px 20px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+}
+
+.hero-intro-phrase.slam-in {
+    animation: heroSlamIn 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.hero-intro-phrase.slam-in.hero-intro-phrase--tilt-left {
+    animation: heroSlamInTiltLeft 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.hero-intro-phrase.slam-in.hero-intro-phrase--tilt-right {
+    animation: heroSlamInTiltRight 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.hero-intro-phrase.fade-out {
+    animation: heroFadeOut 0.3s ease-in forwards;
+}
+
+.hero-intro-skip-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 248, 240, 0.55);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Fredoka', Arial, sans-serif;
+}
+
+@keyframes heroSlamIn {
+    0%   { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes heroSlamInTiltLeft {
+    0%   { transform: scale(1.2) rotate(-3deg); opacity: 0; }
+    100% { transform: scale(1)   rotate(-1.5deg); opacity: 1; }
+}
+
+@keyframes heroSlamInTiltRight {
+    0%   { transform: scale(1.2) rotate(3deg); opacity: 0; }
+    100% { transform: scale(1)   rotate(1.5deg); opacity: 1; }
+}
+
+@keyframes heroFadeOut {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-intro-phrase.slam-in,
+    .hero-intro-phrase.slam-in.hero-intro-phrase--tilt-left,
+    .hero-intro-phrase.slam-in.hero-intro-phrase--tilt-right,
+    .hero-intro-phrase.fade-out {
+        animation: none;
     }
 }
 
@@ -2994,9 +3244,8 @@ video.villain-image {
 
     .hero-title {
         font-size: 3rem;
-        text-shadow: 0.375rem 0.375rem 0 var(--purple-color),
-            0.25rem 0.25rem 0 var(--purple-color),
-            0.375rem 0.375rem 0.625rem rgba(0, 0, 0, 0.5);
+        text-shadow: 3px 3px 0 var(--purple-color),
+            6px 6px 12px rgba(0, 0, 0, 0.5);
     }
 
     .hero-buttons {
@@ -3258,9 +3507,9 @@ video.villain-image {
     .hero-title {
         font-size: 2rem;
         letter-spacing: 1px;
-        text-shadow: 0.375rem 0.375rem 0 var(--purple-color),
-            0.25rem 0.25rem 0 var(--purple-color),
-            0.375rem 0.375rem 0.625rem rgba(0, 0, 0, 0.5);
+        white-space: normal;
+        text-shadow: 3px 3px 0 var(--purple-color),
+            6px 6px 12px rgba(0, 0, 0, 0.5);
     }
 
     .section-title {

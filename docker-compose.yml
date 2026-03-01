@@ -16,6 +16,6 @@ services:
         syslog-address: "udp://${LOGGING_IP}:1514"
         tag: "hal-website"
 
-networks:
-  d-nginx_default:
-    external: true
+# networks:
+#   d-nginx_default:
+#     external: true

@@ -12,19 +12,20 @@
              height="1080">
     </div>
     <div class="hero-content">
-        <div class="demo-badge bounce">
-            <span class="badge-text">🎉 NOW AVAILABLE 🎉</span>
-        </div>
-        <h1 class="hero-title glitch" data-text="DEMO IS LIVE!">DEMO IS LIVE!</h1>
+        <h1 class="hero-title">Harper and Lyre</h1>
         <p class="hero-subtitle">Jump into Harper and Lyre's nostalgic N64-style adventure!</p>
         <div class="hero-buttons">
-            <a href="https://store.steampowered.com/app/3823640/Harper_and_Lyre_Demo/" target="_blank" class="btn btn-primary btn-pulse">
-                <span class="btn-icon">🎮</span>
-                PLAY FREE DEMO
+            <button class="btn btn-fun btn-pulse" id="jumpIntoFunBtn">
+                <span class="btn-icon">🎬</span>
+                WATCH TRAILER
+            </button>
+            <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank" class="btn btn-primary">
+                <span class="btn-icon">💬</span>
+                JOIN OUR DISCORD
             </a>
-            <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank" class="btn btn-secondary">
-                <span class="btn-icon">🚀</span>
-                SUPPORT ON KICKSTARTER
+            <a href="https://harper-and-lyre.itch.io/harper-and-lyre" target="_blank" class="btn btn-secondary">
+                <span class="btn-icon">🎮</span>
+                ITCH.IO
             </a>
         </div>
         <div class="hero-features">
@@ -36,6 +37,11 @@
     <div class="scroll-indicator">
         <span>Scroll to explore</span>
         <div class="scroll-arrow">↓</div>
+    </div>
+    <!-- Hero Intro Overlay -->
+    <div id="hero-intro-overlay" aria-hidden="true" role="presentation">
+        <p id="hero-intro-phrase" class="hero-intro-phrase"></p>
+        <p class="hero-intro-skip-hint">Press Tab to skip</p>
     </div>
 </section>
 
@@ -421,12 +427,9 @@
     </div>
 </section>
 
-<!-- Call to Action - Kickstarter -->
+{{!-- Call to Action - Kickstarter (saved for re-enable later)
 <section class="cta-section snowshow-theme">
-    <!-- Blizzard Snow Particles -->
     <div class="snow-particles-container" id="snowParticles"></div>
-
-    <!-- Ice Crystals Background -->
     <div class="ice-crystals">
         <div class="ice-crystal crystal-1">❄</div>
         <div class="ice-crystal crystal-2">❄</div>
@@ -434,8 +437,6 @@
         <div class="ice-crystal crystal-4">❄</div>
         <div class="ice-crystal crystal-5">❄</div>
     </div>
-
-    <!-- Frozen Icicles -->
     <div class="icicles-top">
         <div class="icicle icicle-1"></div>
         <div class="icicle icicle-2"></div>
@@ -443,7 +444,6 @@
         <div class="icicle icicle-4"></div>
         <div class="icicle icicle-5"></div>
     </div>
-
     <div class="container">
         <div class="cta-content">
             <div class="cta-badge">
@@ -481,6 +481,90 @@
         </div>
     </div>
 </section>
+--}}
+
+<!-- Call to Action - Itch.io -->
+<section class="cta-section snowshow-theme">
+    <!-- Blizzard Snow Particles -->
+    <div class="snow-particles-container" id="snowParticles"></div>
+
+    <!-- Ice Crystals Background -->
+    <div class="ice-crystals">
+        <div class="ice-crystal crystal-1">❄</div>
+        <div class="ice-crystal crystal-2">❄</div>
+        <div class="ice-crystal crystal-3">❄</div>
+        <div class="ice-crystal crystal-4">❄</div>
+        <div class="ice-crystal crystal-5">❄</div>
+    </div>
+
+    <!-- Frozen Icicles -->
+    <div class="icicles-top">
+        <div class="icicle icicle-1"></div>
+        <div class="icicle icicle-2"></div>
+        <div class="icicle icicle-3"></div>
+        <div class="icicle icicle-4"></div>
+        <div class="icicle icicle-5"></div>
+    </div>
+
+    <div class="container">
+        <div class="cta-content">
+            <div class="cta-badge">
+                <span>🎮 PLAY NOW</span>
+            </div>
+            <h2 class="cta-title">Play Harper and Lyre on Itch.io!</h2>
+            <p class="cta-description">
+                Jump into the adventure on Itch.io! Play the demo, leave feedback,
+                and follow along as we bring this nostalgic 3D platformer to life.
+            </p>
+            <div class="cta-buttons">
+                <a href="https://harper-and-lyre.itch.io/harper-and-lyre" target="_blank" class="btn btn-kickstarter">
+                    <span class="btn-icon">🕹️</span>
+                    PLAY ON ITCH.IO
+                </a>
+            </div>
+            <div class="cta-features">
+                <div class="cta-feature">
+                    <span class="feature-icon">🆓</span>
+                    <span>Free to Play</span>
+                </div>
+                <div class="cta-feature">
+                    <span class="feature-icon">🎮</span>
+                    <span>Full Demo</span>
+                </div>
+                <div class="cta-feature">
+                    <span class="feature-icon">💬</span>
+                    <span>Leave Feedback</span>
+                </div>
+                <div class="cta-feature">
+                    <span class="feature-icon">🔔</span>
+                    <span>Follow for Updates</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gameplay Video Modal -->
+<div id="gameplayModal" class="gameplay-modal" aria-hidden="true">
+    <div class="gameplay-modal-overlay" id="gameplayModalOverlay"></div>
+    <div class="gameplay-modal-content">
+        <div class="gameplay-modal-header">
+            <span class="gameplay-modal-title">🎬 Harper and Lyre — Demo Trailer</span>
+            <button class="gameplay-modal-close" id="gameplayModalClose" aria-label="Close video">✕</button>
+        </div>
+        <div class="gameplay-modal-video">
+            <iframe
+                id="gameplayIframe"
+                src=""
+                data-src="https://www.youtube.com/embed/1_vzN8a2PIc?autoplay=1&rel=0"
+                title="Harper and Lyre Demo Trailer"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
 
 <!-- Loading Screen -->
 <div id="loading-screen">
@@ -547,6 +631,69 @@
 </style>
 
 <script>
+    // Hide hero content before intro animation runs (avoids flash since loading screen covers page)
+    (function () {
+        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) return;
+        function hideHeroContent() {
+            var heroSec = document.getElementById('home');
+            if (!heroSec) return;
+            var heroCt = heroSec.querySelector('.hero-content');
+            var scrollInd = heroSec.querySelector('.scroll-indicator');
+            var els = heroCt ? [
+                heroCt.querySelector('.hero-title'),
+                heroCt.querySelector('.hero-subtitle'),
+                heroCt.querySelector('.hero-buttons'),
+                heroCt.querySelector('.hero-features'),
+                scrollInd
+            ] : [];
+            els.forEach(function(el) { if (el) el.style.opacity = '0'; });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', hideHeroContent);
+        } else {
+            hideHeroContent();
+        }
+    }());
+
+    // Gameplay video modal
+    function initTrailerModal() {
+        const modal = document.getElementById('gameplayModal');
+        const iframe = document.getElementById('gameplayIframe');
+        const openBtn = document.getElementById('jumpIntoFunBtn');
+        const closeBtn = document.getElementById('gameplayModalClose');
+        const overlay = document.getElementById('gameplayModalOverlay');
+
+        if (!modal || !openBtn) return;
+
+        function openModal() {
+            iframe.src = iframe.dataset.src;
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            iframe.src = '';
+            document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTrailerModal);
+    } else {
+        initTrailerModal();
+    }
+
     // Loading tips from server
     const loadingTips = {{{loadingTipsJSON}}};
 
@@ -591,4 +738,115 @@
             }, 500);
         }
     });
+
+    // ─── HERO INTRO ANIMATION ───────────────────────────────────────────
+    (function () {
+        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) return;
+
+        var overlay   = document.getElementById('hero-intro-overlay');
+        var phraseEl  = document.getElementById('hero-intro-phrase');
+        var heroSec   = document.getElementById('home');
+        var heroCt    = heroSec ? heroSec.querySelector('.hero-content') : null;
+        var scrollInd = heroSec ? heroSec.querySelector('.scroll-indicator') : null;
+
+        if (!overlay || !phraseEl || !heroCt) return;
+
+        var PHRASES = [
+            { text: 'THIS ALL NEW...',           tilt: 'hero-intro-phrase--tilt-left'  },
+            { text: 'N64 STYLE GAME...',         tilt: ''                              },
+            { text: "WE'VE BEEN WAITING FOR...", tilt: 'hero-intro-phrase--tilt-right' }
+        ];
+
+        var SLAM = 400, HOLD = 1200, FADE = 300, GAP = 300;
+        var timers = [], done = false;
+
+        function later(fn, ms) { var id = setTimeout(fn, ms); timers.push(id); return id; }
+        function clearAll() { timers.forEach(clearTimeout); timers = []; }
+
+        function getElements() {
+            return [
+                heroCt.querySelector('.hero-title'),
+                heroCt.querySelector('.hero-subtitle'),
+                heroCt.querySelector('.hero-buttons'),
+                heroCt.querySelector('.hero-features'),
+                scrollInd
+            ].filter(Boolean);
+        }
+
+        function revealHero() {
+            if (done) return;
+            done = true;
+            overlay.style.transition = 'opacity 0.35s ease';
+            overlay.style.opacity = '0';
+            later(function () { overlay.style.display = 'none'; }, 400);
+            getElements().forEach(function (el, i) {
+                later(function () {
+                    el.style.transition = 'opacity 0.6s ease';
+                    el.style.opacity = '1';
+                }, i * 150);
+            });
+        }
+
+        function showPhrase(index, next) {
+            var data = PHRASES[index];
+            phraseEl.textContent = data.text;
+            phraseEl.className = 'hero-intro-phrase';
+            if (data.tilt) phraseEl.classList.add(data.tilt);
+            void phraseEl.offsetWidth; // force reflow so animation restarts
+            phraseEl.classList.add('slam-in');
+
+            later(function () {
+                phraseEl.classList.remove('slam-in');
+                void phraseEl.offsetWidth;
+                phraseEl.classList.add('fade-out');
+            }, SLAM + HOLD);
+
+            later(function () {
+                phraseEl.classList.remove('fade-out');
+                phraseEl.style.opacity = '0';
+                if (next) later(next, GAP);
+            }, SLAM + HOLD + FADE);
+        }
+
+        function runSequence() {
+            overlay.style.display = 'flex';
+            overlay.style.opacity = '0';
+            later(function () {
+                overlay.style.transition = 'opacity 0.15s ease';
+                overlay.style.opacity = '1';
+            }, 0);
+            later(function () {
+                showPhrase(0, function () {
+                    showPhrase(1, function () {
+                        showPhrase(2, function () {
+                            later(revealHero, GAP);
+                        });
+                    });
+                });
+            }, 150);
+        }
+
+        function onTabSkip(e) {
+            if (e.key !== 'Tab' || done) return;
+            clearAll();
+            document.removeEventListener('keydown', onTabSkip);
+            overlay.style.transition = 'none';
+            overlay.style.opacity = '0';
+            overlay.style.display = 'none';
+            done = true;
+            getElements().forEach(function (el) {
+                el.style.transition = 'none';
+                el.style.opacity = '1';
+            });
+        }
+
+        document.addEventListener('keydown', onTabSkip);
+        overlay.style.display = 'none';
+
+        window.addEventListener('load', function () {
+            later(runSequence, 700);
+        }, { once: true });
+    }());
+    // ─── END HERO INTRO ANIMATION ──────────────────────────────────────────
 </script>

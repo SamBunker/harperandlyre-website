@@ -92,9 +92,9 @@ const worldsData = [
         id: 2,
         name: 'Mist-side Castle',
         emoji: '👻',
-        description: '???',
-        discovered: false,
-        image: '/img/question-mark.jpg'
+        description: 'A fowl place with zombies and ghouls around every corner. The fog never lifts, and something wicked lurks within the crumbling castle walls...',
+        discovered: true,
+        image: '/img/mistside-castle.webp'
     },
     {
         id: 3,
