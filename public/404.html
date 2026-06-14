@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Harper and Lyre</title>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Fredoka',Arial,sans-serif;line-height:1.6;background:#000;color:#2C1810;overflow-x:hidden}
+        img{max-width:100%;height:auto;display:block}
+        a{text-decoration:none;color:inherit}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .navbar{position:fixed;top:0;width:100%;z-index:1000;background:linear-gradient(135deg,rgba(44,24,16,.95),rgba(44,24,16,.98));padding:1rem 0;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+        .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+        .nav-logo img{height:50px}
+        .nav-menu{display:flex;list-style:none;gap:2rem;align-items:center}
+        .nav-link{color:#FFF8F0;font-weight:600;padding:.5rem 1rem;border-radius:8px;transition:all .3s ease}
+        .btn-primary{background:linear-gradient(135deg,#FF6B35,#F7931E);color:#fff;box-shadow:0 6px 20px rgba(255,107,53,.4)}
+        .mobile-menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem;flex-direction:column;gap:5px}
+        .hamburger-line{display:block;width:25px;height:2px;background:#FFF8F0;border-radius:2px}
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap">
+    <link rel="preload" href="/fonts/riffic_bold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="/css/index.min.css?v=20260228A">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="/"><img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre Logo" width="100" height="50"></a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="/#home" class="nav-link">Home</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
+                <li><a href="/#gallery" class="nav-link">Memories</a></li>
+                <li><a href="/#journal" class="nav-link">Journal</a></li>
+                <li><a href="/#pocus-news" class="nav-link">News</a></li>
+                <li><a href="/#villains" class="nav-link">Villains</a></li>
+                <li class="nav-steam-item">
+                    <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-steam-btn btn-primary">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                        </svg>
+                        Get on Steam
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF8F0 0%, #f5e6d3 100%);
+            color: #2C1810;
+        }
+
+        .error-404-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 80px;
+        }
+
+        .error-404-content {
+            text-align: center;
+            max-width: 600px;
+            background: rgba(255, 248, 240, 0.9);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(44, 24, 16, 0.1);
+        }
+
+        .hugo-lost {
+            max-width: 280px;
+            margin: 0 auto 2rem;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        .hugo-lost video {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .error-404-title {
+            font-family: 'Riffic', 'Bangers', Impact, cursive;
+            font-size: clamp(4rem, 10vw, 6rem);
+            color: #FF6B35;
+            text-shadow: 3px 3px 0 #FFD23F;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .error-404-subtitle {
+            font-family: 'Fredoka', Arial, sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: #2C1810;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .error-404-message {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: #5C4A42;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .error-404-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FFF8F0;
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            border: none;
+            border-radius: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .error-404-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+            background: linear-gradient(135deg, #F7931E, #FF6B35);
+        }
+
+        .error-404-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-404-btn span {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .error-404-main {
+                padding: 1.5rem;
+                margin-top: 60px;
+            }
+
+            .error-404-content {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+
+            .hugo-lost {
+                max-width: 220px;
+                margin-bottom: 1.5rem;
+            }
+
+            .error-404-title {
+                margin-bottom: 0.75rem;
+            }
+
+            .error-404-message {
+                margin-bottom: 2rem;
+            }
+
+            .error-404-btn {
+                padding: 0.875rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-404-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .hugo-lost {
+                max-width: 180px;
+            }
+        }
+    </style>
+
+    <!-- Main 404 Content -->
+    <main class="error-404-main">
+        <div class="error-404-content">
+            <div class="hugo-lost">
+                <video autoplay loop muted playsinline>
+                    <source src="/img/hugoAnim.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <h1 class="error-404-title">404</h1>
+            <h2 class="error-404-subtitle">Page Not Found!</h2>
+            <p class="error-404-message">
+                Not sure where you're going, but you're lost!<br>
+                Even Hugo's map doesn't show this place.
+            </p>
+
+            <a href="/" class="error-404-btn">
+                <span>🏠</span>
+                Take Me Home
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="footer-logo" width="240" height="120" loading="lazy">
+                    <p>A nostalgic 3D platformer by the Bunker Brothers</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <div class="footer-links-container">
+                        <a href="https://store.steampowered.com/app/3823640/Harper_and_Lyre_Demo/" target="_blank">Play Demo</a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank">Kickstarter</a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank">Discord</a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank">Subreddit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Harper and Lyre - Developed by the Bunker Brothers (Dave, George &amp; Sam)</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+                    mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
+                    navMenu.classList.toggle('active');
+                    mobileMenuToggle.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

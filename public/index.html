@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harper and Lyre - A Nostalgic 3D Platformer Adventure</title>
+
+    <!-- Performance Debugging -->
+    <script>
+        window.performanceDebug = {
+            startTime: performance.now(),
+            events: [],
+            log: function(event, details) {
+                const timestamp = performance.now() - this.startTime;
+                const entry = { time: timestamp.toFixed(2) + 'ms', event, details };
+                this.events.push(entry);
+                console.log(`🔍 [${entry.time}] ${event}`, details || '');
+            }
+        };
+        performanceDebug.log('Script Start', 'Head script executing');
+    </script>
+
+    <!-- Critical inline CSS for above-the-fold content -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Fredoka',Arial,sans-serif;line-height:1.6;background:#000;color:#2C1810;overflow-x:hidden}
+        img{max-width:100%;height:auto;display:block}
+        a{text-decoration:none;color:inherit}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .navbar{position:fixed;top:0;width:100%;z-index:1000;background:linear-gradient(135deg,rgba(44,24,16,.95),rgba(44,24,16,.98));padding:1rem 0;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .3s ease}
+        .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+        .nav-logo img{height:50px}
+        .nav-menu{display:flex;list-style:none;gap:2rem;align-items:center}
+        .nav-link{color:#FFF8F0;font-weight:600;padding:.5rem 1rem;border-radius:8px;transition:all .3s ease}
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-top:70px}
+        .hero-background{position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden}
+        .hero-background img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.6)}
+        .hero-content{position:relative;z-index:1;text-align:center;color:#fff;max-width:900px;padding:2rem}
+        .hero-title{font-family:'Riffic','Bangers',Impact,cursive;font-size:clamp(2rem,5vw,3.5rem);margin-bottom:1rem;text-transform:uppercase;letter-spacing:2px;white-space:nowrap;color:#FFD23F;text-shadow:3px 3px 0 #9B59B6,6px 6px 12px rgba(0,0,0,.5)}
+        .hero-subtitle{font-size:clamp(1rem,3vw,1.5rem);margin-bottom:2rem;color:#FFF8F0;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
+        .btn{display:inline-flex;align-items:center;gap:.5rem;padding:1rem 2rem;font-size:1.1rem;font-weight:600;border-radius:12px;cursor:pointer;transition:all .3s ease;text-transform:uppercase;letter-spacing:1px;border:none}
+        .btn-primary{background:linear-gradient(135deg,#FF6B35,#F7931E);color:#fff;box-shadow:0 6px 20px rgba(255,107,53,.4)}
+        .btn-secondary{background:linear-gradient(135deg,#9B59B6,#8e44ad);color:#fff;box-shadow:0 6px 20px rgba(155,89,182,.4)}
+        .hero-buttons{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .demo-badge{display:inline-block;background:linear-gradient(135deg,#4CAF50,#45a049);color:#fff;padding:.75rem 2rem;border-radius:50px;font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;box-shadow:0 8px 16px rgba(0,0,0,.2);text-transform:uppercase;letter-spacing:2px}
+        .hero-features{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+        .feature-pill{backdrop-filter:blur(2px);color:#fff;padding:.5rem 1.5rem;border-radius:25px;font-weight:600}
+        #loading-screen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999}
+        .gameplay-modal{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center}
+        .gameplay-modal.is-open{display:flex}
+        .gameplay-modal-overlay{position:absolute;inset:0;background:rgba(10,5,20,.92);backdrop-filter:blur(6px);cursor:pointer}
+        .gameplay-modal-content{position:relative;z-index:1;width:min(90vw,960px);background:linear-gradient(135deg,#1a0a2e,#2c1850);border:2px solid #FFD23F;border-radius:12px;box-shadow:0 0 40px rgba(155,89,182,.5);overflow:hidden}
+        .gameplay-modal-header{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;background:rgba(155,89,182,.15);border-bottom:1px solid rgba(155,89,182,.3)}
+        .gameplay-modal-title{font-family:'Riffic','Bangers',Impact,cursive;font-size:1.1rem;color:#FFD23F;letter-spacing:1px}
+        .gameplay-modal-close{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;padding:.25rem .5rem;border-radius:4px;line-height:1}
+        .gameplay-modal-video{position:relative;width:100%;aspect-ratio:16/9}
+        .gameplay-modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+        .btn-fun{background:linear-gradient(135deg,#FFD23F,#9B59B6);color:#fff;border:none;cursor:pointer;font-family:'Riffic','Bangers',Impact,cursive;font-size:1.1rem;letter-spacing:2px}
+        #hero-intro-overlay{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.72);pointer-events:none}
+        .hero-intro-phrase{font-family:'Riffic','Bangers',Impact,cursive;font-size:clamp(2.8rem,9vw,7rem);color:#FFD23F;text-transform:uppercase;text-align:center;letter-spacing:4px;line-height:1.1;padding:0 1.5rem;text-shadow:4px 4px 0 #9B59B6,-2px -2px 0 #2C1810,8px 8px 20px rgba(0,0,0,.8);opacity:0}
+        .hero-intro-phrase.slam-in{animation:heroSlamIn .4s cubic-bezier(.22,.61,.36,1) forwards}
+        .hero-intro-phrase.slam-in.hero-intro-phrase--tilt-left{animation:heroSlamInTiltLeft .4s cubic-bezier(.22,.61,.36,1) forwards}
+        .hero-intro-phrase.slam-in.hero-intro-phrase--tilt-right{animation:heroSlamInTiltRight .4s cubic-bezier(.22,.61,.36,1) forwards}
+        .hero-intro-phrase.fade-out{animation:heroFadeOut .3s ease-in forwards}
+        .hero-intro-skip-hint{position:absolute;bottom:2.5rem;font-size:.9rem;color:rgba(255,248,240,.55);letter-spacing:2px;text-transform:uppercase;font-family:'Fredoka',Arial,sans-serif}
+        @keyframes heroSlamIn{0%{transform:scale(1.2);opacity:0}100%{transform:scale(1);opacity:1}}
+        @keyframes heroSlamInTiltLeft{0%{transform:scale(1.2) rotate(-3deg);opacity:0}100%{transform:scale(1) rotate(-1.5deg);opacity:1}}
+        @keyframes heroSlamInTiltRight{0%{transform:scale(1.2) rotate(3deg);opacity:0}100%{transform:scale(1) rotate(1.5deg);opacity:1}}
+        @keyframes heroFadeOut{0%{opacity:1}100%{opacity:0}}
+        @media(prefers-reduced-motion:reduce){.hero-intro-phrase.slam-in,.hero-intro-phrase.slam-in.hero-intro-phrase--tilt-left,.hero-intro-phrase.slam-in.hero-intro-phrase--tilt-right,.hero-intro-phrase.fade-out{animation:none}}
+    </style>
+
+    <!-- Preload LCP image with high priority -->
+    <link rel="preload" as="image" href="/img/hal-background.webp" fetchpriority="high">
+
+    <!-- Preload main CSS (minified) -->
+    <link rel="preload" as="style" href="/css/index.min.css?v=20260228A">
+
+    <!-- Load CSS asynchronously to prevent render blocking -->
+    <link rel="stylesheet" href="/css/index.min.css?v=20260228A" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/css/index.min.css?v=20260228A"></noscript>
+
+    <!-- Preconnect to most critical external domain -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Load Google Fonts asynchronously to prevent render blocking -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600&display=swap"></noscript>
+
+    <!-- Preload critical local font -->
+    <link rel="preload" href="/fonts/riffic_bold.ttf" as="font" type="font/ttf" crossorigin>
+
+    <script src="https://www.youtube.com/iframe_api" async defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre Logo" width="100" height="50">
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <ul class="nav-menu">
+                <li><a href="/#home" class="nav-link">Home</a></li>
+                <li><a href="/#about" class="nav-link">About</a></li>
+                <li><a href="/#gallery" class="nav-link">Memories</a></li>
+                <li><a href="/#journal" class="nav-link">Journal</a></li>
+                <li><a href="/#pocus-news" class="nav-link">News</a></li>
+                <li><a href="/#villains" class="nav-link">Villains</a></li>
+                <li class="nav-steam-item">
+                    <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-steam-btn btn-primary">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                        </svg>
+                        Get on Steam
+                    </a>
+                </li>
+
+                <!-- Mobile Social Media Links -->
+                <li class="nav-social-links">
+                    <div class="nav-social-title">Connect With Us</div>
+                    <div class="nav-social-icons">
+                        <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="nav-social-icon steam" title="Steam">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                            </svg>
+                        </a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank" class="nav-social-icon discord" title="Discord">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M22,24L16.75,19L17.38,21H4.5A2.5,2.5 0 0,1 2,18.5V3.5A2.5,2.5 0 0,1 4.5,1H19.5A2.5,2.5 0 0,1 22,3.5V24M12,6.8C9.32,6.8 7.44,7.95 7.44,7.95C8.47,7.03 10.27,6.5 10.27,6.5L10.1,6.33C8.41,6.36 6.88,7.53 6.88,7.53C5.16,11.12 5.27,14.22 5.27,14.22C6.67,16.03 8.75,15.9 8.75,15.9L9.46,15C8.21,14.73 7.42,13.62 7.42,13.62C7.42,13.62 9.3,14.9 12,14.9C14.7,14.9 16.58,13.62 16.58,13.62C16.58,13.62 15.79,14.73 14.54,15L15.25,15.9C15.25,15.9 17.33,16.03 18.73,14.22C18.73,14.22 18.84,11.12 17.12,7.53C17.12,7.53 15.59,6.36 13.9,6.33L13.73,6.5C13.73,6.5 15.53,7.03 16.56,7.95C16.56,7.95 14.68,6.8 12,6.8M9.93,10.59C10.58,10.59 11.11,11.16 11.1,11.86C11.1,12.55 10.58,13.13 9.93,13.13C9.29,13.13 8.77,12.55 8.77,11.86C8.77,11.16 9.28,10.59 9.93,10.59M14.1,10.59C14.75,10.59 15.27,11.16 15.27,11.86C15.27,12.55 14.75,13.13 14.1,13.13C13.46,13.13 12.94,12.55 12.94,11.86C12.94,11.16 13.45,10.59 14.1,10.59Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank" class="nav-social-icon kickstarter" title="Kickstarter">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M7.27,3C4.82,3 3,4.82 3,7.27V16.72C3,19.17 4.82,21 7.27,21H16.72C19.17,21 21,19.17 21,16.72V7.27C21,4.82 19.17,3 16.72,3H7.27M11.04,8H12.96L15.19,11.57L17.5,8.16H19.5L15.95,12.91L19.5,18H17.5L14.42,13.27L11.96,16.68H10.04L13.58,11.93L11.04,8Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank" class="nav-social-icon reddit" title="Reddit">
+                            <svg viewBox="0 0 24 24" width="28" height="28">
+                                <path fill="currentColor" d="M14.5 15.41C14.58 15.5 14.58 15.69 14.5 15.8C13.77 16.5 12.41 16.56 12 16.56C11.59 16.56 10.23 16.5 9.5 15.8C9.42 15.69 9.42 15.5 9.5 15.41C9.61 15.33 9.77 15.33 9.88 15.41C10.38 15.91 11.33 16.03 12 16.03C12.67 16.03 13.62 15.91 14.12 15.41C14.23 15.33 14.39 15.33 14.5 15.41M10.75 13.04C10.75 12.47 10.28 12 9.71 12C9.14 12 8.67 12.47 8.67 13.04C8.67 13.61 9.14 14.08 9.71 14.08C10.28 14.08 10.75 13.61 10.75 13.04M14.29 12C13.72 12 13.25 12.47 13.25 13.04C13.25 13.61 13.72 14.08 14.29 14.08C14.86 14.08 15.33 13.61 15.33 13.04C15.33 12.47 14.86 12 14.29 12M22 12C22 17.5 17.5 22 12 22S2 17.5 2 12C2 6.5 6.5 2 12 2S22 6.5 22 12M18.67 12C18.67 11.19 18 10.54 17.22 10.54C16.82 10.54 16.46 10.7 16.2 10.95C15.2 10.23 13.83 9.77 12.3 9.71L12.97 6.58L15.14 7.05C15.16 7.6 15.62 8.04 16.18 8.04C16.75 8.04 17.22 7.57 17.22 7C17.22 6.43 16.75 5.96 16.18 5.96C15.77 5.96 15.41 6.2 15.25 6.55L12.82 6.03C12.75 6 12.68 6.03 12.63 6.07C12.57 6.11 12.54 6.17 12.56 6.24L11.87 9.71C10.3 9.75 8.9 10.21 7.87 10.95C7.61 10.69 7.25 10.54 6.83 10.54C6.05 10.54 5.37 11.19 5.37 12C5.37 12.59 5.74 13.09 6.26 13.28C6.23 13.45 6.22 13.62 6.22 13.8C6.22 16.24 8.75 18.22 11.94 18.22C15.13 18.22 17.66 16.24 17.66 13.8C17.66 13.62 17.64 13.45 17.62 13.28C18.14 13.09 18.67 12.59 18.67 12Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Demo Launch -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <img src="/img/hal-background.webp"
+                 srcset="/img/hal-background.webp 1920w,
+                         /img/hal-background.webp 1280w,
+                         /img/hal-background.webp 768w"
+                 sizes="100vw"
+                 alt="Harper and Lyre Background"
+                 fetchpriority="high"
+                 width="1920"
+                 height="1080">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Harper and Lyre</h1>
+            <p class="hero-subtitle">Jump into Harper and Lyre's nostalgic N64-style adventure!</p>
+            <div class="hero-buttons">
+                <button class="btn btn-fun btn-pulse" id="jumpIntoFunBtn">
+                    <span class="btn-icon">🎬</span>
+                    WATCH TRAILER
+                </button>
+                <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank" class="btn btn-primary">
+                    <span class="btn-icon">💬</span>
+                    JOIN OUR DISCORD
+                </a>
+                <a href="https://harper-and-lyre.itch.io/harper-and-lyre" target="_blank" class="btn btn-secondary">
+                    <span class="btn-icon">🎮</span>
+                    ITCH.IO
+                </a>
+            </div>
+            <div class="hero-features">
+                <div class="feature-pill"><span style="color: var(--secondary-color)">Developer</span> Stormside Studio LLC</div>
+                <div class="feature-pill"><span style="color: var(--secondary-color)">Genre</span> 3D Platformer</div>
+                <div class="feature-pill"><span style="color: var(--secondary-color)">Style</span> N64 Classics</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow">↓</div>
+        </div>
+        <!-- Hero Intro Overlay -->
+        <div id="hero-intro-overlay" aria-hidden="true" role="presentation">
+            <p id="hero-intro-phrase" class="hero-intro-phrase"></p>
+            <p class="hero-intro-skip-hint">Press Tab to skip</p>
+        </div>
+    </section>
+
+    <!-- Character Grid Section -->
+    <section class="character-grid">
+        <div class="container">
+            <h2 class="section-title">All New Dynamic Duo!</h2>
+            <div class="grid-three">
+                <div class="character-card">
+                    <div class="character-gif">
+                        <img src="/img/Harper-picture-frame.webp" alt="Harper" loading="lazy" width="400" height="400">
+                    </div>
+                    <h3>Harper</h3>
+                    <p>A spirited red panda ready for adventure!</p>
+                </div>
+                <div class="character-card">
+                    <div class="character-gif">
+                        <img src="/img/Lyre-picture-frame.webp" alt="Lyre" loading="lazy" width="400" height="400">
+                    </div>
+                    <h3>Lyre</h3>
+                    <p>A quick-witted otter ready for adventure!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Harper Introduction -->
+    <section id="about" class="harper-intro">
+        <div class="container">
+            <div class="intro-content" id="introContent">
+                <div class="intro-text" id="introText">
+                    <h2 class="section-title" id="characterTitle">Meet Harper, Your Hero!</h2>
+                    <p class="intro-description" id="characterDescription">
+                        Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities and explore vibrant worlds to save his friends and restore peace to the festival.
+                    </p>
+                </div>
+                <div class="intro-gallery" id="introGallery">
+                    <div class="gallery-main">
+                        <video autoplay loop muted playsinline class="gallery-image active" data-index="0">
+                            <source src="/img/harperAnim.webm" type="video/webm">
+                            <source src="/img/harperAnim.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="gallery-thumbs">
+                        <img
+                            src="/img/Harper.webp"
+                            alt="Harper"
+                            class="thumb active"
+                            data-index="0"
+                            data-profile-id="harper-1"
+                            data-character="harper"
+                            data-title="Meet Harper, Your Hero!"
+                            data-description="Harper is a spirited red panda with boundless energy and an unshakeable determination to protect his home. When the malevolent spirit Kreakli emerges from the Dark Oak Tree, Harper must master incredible abilities and explore vibrant worlds to save his friends and restore peace to the festival."
+                            data-main-image-webm="/img/harperAnim.webm"
+                            data-main-image-mp4="/img/harperAnim.mp4">
+                        <img
+                            src="/img/Lyre.webp"
+                            alt="Lyre"
+                            class="thumb"
+                            data-index="1"
+                            data-profile-id="lyre-1"
+                            data-character="lyre"
+                            data-title="Introducing Lyre, The Blunt Companion!"
+                            data-description="Lyre is a quick-witted otter with lesser magical abilities and a bad attitude toward everyone but Harper. She helps navigate treacherous waters with aquatic agility, though her abrasive demeanor remains as challenging as the adventure itself."
+                            data-main-image-webm="/img/lyreAnim.webm"
+                            data-main-image-mp4="/img/lyreAnim.mp4">
+                        <img
+                            src="/img/Hugo.webp"
+                            alt="Hugo"
+                            class="thumb"
+                            data-index="2"
+                            data-profile-id="hugo-1"
+                            data-character="hugo"
+                            data-title="Check Out Hugo!"
+                            data-description="Hugo is smooth-riding meerkat biker who's traveled far and wide perfecting his craft. With a relaxed attitude and expert skills from his adventures, he mentors the duo by teaching them powerful new moves."
+                            data-main-image-webm="/img/hugoAnim.webm"
+                            data-main-image-mp4="/img/hugoAnim.mp4">
+                        <img
+                            src="/img/Pocus.webp"
+                            alt="Pocus"
+                            class="thumb"
+                            data-index="3"
+                            data-profile-id="pocus-1"
+                            data-character="pocus"
+                            data-title="Here's Pocus, The Mystical Wizard Frog!"
+                            data-description="Pocus is a mystical frog wizard who uses ancient magic to transform Harper and Lyre into new forms, providing them with new abilities to solve tricky puzzles ahead."
+                            data-main-image-webm="/img/pocusAnim.webm"
+                            data-main-image-mp4="/img/pocusAnim.mp4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Memories</h2>
+            <div class="gallery-slider">
+                <div class="gallery-main-image">
+                    <img src="/img/gallery-bg-1.webp"
+                         srcset="/img/gallery-bg-1.webp 1500w,
+                                 /img/gallery-bg-1.webp 800w,
+                                 /img/gallery-bg-1.webp 480w"
+                         sizes="(max-width: 768px) 100vw, 1400px"
+                         alt="Memory 1"
+                         class="gallery-slide active"
+                         data-index="0"
+                         loading="lazy"
+                         width="1500"
+                         height="800">
+                    <img src="/img/gallery-bg-2.webp"
+                         srcset="/img/gallery-bg-2.webp 1500w,
+                                 /img/gallery-bg-2.webp 800w,
+                                 /img/gallery-bg-2.webp 480w"
+                         sizes="(max-width: 768px) 100vw, 1400px"
+                         alt="Memory 2"
+                         class="gallery-slide"
+                         data-index="1"
+                         loading="lazy"
+                         width="1500"
+                         height="800">
+                    <img src="/img/gallery-bg-3.webp"
+                         srcset="/img/gallery-bg-3.webp 1500w,
+                                 /img/gallery-bg-3.webp 800w,
+                                 /img/gallery-bg-3.webp 480w"
+                         sizes="(max-width: 768px) 100vw, 1400px"
+                         alt="Memory 3"
+                         class="gallery-slide"
+                         data-index="2"
+                         loading="lazy"
+                         width="1500"
+                         height="800">
+                    <img src="/img/gallery-bg-4.webp"
+                         srcset="/img/gallery-bg-4.webp 1500w,
+                                 /img/gallery-bg-4.webp 800w,
+                                 /img/gallery-bg-4.webp 480w"
+                         sizes="(max-width: 768px) 100vw, 1400px"
+                         alt="Memory 4"
+                         class="gallery-slide"
+                         data-index="3"
+                         loading="lazy"
+                         width="1500"
+                         height="800">
+                    <img src="/img/gallery-bg-5.webp"
+                         srcset="/img/gallery-bg-5.webp 1500w,
+                                 /img/gallery-bg-5.webp 800w,
+                                 /img/gallery-bg-5.webp 480w"
+                         sizes="(max-width: 768px) 100vw, 1400px"
+                         alt="Memory 5"
+                         class="gallery-slide"
+                         data-index="4"
+                         loading="lazy"
+                         width="1500"
+                         height="800">
+                </div>
+                <div class="gallery-nav">
+                    <span class="gallery-dot active" data-index="0"></span>
+                    <span class="gallery-dot" data-index="1"></span>
+                    <span class="gallery-dot" data-index="2"></span>
+                    <span class="gallery-dot" data-index="3"></span>
+                    <span class="gallery-dot" data-index="4"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Section -->
+    <section id="music" class="music-section">
+        <!-- Twisted Token Background -->
+        <div class="twisted-tokens-bg">
+            <img src="/img/Twisted_Token_GIF.gif" alt="Twisted Token" class="token-bg token-1">
+            <img src="/img/Twisted_Token_GIF.gif" alt="Twisted Token" class="token-bg token-2">
+            <img src="/img/Twisted_Token_GIF.gif" alt="Twisted Token" class="token-bg token-3">
+        </div>
+
+        <div class="container">
+            <h2 class="section-title music-title">🎵 Soundtrack</h2>
+            <p class="section-subtitle music-subtitle">Experience the nostalgic melodies of Harper and Lyre</p>
+
+            <div class="music-grid">
+                <!-- Track 1 -->
+                <div class="music-card">
+                    <div class="floppy-disk">
+                        <img src="/img/FM_Floppy.webp" alt="Floppy Disk">
+                    </div>
+                    <h3 class="track-title">Firestone Mountain</h3>
+                    <div class="music-player" data-track="1">
+                        <div id="ytplayer1" class="youtube-player"></div>
+                        <div class="player-controls">
+                            <button class="play-btn" data-player="ytplayer1">▶</button>
+                            <button class="pause-btn" data-player="ytplayer1">⏸</button>
+                            <input type="range" class="volume-slider" data-player="ytplayer1" min="0" max="100" value="50">
+                            <span class="volume-icon">🔊</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Track 2 -->
+                <div class="music-card">
+                    <div class="floppy-disk">
+                        <img src="/img/TDF_Floppy.webp" alt="Floppy Disk">
+                    </div>
+                    <h3 class="track-title">Twin Daisy Farm</h3>
+                    <div class="music-player" data-track="2">
+                        <div id="ytplayer2" class="youtube-player"></div>
+                        <div class="player-controls">
+                            <button class="play-btn" data-player="ytplayer2">▶</button>
+                            <button class="pause-btn" data-player="ytplayer2">⏸</button>
+                            <input type="range" class="volume-slider" data-player="ytplayer2" min="0" max="100" value="50">
+                            <span class="volume-icon">🔊</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Track 3 -->
+                <div class="music-card">
+                    <div class="floppy-disk">
+                        <img src="/img/MSC_Floppy.webp" alt="Floppy Disk">
+                    </div>
+                    <h3 class="track-title">Mist-side Castle</h3>
+                    <div class="music-player" data-track="3">
+                        <div id="ytplayer3" class="youtube-player"></div>
+                        <div class="player-controls">
+                            <button class="play-btn" data-player="ytplayer3">▶</button>
+                            <button class="pause-btn" data-player="ytplayer3">⏸</button>
+                            <input type="range" class="volume-slider" data-player="ytplayer3" min="0" max="100" value="50">
+                            <span class="volume-icon">🔊</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Harper's Journal - DINOHATTAN THEME -->
+    <section id="journal" class="journal-section dinohattan-theme">
+        <!-- Dinosaur Fossils Background -->
+        <div class="dino-fossils">
+            <div class="fossil fossil-skull"></div>
+            <div class="fossil fossil-bone-1"></div>
+            <div class="fossil fossil-bone-2"></div>
+        </div>
+
+        <!-- Tar Pit Bubbles -->
+        <div class="tar-bubbles-container" id="tarBubbles"></div>
+
+        <!-- Dino Footprints -->
+        <div class="dino-footprints">
+            <div class="footprint footprint-1">🦶</div>
+            <div class="footprint footprint-2">🦶</div>
+            <div class="footprint footprint-3">🦶</div>
+        </div>
+
+        <div class="container">
+            <h2 class="section-title dino-title">🦴 Harper's Journal</h2>
+            <p class="section-subtitle dino-subtitle">Unearth the secrets of prehistoric worlds</p>
+
+            <div class="journal-book">
+                <div class="journal-spine"></div>
+                <div class="journal-pages">
+                    <!-- Left page: World image and description -->
+                    <div class="journal-page-left">
+                        <div id="worldContent" class="world-content">
+                            <img src="/img/journal-1.webp" alt="Bamboo Heights" class="world-content-image">
+                            <p class="world-content-text">The lush bamboo forests stretch endlessly toward the sky. The gentle rustling of leaves and distant bird calls make this a peaceful place... until Kreakli's minions showed up!</p>
+                        </div>
+                    </div>
+
+                    <!-- Right page: Worlds list -->
+                    <div class="journal-page-right">
+                        <h3 class="journal-list-title">Discovered Worlds</h3>
+                        <div id="worldsList" class="journal-list">
+                            <div class="journal-list-item world-list-item" data-world-id="1" data-discovered="true" data-name="Bamboo Heights" data-emoji="🎋" data-description="The lush bamboo forests stretch endlessly toward the sky. The gentle rustling of leaves and distant bird calls make this a peaceful place... until Kreakli's minions showed up!" data-image="/img/journal-1.webp">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">🎋</span>
+                                    Bamboo Heights
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item" data-world-id="2" data-discovered="true" data-name="Mist-side Castle" data-emoji="👻" data-description="A fowl place with zombies and ghouls around every corner. The fog never lifts, and something wicked lurks within the crumbling castle walls..." data-image="/img/mistside-castle.webp">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">👻</span>
+                                    Mist-side Castle
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="3" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="4" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="5" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="6" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="7" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="8" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="9" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="10" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="11" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="12" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="13" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="14" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="15" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="16" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                            <div class="journal-list-item world-list-item locked" data-world-id="17" data-discovered="false">
+                                <div class="world-list-item-name">
+                                    <span class="world-list-item-emoji">❓</span>
+                                    ???
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Magical Pocus News Section -->
+    <section id="pocus-news" class="pocus-news-section">
+        <div class="mystical-background">
+            <div class="sparkle sparkle-1"></div>
+            <div class="sparkle sparkle-2"></div>
+            <div class="sparkle sparkle-3"></div>
+            <div class="sparkle sparkle-4"></div>
+        </div>
+
+        <div class="container">
+            <h2 class="section-title mystical-title">Pocus's Magical Chronicles</h2>
+            <p class="section-subtitle mystical-subtitle">Ancient wisdom regarding game updates</p>
+
+            <div class="pocus-display">
+                <!-- Left: Pocus sitting -->
+                <div class="pocus-character">
+                    <div class="pocus-glow"></div>
+                    <video autoplay loop muted playsinline class="pocus-gif">
+                        <source src="/img/pocusAnim.webm" type="video/webm">
+                        <source src="/img/pocusAnim.mp4" type="video/mp4">
+                    </video>
+                    <div class="pocus-platform"></div>
+                </div>
+
+                <!-- Right: Magical scroll with news -->
+                <div class="magical-scroll">
+                    <div class="scroll-glow"></div>
+                    <div class="scroll-top"></div>
+                    <div class="scroll-body">
+                        <div id="pocusNewsList" class="scroll-content">
+                            <div class="news-loading">
+                                <p>Channeling magical energies...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-bottom"></div>
+                    <div class="purple-sparkles">
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                        <span class="sparkle-particle"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kreakli's Demise -->
+    <section id="villains" class="villain-section">
+        <div class="villain-background">
+            <div class="dark-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="villain-content">
+                <h2 class="section-title villain-title">Kreakli's Demise</h2>
+                <div class="villain-main">
+                    <div class="villain-image-container">
+                        <div class="evil-aura"></div>
+                        <video autoplay loop muted playsinline class="villain-image">
+                            <source src="/img/kreakliAnim.webm" type="video/webm">
+                            <source src="/img/kreakliAnim.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="villain-description">
+                        <p class="villain-text">
+                            Awakened from the Dark Oak Tree, Kreakli is a malevolent spirit once trapped within the pale moonstone. Now free, he spreads chaos and destruction across the festival grounds, threatening everything Harper holds dear. Only by collecting scattered tokens, solving puzzles, and mastering transformations can Harper stop him.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="kreakli-accomplishments-section">
+                    <h3 class="kreakli-accomplishments-title">Kreakli's Corruption</h3>
+                    <div class="kreakli-accomplishments-grid">
+                        <div class="kreakli-accomplishment-card">
+                            <div class="kreakli-accomplishment-image">
+                                <img src="/img/paleMoonStone.webp" alt="Pale Moonstone">
+                            </div>
+                            <h4>The Stolen Pale Moonstone</h4>
+                            <p>The Pale Moonstone imprisoned Kreakli for generations. When it shattered during the festival, he broke free and unleashed chaos</p>
+                        </div>
+                        <div class="kreakli-accomplishment-card">
+                            <div class="kreakli-accomplishment-image">
+                                <img src="/img/Twisted_Token.webp" alt="Twisted Tokens">
+                            </div>
+                            <h4>Lost Twisted Tokens</h4>
+                            <p>Find <strong>18</strong> Twisted Tokens scattered across the corrupted worlds. Restoring each one seems to weaken Kreakli's hold... but something feels off about these strange artifacts</p>
+                        </div>
+                        <div class="kreakli-accomplishment-card">
+                            <div class="kreakli-accomplishment-image">
+                                <img src="/img/purpleFlazoozle.webp" alt="Purple Flazoozle">
+                            </div>
+                            <h4>Scattered Flazoozles</h4>
+                            <p>In his rampage, Kreakli scattered <strong>144</strong> innocent Flazoozles across the corrupted lands. These helpless creatures need Harper's help to find their way home and restore peace to the world</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action - Itch.io -->
+    <section class="cta-section snowshow-theme">
+        <!-- Blizzard Snow Particles -->
+        <div class="snow-particles-container" id="snowParticles"></div>
+
+        <!-- Ice Crystals Background -->
+        <div class="ice-crystals">
+            <div class="ice-crystal crystal-1">❄</div>
+            <div class="ice-crystal crystal-2">❄</div>
+            <div class="ice-crystal crystal-3">❄</div>
+            <div class="ice-crystal crystal-4">❄</div>
+            <div class="ice-crystal crystal-5">❄</div>
+        </div>
+
+        <!-- Frozen Icicles -->
+        <div class="icicles-top">
+            <div class="icicle icicle-1"></div>
+            <div class="icicle icicle-2"></div>
+            <div class="icicle icicle-3"></div>
+            <div class="icicle icicle-4"></div>
+            <div class="icicle icicle-5"></div>
+        </div>
+
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-badge">
+                    <span>🎮 PLAY NOW</span>
+                </div>
+                <h2 class="cta-title">Play Harper and Lyre on Itch.io!</h2>
+                <p class="cta-description">
+                    Jump into the adventure on Itch.io! Play the demo, leave feedback,
+                    and follow along as we bring this nostalgic 3D platformer to life.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://harper-and-lyre.itch.io/harper-and-lyre" target="_blank" class="btn btn-kickstarter">
+                        <span class="btn-icon">🕹️</span>
+                        PLAY ON ITCH.IO
+                    </a>
+                </div>
+                <div class="cta-features">
+                    <div class="cta-feature">
+                        <span class="feature-icon">🆓</span>
+                        <span>Free to Play</span>
+                    </div>
+                    <div class="cta-feature">
+                        <span class="feature-icon">🎮</span>
+                        <span>Full Demo</span>
+                    </div>
+                    <div class="cta-feature">
+                        <span class="feature-icon">💬</span>
+                        <span>Leave Feedback</span>
+                    </div>
+                    <div class="cta-feature">
+                        <span class="feature-icon">🔔</span>
+                        <span>Follow for Updates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gameplay Video Modal -->
+    <div id="gameplayModal" class="gameplay-modal" aria-hidden="true">
+        <div class="gameplay-modal-overlay" id="gameplayModalOverlay"></div>
+        <div class="gameplay-modal-content">
+            <div class="gameplay-modal-header">
+                <span class="gameplay-modal-title">🎬 Harper and Lyre — Demo Trailer</span>
+                <button class="gameplay-modal-close" id="gameplayModalClose" aria-label="Close video">✕</button>
+            </div>
+            <div class="gameplay-modal-video">
+                <iframe
+                    id="gameplayIframe"
+                    src=""
+                    data-src="https://www.youtube.com/embed/1_vzN8a2PIc?autoplay=1&rel=0"
+                    title="Harper and Lyre Demo Trailer"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="loading-logo">
+            <div class="loading-spinner"></div>
+            <p class="loading-title">Loading Adventure...</p>
+            <p class="loading-tip" id="loadingTip">Collect 144 Flazoozles scattered across the worlds!</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/harperandlyre-logo.webp" alt="Harper and Lyre" class="footer-logo" width="240" height="120" loading="lazy">
+                    <p>A nostalgic 3D platformer by the Bunker Brothers</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <div class="footer-links-container">
+                        <a href="https://store.steampowered.com/app/3823640/Harper_and_Lyre_Demo/" target="_blank">Play Demo</a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank">Kickstarter</a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank">Discord</a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank">Subreddit</a>
+                    </div>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+                        <a href="https://store.steampowered.com/app/3579710/Harper_and_Lyre/" target="_blank" class="social-icon steam" title="Steam">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C7.4,22 3.55,18.92 2.36,14.73L6.19,16.31C6.45,17.6 7.6,18.58 8.97,18.58C10.53,18.58 11.8,17.31 11.8,15.75V15.62L15.2,13.19H15.28C17.36,13.19 19.05,11.5 19.05,9.42C19.05,7.34 17.36,5.65 15.28,5.65C13.2,5.65 11.5,7.34 11.5,9.42V9.47L9.13,12.93L8.97,12.92C8.38,12.92 7.83,13.1 7.38,13.41L2,11.2C2.43,6.05 6.73,2 12,2M8.28,17.17C9.08,17.5 10,17.13 10.33,16.33C10.66,15.53 10.28,14.62 9.5,14.29L8.22,13.76C8.71,13.58 9.26,13.57 9.78,13.79C10.31,14 10.72,14.41 10.93,14.94C11.15,15.46 11.15,16.04 10.93,16.56C10.5,17.64 9.23,18.16 8.15,17.71C7.65,17.5 7.27,17.12 7.06,16.67L8.28,17.17M17.8,9.42C17.8,10.81 16.67,11.94 15.28,11.94C13.9,11.94 12.77,10.81 12.77,9.42A2.5,2.5 0 0,1 15.28,6.91C16.67,6.91 17.8,8.04 17.8,9.42M13.4,9.42C13.4,10.46 14.24,11.31 15.29,11.31C16.33,11.31 17.17,10.46 17.17,9.42C17.17,8.38 16.33,7.53 15.29,7.53C14.24,7.53 13.4,8.38 13.4,9.42Z" />
+                            </svg>
+                        </a>
+                        <a href="https://discord.com/invite/qVNnvmTKeV" target="_blank" class="social-icon discord" title="Discord">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M22,24L16.75,19L17.38,21H4.5A2.5,2.5 0 0,1 2,18.5V3.5A2.5,2.5 0 0,1 4.5,1H19.5A2.5,2.5 0 0,1 22,3.5V24M12,6.8C9.32,6.8 7.44,7.95 7.44,7.95C8.47,7.03 10.27,6.5 10.27,6.5L10.1,6.33C8.41,6.36 6.88,7.53 6.88,7.53C5.16,11.12 5.27,14.22 5.27,14.22C6.67,16.03 8.75,15.9 8.75,15.9L9.46,15C8.21,14.73 7.42,13.62 7.42,13.62C7.42,13.62 9.3,14.9 12,14.9C14.7,14.9 16.58,13.62 16.58,13.62C16.58,13.62 15.79,14.73 14.54,15L15.25,15.9C15.25,15.9 17.33,16.03 18.73,14.22C18.73,14.22 18.84,11.12 17.12,7.53C17.12,7.53 15.59,6.36 13.9,6.33L13.73,6.5C13.73,6.5 15.53,7.03 16.56,7.95C16.56,7.95 14.68,6.8 12,6.8M9.93,10.59C10.58,10.59 11.11,11.16 11.1,11.86C11.1,12.55 10.58,13.13 9.93,13.13C9.29,13.13 8.77,12.55 8.77,11.86C8.77,11.16 9.28,10.59 9.93,10.59M14.1,10.59C14.75,10.59 15.27,11.16 15.27,11.86C15.27,12.55 14.75,13.13 14.1,13.13C13.46,13.13 12.94,12.55 12.94,11.86C12.94,11.16 13.45,10.59 14.1,10.59Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.kickstarter.com/projects/harperandlyre/harper-and-lyre/" target="_blank" class="social-icon kickstarter" title="Kickstarter">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M7.27,3C4.82,3 3,4.82 3,7.27V16.72C3,19.17 4.82,21 7.27,21H16.72C19.17,21 21,19.17 21,16.72V7.27C21,4.82 19.17,3 16.72,3H7.27M11.04,8H12.96L15.19,11.57L17.5,8.16H19.5L15.95,12.91L19.5,18H17.5L14.42,13.27L11.96,16.68H10.04L13.58,11.93L11.04,8Z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.reddit.com/r/harperandlyre/" target="_blank" class="social-icon reddit" title="Reddit">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="currentColor" d="M14.5 15.41C14.58 15.5 14.58 15.69 14.5 15.8C13.77 16.5 12.41 16.56 12 16.56C11.59 16.56 10.23 16.5 9.5 15.8C9.42 15.69 9.42 15.5 9.5 15.41C9.61 15.33 9.77 15.33 9.88 15.41C10.38 15.91 11.33 16.03 12 16.03C12.67 16.03 13.62 15.91 14.12 15.41C14.23 15.33 14.39 15.33 14.5 15.41M10.75 13.04C10.75 12.47 10.28 12 9.71 12C9.14 12 8.67 12.47 8.67 13.04C8.67 13.61 9.14 14.08 9.71 14.08C10.28 14.08 10.75 13.61 10.75 13.04M14.29 12C13.72 12 13.25 12.47 13.25 13.04C13.25 13.61 13.72 14.08 14.29 14.08C14.86 14.08 15.33 13.61 15.33 13.04C15.33 12.47 14.86 12 14.29 12M22 12C22 17.5 17.5 22 12 22S2 17.5 2 12C2 6.5 6.5 2 12 2S22 6.5 22 12M18.67 12C18.67 11.19 18 10.54 17.22 10.54C16.82 10.54 16.46 10.7 16.2 10.95C15.2 10.23 13.83 9.77 12.3 9.71L12.97 6.58L15.14 7.05C15.16 7.6 15.62 8.04 16.18 8.04C16.75 8.04 17.22 7.57 17.22 7C17.22 6.43 16.75 5.96 16.18 5.96C15.77 5.96 15.41 6.2 15.25 6.55L12.82 6.03C12.75 6 12.68 6.03 12.63 6.07C12.57 6.11 12.54 6.17 12.56 6.24L11.87 9.71C10.3 9.75 8.9 10.21 7.87 10.95C7.61 10.69 7.25 10.54 6.83 10.54C6.05 10.54 5.37 11.19 5.37 12C5.37 12.59 5.74 13.09 6.26 13.28C6.23 13.45 6.22 13.62 6.22 13.8C6.22 16.24 8.75 18.22 11.94 18.22C15.13 18.22 17.66 16.24 17.66 13.8C17.66 13.62 17.64 13.45 17.62 13.28C18.14 13.09 18.67 12.59 18.67 12Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Harper and Lyre - Developed by the Bunker Brothers (Dave, George &amp; Sam)</p>
+                <p>Built with ❤️ and nostalgia for the golden age of gaming</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>performanceDebug.log('Body End', 'Before main JS');</script>
+    <script src="/js/index.min.js?v=20260228A"></script>
+    <script>performanceDebug.log('Main JS Loaded', 'index.min.js executed');</script>
+
+    <style>
+        #loading-screen .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        #loading-screen .loading-logo {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 4px 12px rgba(255, 215, 63, 0.3));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #loading-screen .loading-title {
+            font-family: 'Riffic', 'Bangers', Impact, cursive;
+            font-size: 2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 0 #9B59B6;
+            margin: 0;
+        }
+
+        #loading-screen .loading-tip {
+            font-size: 1.1rem;
+            color: #FFF8F0;
+            text-align: center;
+            max-width: 500px;
+            padding: 0 1rem;
+            margin: 0;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            #loading-screen .loading-logo {
+                width: 150px;
+            }
+
+            #loading-screen .loading-title {
+                font-size: 1.5rem;
+            }
+
+            #loading-screen .loading-tip {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Hide hero content before intro animation runs (avoids flash since loading screen covers page)
+        (function () {
+            var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) return;
+            function hideHeroContent() {
+                var heroSec = document.getElementById('home');
+                if (!heroSec) return;
+                var heroCt = heroSec.querySelector('.hero-content');
+                var scrollInd = heroSec.querySelector('.scroll-indicator');
+                var els = heroCt ? [
+                    heroCt.querySelector('.hero-title'),
+                    heroCt.querySelector('.hero-subtitle'),
+                    heroCt.querySelector('.hero-buttons'),
+                    heroCt.querySelector('.hero-features'),
+                    scrollInd
+                ] : [];
+                els.forEach(function(el) { if (el) el.style.opacity = '0'; });
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', hideHeroContent);
+            } else {
+                hideHeroContent();
+            }
+        }());
+
+        // Gameplay video modal
+        function initTrailerModal() {
+            const modal = document.getElementById('gameplayModal');
+            const iframe = document.getElementById('gameplayIframe');
+            const openBtn = document.getElementById('jumpIntoFunBtn');
+            const closeBtn = document.getElementById('gameplayModalClose');
+            const overlay = document.getElementById('gameplayModalOverlay');
+
+            if (!modal || !openBtn) return;
+
+            function openModal() {
+                iframe.src = iframe.dataset.src;
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                iframe.src = '';
+                document.body.style.overflow = '';
+            }
+
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTrailerModal);
+        } else {
+            initTrailerModal();
+        }
+
+        // Loading tips
+        const loadingTips = ["Collect 144 Flazoozles scattered across the worlds!","Find 18 Twisted Tokens to weaken Kreakli's power!","Master transformations with Pocus's ancient magic!","Explore 17 unique worlds filled with secrets!","Learn new moves from Hugo, the smooth-riding meerkat!","Team up with Lyre to solve aquatic puzzles!","Experience nostalgic N64-style 3D platforming!","Discover hidden areas in every level!","The Pale Moonstone once imprisoned Kreakli...","Twin Daisy Farms holds mysterious secrets!"];
+
+        const tipElement = document.getElementById('loadingTip');
+        let lastTipIndex = 0;
+
+        function getRandomTip() {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * loadingTips.length);
+            } while (randomIndex === lastTipIndex && loadingTips.length > 1);
+            lastTipIndex = randomIndex;
+            return loadingTips[randomIndex];
+        }
+
+        tipElement.textContent = getRandomTip();
+
+        const tipInterval = setInterval(() => {
+            if (tipElement) {
+                tipElement.style.opacity = '0';
+                setTimeout(() => {
+                    tipElement.textContent = getRandomTip();
+                    tipElement.style.opacity = '0.9';
+                }, 300);
+            }
+        }, 2500);
+
+        tipElement.style.transition = 'opacity 0.3s ease';
+
+        window.addEventListener('load', () => {
+            clearInterval(tipInterval);
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+        });
+
+        // ─── HERO INTRO ANIMATION ───────────────────────────────────────────
+        (function () {
+            var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) return;
+
+            var overlay   = document.getElementById('hero-intro-overlay');
+            var phraseEl  = document.getElementById('hero-intro-phrase');
+            var heroSec   = document.getElementById('home');
+            var heroCt    = heroSec ? heroSec.querySelector('.hero-content') : null;
+            var scrollInd = heroSec ? heroSec.querySelector('.scroll-indicator') : null;
+
+            if (!overlay || !phraseEl || !heroCt) return;
+
+            var PHRASES = [
+                { text: 'THIS ALL NEW...',           tilt: 'hero-intro-phrase--tilt-left'  },
+                { text: 'N64 STYLE GAME...',         tilt: ''                              },
+                { text: "WE'VE BEEN WAITING FOR...", tilt: 'hero-intro-phrase--tilt-right' }
+            ];
+
+            var SLAM = 400, HOLD = 1200, FADE = 300, GAP = 300;
+            var timers = [], done = false;
+
+            function later(fn, ms) { var id = setTimeout(fn, ms); timers.push(id); return id; }
+            function clearAll() { timers.forEach(clearTimeout); timers = []; }
+
+            function getElements() {
+                return [
+                    heroCt.querySelector('.hero-title'),
+                    heroCt.querySelector('.hero-subtitle'),
+                    heroCt.querySelector('.hero-buttons'),
+                    heroCt.querySelector('.hero-features'),
+                    scrollInd
+                ].filter(Boolean);
+            }
+
+            function revealHero() {
+                if (done) return;
+                done = true;
+                overlay.style.transition = 'opacity 0.35s ease';
+                overlay.style.opacity = '0';
+                later(function () { overlay.style.display = 'none'; }, 400);
+                getElements().forEach(function (el, i) {
+                    later(function () {
+                        el.style.transition = 'opacity 0.6s ease';
+                        el.style.opacity = '1';
+                    }, i * 150);
+                });
+            }
+
+            function showPhrase(index, next) {
+                var data = PHRASES[index];
+                phraseEl.textContent = data.text;
+                phraseEl.className = 'hero-intro-phrase';
+                if (data.tilt) phraseEl.classList.add(data.tilt);
+                void phraseEl.offsetWidth;
+                phraseEl.classList.add('slam-in');
+
+                later(function () {
+                    phraseEl.classList.remove('slam-in');
+                    void phraseEl.offsetWidth;
+                    phraseEl.classList.add('fade-out');
+                }, SLAM + HOLD);
+
+                later(function () {
+                    phraseEl.classList.remove('fade-out');
+                    phraseEl.style.opacity = '0';
+                    if (next) later(next, GAP);
+                }, SLAM + HOLD + FADE);
+            }
+
+            function runSequence() {
+                overlay.style.display = 'flex';
+                overlay.style.opacity = '0';
+                later(function () {
+                    overlay.style.transition = 'opacity 0.15s ease';
+                    overlay.style.opacity = '1';
+                }, 0);
+                later(function () {
+                    showPhrase(0, function () {
+                        showPhrase(1, function () {
+                            showPhrase(2, function () {
+                                later(revealHero, GAP);
+                            });
+                        });
+                    });
+                }, 150);
+            }
+
+            function onTabSkip(e) {
+                if (e.key !== 'Tab' || done) return;
+                clearAll();
+                document.removeEventListener('keydown', onTabSkip);
+                overlay.style.transition = 'none';
+                overlay.style.opacity = '0';
+                overlay.style.display = 'none';
+                done = true;
+                getElements().forEach(function (el) {
+                    el.style.transition = 'none';
+                    el.style.opacity = '1';
+                });
+            }
+
+            document.addEventListener('keydown', onTabSkip);
+            overlay.style.display = 'none';
+
+            window.addEventListener('load', function () {
+                later(runSequence, 700);
+            }, { once: true });
+        }());
+        // ─── END HERO INTRO ANIMATION ──────────────────────────────────────────
+    </script>
+</body>
+</html>
