@@ -2,3 +2,9 @@ node_modules/
 
 # Environment variables (contains secrets)
 .env
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
