@@ -434,7 +434,7 @@ async function fetchSteamNews() {
     }
 
     try {
-        const response = await fetch('/api/steam-news?count=6');
+        const response = await fetch('https://harper-steam-news.samuelbunker.workers.dev?count=6');
         const data = await response.json();
 
         newsCache = data;
