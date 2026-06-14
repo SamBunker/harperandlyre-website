@@ -4,7 +4,9 @@
     "minify-js": "terser public/js/index.js -o public/js/index.min.js -c -m",
     "build": "npm run minify-css && npm run minify-js",
     "start": "npm run build && node app.js",
-    "dev": "node app.js"
+    "dev": "node app.js",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "clean-css-cli": "^5.6.3",
-    "terser": "^5.44.0"
+    "terser": "^5.44.0",
+    "wrangler": "^4.100.0"
   }
 }
