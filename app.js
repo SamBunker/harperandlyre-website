@@ -250,6 +250,11 @@ app.get('/', (req, res) => {
     });
 });
 
+// Clean URL for the socials page (matches Cloudflare Pages' extensionless routing)
+app.get('/socials', (req, res) => {
+    res.sendFile('socials.html', { root: 'public' });
+});
+
 // Steam News API endpoint - MUST BE BEFORE catch-all routes
 app.get('/api/steam-news', (req, res) => {
     const appId = '3579710'; // Harper and Lyre Steam App ID
